@@ -5,7 +5,8 @@ public class Sessao {
 	private String usuario;
 	private String senha;
 	private String nome;
-	private static int funcao;
+	private int id;
+	private int funcao;
 
 	public String getUsuario() {
 		return usuario;
@@ -31,18 +32,22 @@ public class Sessao {
 		this.nome = nome;
 	}
 
-	public static int getFuncao() {
+	public int getFuncao() {
 		return funcao;
 	}
 
 	public void setFuncao(int funcao) {
-		Sessao.funcao = funcao;
+		this.funcao = funcao;
 	}
 
-	public Sessao() {
-
+	public int getId() {
+		return id;
 	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	public static Sessao getInstance() {
 		if (instance == null) {
 			instance = new Sessao();

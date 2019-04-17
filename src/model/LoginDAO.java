@@ -41,6 +41,7 @@ public class LoginDAO {
 					sessao.setUsuario(BD.rs.getString("login"));
 					sessao.setNome(BD.rs.getString("nome"));
 					sessao.setFuncao(BD.rs.getInt("funcao"));
+					sessao.setId(BD.rs.getInt("id_usuario"));
 					retorno = true;
 				}else {
 					JOptionPane.showMessageDialog(null, "Usuario ou senha incorreto ou usuario bloqueado", "Falha no login", 0);

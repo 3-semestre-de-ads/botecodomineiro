@@ -2,6 +2,7 @@ package controller;
 
 import javax.swing.JOptionPane;
 
+import model.Sessao;
 import view.TelaCadastroClientes;
 import view.TelaCadastroPedidos;
 import view.TelaCadastroProduto;
@@ -32,8 +33,9 @@ public class Controle {
 	public static TelaCadastroClientes telacadastrocliente;
 	public static boolean cadastrocliente = false;
 	
-	
 	public static void abrirTela(String tela) {
+		Sessao sessao = Sessao.getInstance();
+		
 		switch (tela) {
 		case "TelaPrincipal":
 			
@@ -65,7 +67,7 @@ public class Controle {
 		case "TelaCadastroProduto":
 			
 			if(cadastroproduto == false) {//Verifica a variavel boolean referente a tela
-				if(model.Sessao.getFuncao() == 1) { //Verifica e controla o nivel de permissão do usuário
+				if(sessao.getFuncao() == 1) { //Verifica e controla o nivel de permissão do usuário
 				telacadastroproduto = new TelaCadastroProduto();//Instancia a tela caso a variavel esteja com false
 				telacadastroproduto.setVisible(true);//Torna a tela visivel
 				cadastroproduto = true;//E passa true para a variavel boolean
@@ -95,7 +97,7 @@ public class Controle {
 		case "TelaCadastroUsuario":
 			
 			if(cadastrousuario== false) {//Verifica a variavel boolean referente a tela
-				if(model.Sessao.getFuncao() == 1) {//Verifica e controla o nivel de permissão do usuário
+				if(sessao.getFuncao() == 1) {//Verifica e controla o nivel de permissão do usuário
 				telacadastrousuario = new TelaCadastroUsuario();//Instancia a tela caso a variavel esteja com false
 				telacadastrousuario.setVisible(true);//Torna a tela visivel
 				cadastrousuario = true;//E passa true para a variavel boolean
