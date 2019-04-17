@@ -35,9 +35,7 @@ public class LoginDAO {
 				BD.st = BD.con.prepareStatement(sql);
 				BD.rs = BD.st.executeQuery();
 
-				System.out.println(sql);
-				
-				if (BD.rs.next()) {// Caso exista resultado armazena dados do usuario na sessao e colocar true no retorno
+				if (BD.rs.next() && BD.rs.getInt("ativo") == 1) {// Caso exista resultado armazena dados do usuario na sessao e colocar true no retorno
 					Sessao sessao = Sessao.getInstance();
 					sessao.setSenha(BD.rs.getString("senha"));
 					sessao.setUsuario(BD.rs.getString("login"));
@@ -45,7 +43,7 @@ public class LoginDAO {
 					sessao.setFuncao(BD.rs.getInt("funcao"));
 					retorno = true;
 				}else {
-					JOptionPane.showMessageDialog(null, "Usuario ou senha incorreto", "Falha no login", 0);
+					JOptionPane.showMessageDialog(null, "Usuario ou senha incorreto ou usuario bloqueado", "Falha no login", 0);
 				}
 
 			} catch (SQLException erro) {
