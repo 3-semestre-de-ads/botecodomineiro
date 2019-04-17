@@ -172,10 +172,6 @@ public class TelaLogin extends JFrame {
 		fundoLabel.setBounds(0, -44, 354, 441);
 		contentPane.add(fundoLabel);
 
-		if (BD.conexao) {//Confirma se existe conexão com o banco e conecta
-
-		} else {
-			BD.getConnection();// Inicia conexão com o banco
-		}
+		BD.conexao();//Estabelece conexão com o banco
 	}
 }

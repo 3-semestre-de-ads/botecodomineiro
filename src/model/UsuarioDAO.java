@@ -24,8 +24,8 @@ public class UsuarioDAO {
 			if (verificarLogin(usuario)) {
 				usuario.setSenha(criptografarSenha(usuario.getSenha()));
 
-				String sql = "INSERT INTO usuario (login, senha, nome, funcao)" + "VALUES ('" + usuario.getLogin()
-						+ "','" + usuario.getSenha() + "','" + usuario.getNome() + "','" + usuario.getFuncao() + "')";
+				String sql = "INSERT INTO usuario (login, senha, nome, funcao, ativo)" + "VALUES ('" + usuario.getLogin()
+						+ "','" + usuario.getSenha() + "','" + usuario.getNome() + "','" + usuario.getFuncao() + "','" + usuario.getAtivo() + "')";
 
 				try {
 					BD.st = BD.con.prepareStatement(sql);
@@ -56,17 +56,24 @@ public class UsuarioDAO {
 
 				if (usuario.getSenha() == null) {
 
-					sql = "UPDATE usuario \r\n" + "SET nome = '" + usuario.getNome() + "', login = '"
-							+ usuario.getLogin() + "', funcao = " + usuario.getFuncao() + "\r\n" + "WHERE id_usuario = "
-							+ usuario.getID();
+					sql = "UPDATE usuario \r\n" 
+					+ "SET nome = '" + usuario.getNome() 
+					+ "', login = '" + usuario.getLogin() 
+					+ "', funcao = " + usuario.getFuncao()
+					+ ", ativo = " + usuario.getAtivo() + "\r\n" 
+					+ "WHERE id_usuario = "	+ usuario.getID();
 
 				} else {
 
 					usuario.setSenha(criptografarSenha(usuario.getSenha()));
 
-					sql = "UPDATE usuario \r\n" + "SET nome = '" + usuario.getNome() + "', login = '"
-							+ usuario.getLogin() + "', funcao = " + usuario.getFuncao() + ", senha = '"
-							+ usuario.getSenha() + "'\r\n" + "WHERE id_usuario = " + usuario.getID();
+					sql = "UPDATE usuario \r\n" 
+					+ "SET nome = '" + usuario.getNome() 
+					+ "', login = '" + usuario.getLogin() 
+					+ "', funcao = " + usuario.getFuncao() 
+					+ ", ativo = " + usuario.getAtivo()
+					+ ", senha = '" + usuario.getSenha() + "'\r\n" 
+					+ "WHERE id_usuario = " + usuario.getID();
 
 				}
 
