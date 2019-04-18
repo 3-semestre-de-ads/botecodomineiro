@@ -59,6 +59,7 @@ public class TelaCadastroPedidos extends JFrame {
 	private JScrollPane produtosSP;
 	private JLabel fundoLabel;
 	private JTable comandaTabela;
+	private JTable produtosComandaTabela;
 	private JLabel produtosComandaLabel;
 	private JScrollPane produtosComandaSP;
 	private JLabel comandasLabel;
@@ -328,6 +329,32 @@ public class TelaCadastroPedidos extends JFrame {
 		
 	}
 	
+	public void listarTabelaProdutosNaComanda() {
+		Vector<String> cabecalhoPersonalizado = new Vector<>();
+		cabecalhoPersonalizado.addElement("Produto");
+		cabecalhoPersonalizado.addElement("Unidade");
+		cabecalhoPersonalizado.addElement("Preco");
+		cabecalhoPersonalizado.addElement("Quantidade");
+		
+		String sql = "";
+
+		if (produtosComandaTabela != null) {
+			produtosComandaTabela.setVisible(false);
+			produtosTabela = null;
+			produtosSP.setVisible(false);
+			produtosSP = null;
+		}
+
+		produtosTabela = metodos.criaTabelaProduto(sql, cabecalhoPersonalizado);
+
+		produtosSP = new JScrollPane(produtosTabela);
+		produtosSP.setBounds(644, 42, 624, 326);
+		contentPane.remove(fundoLabel);
+		contentPane.add(produtosSP);
+		contentPane.add(fundoLabel);
+		contentPane.updateUI();
+	}
+	
 	public void preencherComboClientes() {
 		ResultSet clientes = metodos.buscarClientes();
 		clienteCombo.addItem("Clientes");
@@ -339,4 +366,5 @@ public class TelaCadastroPedidos extends JFrame {
 			e.printStackTrace();
 		}
 	}
+
 }
