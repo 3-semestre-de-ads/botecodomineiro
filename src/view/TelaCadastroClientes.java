@@ -276,8 +276,11 @@ public class TelaCadastroClientes extends JFrame {
 	}
 
 	public void buscaCep() {
+		
+		JOptionPane.showMessageDialog(null, cepText.getText());
+		
 		// Faz a busca para o cep 58043-280
-		WebServiceCep webServiceCep = WebServiceCep.searchCep(cepText.getText());
+		WebServiceCep webServiceCep = WebServiceCep.searchCep(cepText.getText().replace("-",""));
 		// A ferramenta de busca ignora qualquer caracter que n?o seja n?mero.
 
 		// caso a busca ocorra bem, imprime os resultados.

@@ -35,12 +35,13 @@ public class TelaPrincipal extends JFrame {
 	private JLabel fundoLabel;
 	private JMenu produtosMenu;
 	private JMenuItem cadastroMenuItem;
-	private JMenuItem consultaMenuItem;
+	private JMenuItem estoqueMenuItem;
 	private JMenu pedidosMenu;
 	private JMenuItem fazerPedidoMenuItem;
 	private JMenu administracaoMenu;
 	private JMenuItem usuariosMenuItem;
 	private JMenuItem clientesMenuItem;
+	private JMenuItem fornecedoresMenuItem;
 
 	/**
 	 * Launch the application.
@@ -112,8 +113,8 @@ public class TelaPrincipal extends JFrame {
 		});
 		produtosMenu.add(cadastroMenuItem);
 		
-		consultaMenuItem = new JMenuItem("Consulta");
-		produtosMenu.add(consultaMenuItem);
+		estoqueMenuItem = new JMenuItem("Estoque");
+		produtosMenu.add(estoqueMenuItem);
 		
 		pedidosMenu = new JMenu("Pedidos");
 		principalMenu.add(pedidosMenu);
@@ -144,6 +145,14 @@ public class TelaPrincipal extends JFrame {
 			}
 		});
 		administracaoMenu.add(clientesMenuItem);
+		
+		fornecedoresMenuItem = new JMenuItem("Fornecedores");
+		fornecedoresMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				controller.Controle.abrirTela("TelaCadastroFornecedor");
+			}
+		});
+		administracaoMenu.add(fornecedoresMenuItem);
 		
 		
 	}

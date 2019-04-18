@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -8,14 +7,16 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import model.CoresFontes;
+import model.FornecedorDAO;
 
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import java.awt.Color;
-import java.awt.Font;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class TelaCadastroFornecedor extends JFrame {
 
@@ -25,22 +26,27 @@ public class TelaCadastroFornecedor extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField idText;
 	private JLabel idLabel;
-	private JLabel fundoLabel;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
-	private JTextField textField_9;
-	private JTextField textField_10;
-	private JTextField textField_11;
-	private JTextField textField_12;
-	private JTextField textField_13;
+	private JLabel fundo;
+	private JTextField razaoText;
+	private JTextField nomeText;
+	private JTextField cnpjText;
+	private JTextField inscriText;
+	private JTextField cepText;
+	private JTextField ufText;
+	private JTextField paisText;
+	private JTextField cidadeText;
+	private JTextField ruaText;
+	private JTextField bairroText;
+	private JTextField nText;
+	private JTextField telText;
+	private JTextField emialText;
+	private JButton cadastrarButton;
+	private JButton atualizarButton;
+	private JButton limparButton;
+	
+	FornecedorDAO metodos = new FornecedorDAO();
 
 	/**
 	 * Launch the application.
@@ -62,17 +68,25 @@ public class TelaCadastroFornecedor extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaCadastroFornecedor() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				controller.Controle.cadastrofornecedor = false;
+			}
+		});
 		setBounds(100, 100, 639, 389);
+		setLocationRelativeTo(null);
+		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		textField = new JTextField();
-		textField.setBounds(51, 5, 54, 25);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		idText = new JTextField();
+		idText.setEditable(false);
+		idText.setBounds(51, 5, 54, 25);
+		contentPane.add(idText);
+		idText.setColumns(10);
 		
 		idLabel = new JLabel("ID:");
 		idLabel.setForeground(Color.WHITE);
@@ -80,164 +94,178 @@ public class TelaCadastroFornecedor extends JFrame {
 		idLabel.setFont(CoresFontes.fonteStencil);
 		contentPane.add(idLabel);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(140, 30, 222, 25);
-		contentPane.add(textField_1);
+		razaoText = new JTextField();
+		razaoText.setColumns(10);
+		razaoText.setBounds(140, 30, 222, 25);
+		contentPane.add(razaoText);
 		
-		JLabel lblRazoSocial = new JLabel("Raz\u00E3o Social:");
-		lblRazoSocial.setForeground(Color.WHITE);
-		lblRazoSocial.setFont(new Font("Stencil", Font.PLAIN, 16));
-		lblRazoSocial.setBounds(10, 40, 121, 14);
-		contentPane.add(lblRazoSocial);
+		JLabel razaoLabel = new JLabel("Raz\u00E3o Social:");
+		razaoLabel.setForeground(Color.WHITE);
+		razaoLabel.setFont(CoresFontes.fonteStencil);
+		razaoLabel.setBounds(10, 40, 121, 14);
+		contentPane.add(razaoLabel);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(140, 55, 121, 25);
-		contentPane.add(textField_2);
+		nomeText = new JTextField();
+		nomeText.setColumns(10);
+		nomeText.setBounds(140, 55, 121, 25);
+		contentPane.add(nomeText);
 		
-		JLabel lblNomeFantasia = new JLabel("Nome fantasia:");
-		lblNomeFantasia.setForeground(Color.WHITE);
-		lblNomeFantasia.setFont(new Font("Stencil", Font.PLAIN, 16));
-		lblNomeFantasia.setBounds(10, 65, 142, 14);
-		contentPane.add(lblNomeFantasia);
+		JLabel nomeLabel = new JLabel("Nome fantasia:");
+		nomeLabel.setForeground(Color.WHITE);
+		nomeLabel.setFont(CoresFontes.fonteStencil);
+		nomeLabel.setBounds(10, 65, 142, 14);
+		contentPane.add(nomeLabel);
 		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(60, 80, 183, 25);
-		contentPane.add(textField_3);
+		cnpjText = new JTextField();
+		cnpjText.setColumns(10);
+		cnpjText.setBounds(60, 80, 183, 25);
+		contentPane.add(cnpjText);
 		
-		JLabel lblCnpj = new JLabel("CNPJ:");
-		lblCnpj.setForeground(Color.WHITE);
-		lblCnpj.setFont(new Font("Stencil", Font.PLAIN, 16));
-		lblCnpj.setBounds(10, 90, 46, 14);
-		contentPane.add(lblCnpj);
+		JLabel cnpjLabel = new JLabel("CNPJ:");
+		cnpjLabel.setForeground(Color.WHITE);
+		cnpjLabel.setFont(CoresFontes.fonteStencil);
+		cnpjLabel.setBounds(10, 90, 46, 14);
+		contentPane.add(cnpjLabel);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(385, 80, 121, 25);
-		contentPane.add(textField_4);
+		inscriText = new JTextField();
+		inscriText.setColumns(10);
+		inscriText.setBounds(385, 80, 121, 25);
+		contentPane.add(inscriText);
 		
-		JLabel lblInscrioEst = new JLabel("Inscri\u00E7\u00E3o est.:");
-		lblInscrioEst.setForeground(Color.WHITE);
-		lblInscrioEst.setFont(new Font("Stencil", Font.PLAIN, 16));
-		lblInscrioEst.setBounds(255, 90, 142, 14);
-		contentPane.add(lblInscrioEst);
+		JLabel inscriLabel = new JLabel("Inscri\u00E7\u00E3o est.:");
+		inscriLabel.setForeground(Color.WHITE);
+		inscriLabel.setFont(CoresFontes.fonteStencil);
+		inscriLabel.setBounds(255, 90, 142, 14);
+		contentPane.add(inscriLabel);
 		
-		JLabel lblCep = new JLabel("CEP:");
-		lblCep.setForeground(Color.WHITE);
-		lblCep.setFont(new Font("Stencil", Font.PLAIN, 16));
-		lblCep.setBounds(10, 115, 142, 14);
-		contentPane.add(lblCep);
+		JLabel cepLabel = new JLabel("CEP:");
+		cepLabel.setForeground(Color.WHITE);
+		cepLabel.setFont(CoresFontes.fonteStencil);
+		cepLabel.setBounds(10, 115, 54, 14);
+		contentPane.add(cepLabel);
 		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		textField_5.setBounds(60, 105, 99, 25);
-		contentPane.add(textField_5);
+		cepText = new JTextField();
+		cepText.setColumns(10);
+		cepText.setBounds(60, 105, 99, 25);
+		contentPane.add(cepText);
 		
-		textField_6 = new JTextField();
-		textField_6.setColumns(10);
-		textField_6.setBounds(200, 105, 54, 25);
-		contentPane.add(textField_6);
+		ufText = new JTextField();
+		ufText.setColumns(10);
+		ufText.setBounds(200, 105, 54, 25);
+		contentPane.add(ufText);
 		
-		JLabel lblUf = new JLabel("UF:");
-		lblUf.setForeground(Color.WHITE);
-		lblUf.setFont(new Font("Stencil", Font.PLAIN, 16));
-		lblUf.setBounds(164, 115, 142, 14);
-		contentPane.add(lblUf);
+		JLabel ufLabel = new JLabel("UF:");
+		ufLabel.setForeground(Color.WHITE);
+		ufLabel.setFont(CoresFontes.fonteStencil);
+		ufLabel.setBounds(164, 115, 38, 14);
+		contentPane.add(ufLabel);
 		
-		textField_7 = new JTextField();
-		textField_7.setColumns(10);
-		textField_7.setBounds(315, 105, 54, 25);
-		contentPane.add(textField_7);
+		paisText = new JTextField();
+		paisText.setColumns(10);
+		paisText.setBounds(315, 105, 54, 25);
+		contentPane.add(paisText);
 		
-		JLabel lblPas = new JLabel("PA\u00CDS:");
-		lblPas.setForeground(Color.WHITE);
-		lblPas.setFont(new Font("Stencil", Font.PLAIN, 16));
-		lblPas.setBounds(265, 115, 142, 14);
-		contentPane.add(lblPas);
+		JLabel paisLabel = new JLabel("PA\u00CDS:");
+		paisLabel.setForeground(Color.WHITE);
+		paisLabel.setFont(CoresFontes.fonteStencil);
+		paisLabel.setBounds(265, 115, 54, 14);
+		contentPane.add(paisLabel);
 		
-		JLabel lblCidade = new JLabel("CIDADE:");
-		lblCidade.setForeground(Color.WHITE);
-		lblCidade.setFont(new Font("Stencil", Font.PLAIN, 16));
-		lblCidade.setBounds(10, 140, 142, 14);
-		contentPane.add(lblCidade);
+		JLabel cidadeLabel = new JLabel("CIDADE:");
+		cidadeLabel.setForeground(Color.WHITE);
+		cidadeLabel.setFont(CoresFontes.fonteStencil);
+		cidadeLabel.setBounds(10, 140, 70, 14);
+		contentPane.add(cidadeLabel);
 		
-		textField_8 = new JTextField();
-		textField_8.setColumns(10);
-		textField_8.setBounds(80, 130, 99, 25);
-		contentPane.add(textField_8);
+		cidadeText = new JTextField();
+		cidadeText.setColumns(10);
+		cidadeText.setBounds(80, 130, 99, 25);
+		contentPane.add(cidadeText);
 		
-		JLabel lblRua = new JLabel("RUA:");
-		lblRua.setForeground(Color.WHITE);
-		lblRua.setFont(new Font("Stencil", Font.PLAIN, 16));
-		lblRua.setBounds(10, 165, 54, 14);
-		contentPane.add(lblRua);
+		JLabel ruaLabel = new JLabel("RUA:");
+		ruaLabel.setForeground(Color.WHITE);
+		ruaLabel.setFont(CoresFontes.fonteStencil);
+		ruaLabel.setBounds(10, 165, 54, 14);
+		contentPane.add(ruaLabel);
 		
-		textField_9 = new JTextField();
-		textField_9.setColumns(10);
-		textField_9.setBounds(60, 155, 119, 25);
-		contentPane.add(textField_9);
+		ruaText = new JTextField();
+		ruaText.setColumns(10);
+		ruaText.setBounds(60, 155, 119, 25);
+		contentPane.add(ruaText);
 		
-		JLabel lblBairro = new JLabel("BAIRRO:");
-		lblBairro.setForeground(Color.WHITE);
-		lblBairro.setFont(new Font("Stencil", Font.PLAIN, 16));
-		lblBairro.setBounds(193, 140, 142, 14);
-		contentPane.add(lblBairro);
+		JLabel biarroLabel = new JLabel("BAIRRO:");
+		biarroLabel.setForeground(Color.WHITE);
+		biarroLabel.setFont(CoresFontes.fonteStencil);
+		biarroLabel.setBounds(193, 140, 70, 14);
+		contentPane.add(biarroLabel);
 		
-		textField_10 = new JTextField();
-		textField_10.setColumns(10);
-		textField_10.setBounds(263, 130, 99, 25);
-		contentPane.add(textField_10);
+		bairroText = new JTextField();
+		bairroText.setColumns(10);
+		bairroText.setBounds(263, 130, 99, 25);
+		contentPane.add(bairroText);
 		
-		JLabel lblN = new JLabel("N\u00BA:");
-		lblN.setForeground(Color.WHITE);
-		lblN.setFont(new Font("Stencil", Font.PLAIN, 16));
-		lblN.setBounds(193, 164, 38, 14);
-		contentPane.add(lblN);
+		JLabel nLabel = new JLabel("N\u00BA:");
+		nLabel.setForeground(Color.WHITE);
+		nLabel.setFont(CoresFontes.fonteStencil);
+		nLabel.setBounds(193, 164, 38, 14);
+		contentPane.add(nLabel);
 		
-		textField_11 = new JTextField();
-		textField_11.setColumns(10);
-		textField_11.setBounds(229, 154, 54, 25);
-		contentPane.add(textField_11);
+		nText = new JTextField();
+		nText.setColumns(10);
+		nText.setBounds(229, 154, 54, 25);
+		contentPane.add(nText);
 		
-		JLabel lblTel = new JLabel("TEL.:");
-		lblTel.setForeground(Color.WHITE);
-		lblTel.setFont(new Font("Stencil", Font.PLAIN, 16));
-		lblTel.setBounds(10, 190, 54, 14);
-		contentPane.add(lblTel);
+		JLabel telLabel = new JLabel("TEL.:");
+		telLabel.setForeground(Color.WHITE);
+		telLabel.setFont(CoresFontes.fonteStencil);
+		telLabel.setBounds(10, 190, 54, 14);
+		contentPane.add(telLabel);
 		
-		textField_12 = new JTextField();
-		textField_12.setColumns(10);
-		textField_12.setBounds(60, 180, 119, 25);
-		contentPane.add(textField_12);
+		telText = new JTextField();
+		telText.setColumns(10);
+		telText.setBounds(60, 180, 119, 25);
+		contentPane.add(telText);
 		
-		JLabel lblEmail = new JLabel("E-MAIL:");
-		lblEmail.setForeground(Color.WHITE);
-		lblEmail.setFont(new Font("Stencil", Font.PLAIN, 16));
-		lblEmail.setBounds(191, 189, 70, 14);
-		contentPane.add(lblEmail);
+		JLabel emailLabel = new JLabel("E-MAIL:");
+		emailLabel.setForeground(Color.WHITE);
+		emailLabel.setFont(CoresFontes.fonteStencil);
+		emailLabel.setBounds(191, 189, 70, 14);
+		contentPane.add(emailLabel);
 		
-		textField_13 = new JTextField();
-		textField_13.setColumns(10);
-		textField_13.setBounds(255, 179, 119, 25);
-		contentPane.add(textField_13);
+		emialText = new JTextField();
+		emialText.setColumns(10);
+		emialText.setBounds(255, 179, 119, 25);
+		contentPane.add(emialText);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 216, 623, 134);
-		contentPane.add(scrollPane);
+		JScrollPane fornecedoresSP = new JScrollPane();
+		fornecedoresSP.setBounds(0, 216, 633, 144);
+		contentPane.add(fornecedoresSP);
 		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.setBounds(398, 182, 90, 28);
-		contentPane.add(btnNewButton);
+		cadastrarButton = new JButton("Cadastrar");
+		cadastrarButton.setForeground(Color.WHITE);
+		cadastrarButton.setBounds(483, 140, 134, 23);
+		cadastrarButton.setFont(CoresFontes.fonteStencil);
+		cadastrarButton.setBackground(CoresFontes.corBotão);
+		contentPane.add(cadastrarButton);
 		
-		JButton btnNewButton_1 = new JButton("New button");
-		btnNewButton_1.setBounds(510, 182, 90, 28);
-		contentPane.add(btnNewButton_1);
+		limparButton = new JButton("Limpar");
+		limparButton.setForeground(Color.WHITE);
+		limparButton.setBounds(483, 186, 134, 23);
+		limparButton.setFont(CoresFontes.fonteStencil);
+		limparButton.setBackground(CoresFontes.corBotão);
+		contentPane.add(limparButton);
 		
-		fundoLabel = new JLabel("");
-		fundoLabel.setIcon(new ImageIcon(TelaCadastroFornecedor.class.getResource("/assets/fundo com cerveja.jpeg")));
-		fundoLabel.setBounds(0, 0, 623, 350);
-		contentPane.add(fundoLabel);
+		atualizarButton = new JButton("Atualizar");
+		atualizarButton.setVisible(false);
+		atualizarButton.setForeground(Color.WHITE);
+		atualizarButton.setBounds(483, 140, 134, 23);
+		atualizarButton.setFont(CoresFontes.fonteStencil);
+		atualizarButton.setBackground(CoresFontes.corBotão);
+		contentPane.add(atualizarButton);
+		
+		fundo = new JLabel("");
+		fundo.setIcon(new ImageIcon(TelaCadastroFornecedor.class.getResource("/assets/fundo com cerveja.jpeg")));
+		fundo.setBounds(0, 0, 633, 360);
+		contentPane.add(fundo);
 	}
 }

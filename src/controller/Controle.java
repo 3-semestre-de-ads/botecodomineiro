@@ -4,6 +4,7 @@ import javax.swing.JOptionPane;
 
 import model.Sessao;
 import view.TelaCadastroClientes;
+import view.TelaCadastroFornecedor;
 import view.TelaCadastroPedidos;
 import view.TelaCadastroProduto;
 import view.TelaCadastroUsuario;
@@ -32,6 +33,8 @@ public class Controle {
 	public static boolean cadastrousuario = false;
 	public static TelaCadastroClientes telacadastrocliente;
 	public static boolean cadastrocliente = false;
+	public static TelaCadastroFornecedor telacadastrofornecedor;
+	public static boolean cadastrofornecedor = false;
 	
 	public static void abrirTela(String tela) {
 		Sessao sessao = Sessao.getInstance();
@@ -123,6 +126,25 @@ public class Controle {
 			}
 			
 			break;
+			
+		case "TelaCadastroFornecedor":
+
+			if (cadastrofornecedor == false) {// Verifica a variavel boolean referente a tela
+				if (sessao.getFuncao() == 1) {// Verifica e controla o nivel de permissão do usuário
+					telacadastrofornecedor = new TelaCadastroFornecedor();// Instancia a tela caso a variavel esteja com false
+					telacadastrofornecedor.setVisible(true);// Torna a tela visivel
+					cadastrofornecedor = true;// E passa true para a variavel boolean
+				} else {
+					JOptionPane.showMessageDialog(null, "Você não tem permissões para acessar esta tela.",
+							"Falha de permissão", 0);
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, "Esta tela já esta aberta");
+				telacadastrofornecedor.toFront();// Joga a tela já aberta para frente
+			}
+
+			break;
+			
 		default:
 			break;
 		}

@@ -59,7 +59,6 @@ public class TelaCadastroProduto extends JFrame {
 	private JButton salvarButton;
 	private JButton cancelarButton;
 	
-	String[] stringInicialCombo = {"Selecione"};
 	ProdutoDAO metodos = new ProdutoDAO();
 
 	/**
@@ -109,8 +108,8 @@ public class TelaCadastroProduto extends JFrame {
 		produtoText.setBounds(105, 40, 133, 25);
 		contentPane.add(produtoText);
 		
-		unidadeCombo = new JComboBox(stringInicialCombo);
-		unidadeCombo.setModel(new DefaultComboBoxModel(new String[] {"Selecione", "Litro", "Saco", "Prato P", "Prato M", "Prato G", "Por\u00E7\u00E3o P", "Por\u00E7\u00E3o M", "Por\u00E7\u00E3o G"}));
+		unidadeCombo = new JComboBox<String>();
+		unidadeCombo.setModel(new DefaultComboBoxModel<String>(new String[] {"Selecione", "Litro", "Saco", "Prato P", "Prato M", "Prato G", "Por\u00E7\u00E3o P", "Por\u00E7\u00E3o M", "Por\u00E7\u00E3o G"}));
 		unidadeCombo.setBounds(105, 70, 133, 25);
 		contentPane.add(unidadeCombo);
 		
@@ -159,8 +158,8 @@ public class TelaCadastroProduto extends JFrame {
 		tipoLabel.setBounds(435, 15, 56, 14);
 		contentPane.add(tipoLabel);
 		
-		tipoCombo = new JComboBox(stringInicialCombo);
-		tipoCombo.setModel(new DefaultComboBoxModel(new String[] {"Selecione", "Alimentos", "Bebidas Alcolicas", "Bebidas N\u00E3o Alcolicas"}));
+		tipoCombo = new JComboBox<String>();
+		tipoCombo.setModel(new DefaultComboBoxModel<String>(new String[] {"Selecione", "Alimentos", "Bebidas Alcolicas", "Bebidas N\u00E3o Alcolicas"}));
 		tipoCombo.setBounds(491, 10, 133, 25);
 		contentPane.add(tipoCombo);
 		

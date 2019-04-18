@@ -41,6 +41,7 @@ public class TelaLogin extends JFrame {
 	/**
 	 * 
 	 */
+	
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JLabel fundoLabel;
