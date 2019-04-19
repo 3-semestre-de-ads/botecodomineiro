@@ -1,31 +1,32 @@
 package view;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import model.CoresFontes;
 import model.Produto;
 import model.ProdutoDAO;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.ImageIcon;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JTextArea;
-import java.awt.Color;
-import javax.swing.JScrollPane;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.SwingConstants;
-import java.awt.Font;
 
 /**
  * 
@@ -55,11 +56,13 @@ public class TelaCadastroProduto extends JFrame {
 	private JLabel precoLabel;
 	private JLabel tipoLabel;
 	private JComboBox<String> tipoCombo;
+	private JComboBox<String> fornecedorCombo;
 	private JScrollPane scrollPane;
 	private JButton salvarButton;
 	private JButton cancelarButton;
 	
 	ProdutoDAO metodos = new ProdutoDAO();
+	private JLabel fornecedorLabel;
 
 	/**
 	 * Launch the application.
@@ -96,6 +99,25 @@ public class TelaCadastroProduto extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		fornecedorLabel = new JLabel("Fornecedor:");
+		fornecedorLabel.setForeground(Color.WHITE);
+		fornecedorLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
+		fornecedorLabel.setBounds(248, 60, 110, 14);
+		contentPane.add(fornecedorLabel);
+		
+		fornecedorCombo = new JComboBox<String>();
+		fornecedorCombo.setModel(new DefaultComboBoxModel(new String[] {"Selecione"}));
+		ResultSet consultarFornRS = ProdutoDAO.consultarForn();
+			try {
+				while(consultarFornRS.next()) {
+					fornecedorCombo.addItem(consultarFornRS.getString(1));
+				}
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		fornecedorCombo.setBounds(361, 55, 264, 25);
+		contentPane.add(fornecedorCombo);
 		
 		idText = new JTextField();
 		idText.setBounds(105, 10, 45, 25);
@@ -172,19 +194,13 @@ public class TelaCadastroProduto extends JFrame {
 		cancelarButton.setVerticalAlignment(SwingConstants.TOP);
 		cancelarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				idText.setText("");
-				produtoText.setText("");
-				unidadeCombo.setSelectedIndex(0);
-				descTextArea.setText("");
-				precoText.setText("");
-				tipoCombo.setSelectedIndex(0);
-				
+				limpar();
 			}
 		});
 		cancelarButton.setForeground(Color.WHITE);
 		cancelarButton.setFont(CoresFontes.fonteStencil);
 		cancelarButton.setBackground(CoresFontes.corBotão);
-		cancelarButton.setBounds(490, 155, 130, 25);
+		cancelarButton.setBounds(416, 145, 130, 25);
 		contentPane.add(cancelarButton);
 		
 		salvarButton = new JButton("Cadastrar");
@@ -193,22 +209,24 @@ public class TelaCadastroProduto extends JFrame {
 		salvarButton.setForeground(Color.WHITE);
 		salvarButton.setFont(CoresFontes.fonteStencil);
 		salvarButton.setBackground(CoresFontes.corBotão);
-		salvarButton.setBounds(345, 155, 130, 25);
+		salvarButton.setBounds(416, 110, 130, 25);
 		salvarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				if (produtoText.getText().equals("") || unidadeCombo.getSelectedItem().equals(null) || descTextArea.getText().equals("")
-						|| precoText.getText().equals("") || tipoCombo.getSelectedItem().equals(null)|| unidadeCombo.getSelectedIndex()== 0 || tipoCombo.getSelectedIndex()== 0) {
+					|| precoText.getText().equals("") || tipoCombo.getSelectedItem().equals(null) || fornecedorCombo.getSelectedItem().equals(null)
+					|| unidadeCombo.getSelectedIndex()== 0	|| tipoCombo.getSelectedIndex()== 0 || fornecedorCombo.getSelectedIndex()==0){
 					JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos não preenchidos", 2);
 				} else {// Se todos os campos estiverem preenchidos cria o objeto usuario e seta os
 						// valores e manda cadastrar
-					Produto produto = new Produto(produtoText.getText(), String.valueOf(unidadeCombo.getSelectedItem()), descTextArea.getText(), Double.parseDouble(precoText.getText()), String.valueOf(tipoCombo.getSelectedItem()));
-					
+					Produto produto = new Produto(produtoText.getText(), String.valueOf(unidadeCombo.getSelectedItem()), descTextArea.getText(),
+							Double.parseDouble(precoText.getText()), String.valueOf(tipoCombo.getSelectedItem()),
+							String.valueOf(fornecedorCombo.getSelectedItem()));
 					if (metodos.cadastrar(produto)) limpar(); // Se der sucesso no  cadastro limpa os campos
 				}
 			}
 		});
 		contentPane.add(salvarButton);
-		
 		
 		fundoLabel = new JLabel("");
 		fundoLabel.setBounds(0, 0, 634, 361);
@@ -216,10 +234,12 @@ public class TelaCadastroProduto extends JFrame {
 		contentPane.add(fundoLabel);
 	}
 	public void limpar() {
+		idText.setText("");
 		produtoText.setText("");
-		unidadeCombo.setSelectedItem("");
+		unidadeCombo.setSelectedIndex(0);
 		descTextArea.setText("");
 		precoText.setText("");
-		tipoCombo.setSelectedItem("");
+		tipoCombo.setSelectedIndex(0);
+		fornecedorCombo.setSelectedIndex(0);
 }
 }

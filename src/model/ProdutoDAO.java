@@ -1,5 +1,6 @@
 package model;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
@@ -10,8 +11,9 @@ public class ProdutoDAO {
 			public boolean cadastrar(Produto produto) {
 			boolean retorno = false;
 			if (BD.conexao()) {// Verificando se a conexão está estabelecida
-			String sql = "INSERT INTO produto(nome, unidade, descricao, preco, tipo)" 
-			+ "VALUES ('" + produto.getNome() + "','"+ produto.getUnidade() + "','" + produto.getDescricao() + "','" + produto.getPreco() + "','" + produto.getTipo() + "')";
+			String sql = "INSERT INTO produto(nome, unidade, descricao, preco, tipo, idfornecedor)" 
+			+ "VALUES ('" + produto.getNome() + "','"+ produto.getUnidade() + "','" + produto.getDescricao() + "','" + produto.getPreco()
+			+ "','" + produto.getTipo() + "'," + "(SELECT idfornecedor FROM fornecedor where nomefantasia = '" + produto.getFornecedor() + "'))";
 
 			try {
 				BD.st = BD.con.prepareStatement(sql);
@@ -28,5 +30,19 @@ public class ProdutoDAO {
 
 		}
 		return retorno;
+}
+			public static ResultSet consultarForn() {
+			ResultSet resultado = null;
+			String sql = "SELECT nomefantasia FROM fornecedor ORDER BY nomefantasia";
+			if (BD.conexao) {
+				try {
+					BD.st = BD.con.prepareStatement(sql);
+					BD.rs = BD.st.executeQuery();
+					resultado = BD.rs;
+				}catch (SQLException erro) {
+					JOptionPane.showMessageDialog(null, erro.toString(), "Erro ao realizar a consulta de fornecedores", 0);
+				}
+			}
+			return resultado;
 }
 }
