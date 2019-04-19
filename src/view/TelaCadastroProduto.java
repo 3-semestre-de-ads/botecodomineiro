@@ -63,12 +63,12 @@ public class TelaCadastroProduto extends JFrame {
 	private JComboBox<String> fornecedorCombo;
 	private JScrollPane produtosSP;
 	private JButton salvarButton;
-	private JButton atualizarButton;
 	private JButton cancelarButton;
 	private JTable produtosTable;
 	private JLabel fornecedorLabel;
 	
 	ProdutoDAO metodos = new ProdutoDAO();
+	private JButton atualizarButton;
 	
 
 	/**
@@ -134,7 +134,7 @@ public class TelaCadastroProduto extends JFrame {
 		});
 		contentPane.add(salvarButton);
 		
-		JButton atualizarButton = new JButton("Atualizar");
+		atualizarButton = new JButton("Atualizar");
 		atualizarButton.setVisible(false);
 		atualizarButton.setForeground(Color.WHITE);
 		atualizarButton.setFont(new Font("Stencil", Font.PLAIN, 16));
@@ -245,13 +245,13 @@ public class TelaCadastroProduto extends JFrame {
 		contentPane.add(tipoCombo);
 		
 		cancelarButton = new JButton("Limpar");
-		cancelarButton.setVerticalTextPosition(SwingConstants.TOP);
-		cancelarButton.setVerticalAlignment(SwingConstants.TOP);
 		cancelarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				limpar();
 			}
 		});
+		cancelarButton.setVerticalTextPosition(SwingConstants.TOP);
+		cancelarButton.setVerticalAlignment(SwingConstants.TOP);
 		cancelarButton.setForeground(Color.WHITE);
 		cancelarButton.setFont(CoresFontes.fonteStencil);
 		cancelarButton.setBackground(CoresFontes.corBotão);
@@ -265,6 +265,7 @@ public class TelaCadastroProduto extends JFrame {
 		
 		listarTabela(); //lista a tabela de produtos
 		}
+	
 	public void ativarBotao(JButton botao) {
 		if (botao.getModel().equals(atualizarButton.getModel())) {
 			salvarButton.setVisible(false);
@@ -321,6 +322,8 @@ public class TelaCadastroProduto extends JFrame {
 		});
 		produtosSP = new JScrollPane(produtosTable);
 		produtosSP.setBounds(0, 188, 634, 173);
+		
+		
 		contentPane.remove(fundoLabel);
 		contentPane.add(produtosSP);
 		contentPane.add(fundoLabel);
@@ -335,5 +338,7 @@ public class TelaCadastroProduto extends JFrame {
 		precoText.setText("");
 		tipoCombo.setSelectedIndex(0);
 		fornecedorCombo.setSelectedIndex(0);
+		
+		ativarBotao(salvarButton);
 }
 }
