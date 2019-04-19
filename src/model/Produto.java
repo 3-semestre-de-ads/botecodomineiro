@@ -1,6 +1,7 @@
 package model;
 
 public class Produto {
+	private int idproduto;
 	private String nome;
 	private String unidade;
 	private String descricao;
@@ -8,6 +9,19 @@ public class Produto {
 	private String tipo;
 	private String fornecedor;
 	
+	//Construtor para atualização
+	public Produto(int idproduto, String nome, String unidade, String descricao, double preco, String tipo,
+			String fornecedor) {
+		super();
+		this.idproduto = idproduto;
+		this.nome = nome;
+		this.unidade = unidade;
+		this.descricao = descricao;
+		this.preco = preco;
+		this.tipo = tipo;
+		this.fornecedor = fornecedor;
+	}
+	//Construtor para cadastro
 	public Produto(String nome, String unidade, String descricao, double preco, String tipo, String fornecedor) {
 		this.nome = nome;
 		this.unidade = unidade;
@@ -51,5 +65,8 @@ public class Produto {
 	}
 	public void setFornecedor(String fornecedor) {
 		this.fornecedor = fornecedor;
+	}
+	public int getIdproduto() {
+		return idproduto;
 	}
 }
