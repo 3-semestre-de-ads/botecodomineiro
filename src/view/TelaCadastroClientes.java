@@ -65,6 +65,8 @@ public class TelaCadastroClientes extends JFrame {
 	private JButton pesquisarCepButton;
 	private JLabel cepLabel;
 	private JLabel ufSP;
+	private JTextField cpfText;
+	private JLabel cpfLabel;
 
 	/**
 	 * Launch the application.
@@ -173,45 +175,45 @@ public class TelaCadastroClientes extends JFrame {
 		telFixoLabel = new JLabel("TEL FIXO:");
 		telFixoLabel.setForeground(Color.WHITE);
 		telFixoLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
-		telFixoLabel.setBounds(386, 36, 101, 16);
+		telFixoLabel.setBounds(386, 59, 101, 16);
 		contentPane.add(telFixoLabel);
-		
+
 		JLabel telCelularLabel = new JLabel("TEL CELULAR:");
 		telCelularLabel.setForeground(Color.WHITE);
 		telCelularLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
-		telCelularLabel.setBounds(386, 64, 105, 16);
+		telCelularLabel.setBounds(386, 87, 105, 16);
 		contentPane.add(telCelularLabel);
-		
+
 		JLabel telSecundLabel = new JLabel("TEL SECUND:");
 		telSecundLabel.setForeground(Color.WHITE);
 		telSecundLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
-		telSecundLabel.setBounds(386, 92, 105, 16);
+		telSecundLabel.setBounds(386, 115, 105, 16);
 		contentPane.add(telSecundLabel);
 
 		JFormattedTextField telFixoText = new JFormattedTextField(model.Mascara.Mascara("(##) ####-####"));
 		telFixoText.setColumns(10);
-		telFixoText.setBounds(495, 32, 122, 26);
+		telFixoText.setBounds(495, 55, 122, 26);
 		contentPane.add(telFixoText);
 
 		JFormattedTextField telCelText = new JFormattedTextField(model.Mascara.Mascara("(##) #####-####"));
 		telCelText.setColumns(10);
-		telCelText.setBounds(495, 60, 122, 26);
+		telCelText.setBounds(495, 83, 122, 26);
 		contentPane.add(telCelText);
 
 		telSecundText = new JTextField();
 		telSecundText.setColumns(10);
-		telSecundText.setBounds(495, 88, 122, 25);
+		telSecundText.setBounds(495, 111, 122, 25);
 		contentPane.add(telSecundText);
 
 		emailLabel = new JLabel("E-MAIL:");
 		emailLabel.setForeground(Color.WHITE);
 		emailLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
-		emailLabel.setBounds(386, 120, 101, 16);
+		emailLabel.setBounds(386, 143, 101, 16);
 		contentPane.add(emailLabel);
 
 		emailText = new JTextField();
 		emailText.setColumns(10);
-		emailText.setBounds(495, 116, 122, 25);
+		emailText.setBounds(495, 139, 122, 25);
 		contentPane.add(emailText);
 
 		clientesSP = new JScrollPane();
@@ -255,7 +257,7 @@ public class TelaCadastroClientes extends JFrame {
 		cepLabel.setBounds(10, 64, 74, 16);
 		contentPane.add(cepLabel);
 
-		JFormattedTextField cepText = new JFormattedTextField(model.Mascara.Mascara("#####-###"));
+		cepText = new JFormattedTextField(model.Mascara.Mascara("#####-###"));
 		cepText.setColumns(10);
 		cepText.setBounds(85, 60, 128, 26);
 		contentPane.add(cepText);
@@ -269,6 +271,17 @@ public class TelaCadastroClientes extends JFrame {
 		pesquisarCepButton.setBounds(217, 61, 32, 23);
 		contentPane.add(pesquisarCepButton);
 
+		cpfLabel = new JLabel("CPF:");
+		cpfLabel.setForeground(Color.WHITE);
+		cpfLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
+		cpfLabel.setBounds(386, 35, 74, 16);
+		contentPane.add(cpfLabel);
+
+		cpfText = new JTextField();
+		cpfText.setColumns(10);
+		cpfText.setBounds(495, 29, 122, 25);
+		contentPane.add(cpfText);
+
 		fundoLabel = new JLabel("");
 		fundoLabel.setIcon(new ImageIcon(TelaCadastroClientes.class.getResource("/assets/fundo com cerveja.jpeg")));
 		fundoLabel.setBounds(0, 0, 633, 360);
@@ -276,11 +289,9 @@ public class TelaCadastroClientes extends JFrame {
 	}
 
 	public void buscaCep() {
-		
-		JOptionPane.showMessageDialog(null, cepText.getText());
-		
+
 		// Faz a busca para o cep 58043-280
-		WebServiceCep webServiceCep = WebServiceCep.searchCep(cepText.getText().replace("-",""));
+		WebServiceCep webServiceCep = WebServiceCep.searchCep(cepText.getText());
 		// A ferramenta de busca ignora qualquer caracter que n?o seja n?mero.
 
 		// caso a busca ocorra bem, imprime os resultados.
@@ -289,11 +300,6 @@ public class TelaCadastroClientes extends JFrame {
 			cidadeText.setText(webServiceCep.getCidade());
 			bairroText.setText(webServiceCep.getBairro());
 			ufText.setText(webServiceCep.getUf());
-			System.out.println("Cep: " + webServiceCep.getCep());
-			System.out.println("Logradouro: " + webServiceCep.getLogradouroFull());
-			System.out.println("Bairro: " + webServiceCep.getBairro());
-			System.out.println("Cidade: " + webServiceCep.getCidade() + "/" + webServiceCep.getUf());
-
 			// caso haja problemas imprime as exce??es.
 		} else {
 			JOptionPane.showMessageDialog(null, "Erro numero: " + webServiceCep.getResulCode());

@@ -9,46 +9,6 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
-/**
- * Ferramenta de busca de CEP, veja o m�todo {@link WebServiceCep#searchCep(String)} para
- * maiores informa��es.
- * <BR>
- * <BR>Constroi um objeto {@link WebServiceCep} com os dados XML encapsulados, a partir
- * da chamada do m�todo estatico {@link WebServiceCep#searchCep(String)}.
- * <BR>
- * <BR>Objeto contem todas as informa��es do XML, al�m de informa��es referente ao
- * resultado da pesquisa.
- * <BR>
- * <BR>Esta ferramente depende diretamente do pacote <tt>org.dom4j</tt> para fazer o 
- * parse dos arquivos XML. O pacote dom4j.jar pode ser encontrado em 
- * <a href="http://www.dom4j.org/dom4j-1.6.1/download.html" target="_blank">dom4j.org</a>
- * <BR>
- * <BR>Exemplo de uso:
- * <BR><tt>{@link WebServiceCep} cep = {@link WebServiceCep}.searchCep("13345-325");
- * 
- * <BR>//caso a busca ocorra bem, imprime os resultados.
- * <BR>if (cep.wasSuccessful()) {
- * <BR>&nbsp; &nbsp; System.out.println("Cep: "+cep.getCep());
- * <BR>&nbsp; &nbsp; System.out.println("Logradouro: "+cep.getLogradouroFull());
- * <BR>&nbsp; &nbsp; System.out.println("Bairro: "+cep.getBairro());
- * <BR>&nbsp; &nbsp; System.out.println("Cidade: "+
- * 			cep.getCidade()+"/"+ cep.cep());
- * <BR>//caso haja problemas imprime o c�digo e msg de erro.
- * <BR>} else {
- * <BR>&nbsp; &nbsp; System.out.println("Erro n�mero: " + cep.getResulCode());
- * <BR>&nbsp; &nbsp; System.out.println("Descri��o do erro: " + cep.getResultText());
- * <BR>}
- * <BR></tt>
- * <BR>A resposta do console seria:
- * <BR><tt>
- * <BR>Cep: 13345325
- * <BR>Logradouro: Rua Cinco
- * <BR>Bairro: Jardim R�mulo Zoppi
- * <BR>Cidade: Indaiatuba/SP
- * <BR></tt>
- * <BR>Ultima revis�o: 09/01/2009
- * @author Renato Sebben
- */
 public final class WebServiceCep {
 	
 /* Classes Internas, que auxiliam na busca do CEP */
