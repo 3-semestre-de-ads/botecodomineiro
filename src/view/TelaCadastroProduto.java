@@ -1,31 +1,36 @@
 package view;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Vector;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import model.CoresFontes;
 import model.Produto;
 import model.ProdutoDAO;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.ImageIcon;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JTextArea;
-import java.awt.Color;
-import javax.swing.JScrollPane;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.SwingConstants;
-import java.awt.Font;
 
 /**
  * 
@@ -55,11 +60,16 @@ public class TelaCadastroProduto extends JFrame {
 	private JLabel precoLabel;
 	private JLabel tipoLabel;
 	private JComboBox<String> tipoCombo;
-	private JScrollPane scrollPane;
+	private JComboBox<String> fornecedorCombo;
+	private JScrollPane produtosSP;
 	private JButton salvarButton;
+	private JButton atualizarButton;
 	private JButton cancelarButton;
+	private JTable produtosTable;
+	private JLabel fornecedorLabel;
 	
 	ProdutoDAO metodos = new ProdutoDAO();
+	
 
 	/**
 	 * Launch the application.
@@ -96,6 +106,77 @@ public class TelaCadastroProduto extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		salvarButton = new JButton("Cadastrar");
+		salvarButton.setVisible(true);
+		salvarButton.setVerticalTextPosition(SwingConstants.TOP);
+		salvarButton.setVerticalAlignment(SwingConstants.TOP);
+		salvarButton.setForeground(Color.WHITE);
+		salvarButton.setFont(CoresFontes.fonteStencil);
+		salvarButton.setBackground(CoresFontes.corBotão);
+		salvarButton.setBounds(416, 110, 130, 25);
+		salvarButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (produtoText.getText().equals("") || unidadeCombo.getSelectedItem().equals(null) || descTextArea.getText().equals("")
+					|| precoText.getText().equals("") || tipoCombo.getSelectedItem().equals(null) || fornecedorCombo.getSelectedItem().equals(null)
+					|| unidadeCombo.getSelectedIndex()== 0	|| tipoCombo.getSelectedIndex()== 0 || fornecedorCombo.getSelectedIndex()==0){
+					JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos não preenchidos", 2);
+				} else {// Se todos os campos estiverem preenchidos cria o objeto usuario e seta os valores e manda cadastrar
+					Produto produto = new Produto(produtoText.getText(), String.valueOf(unidadeCombo.getSelectedItem()), descTextArea.getText(),
+							Double.parseDouble(precoText.getText()), String.valueOf(tipoCombo.getSelectedItem()),
+							String.valueOf(fornecedorCombo.getSelectedItem()));
+					if (metodos.cadastrar(produto)) {
+						limpar(); // Se der sucesso no cadastro limpa os campos
+						listarTabela(); //lista a tabela de produtos
+					}
+				}
+			}
+		});
+		contentPane.add(salvarButton);
+		
+		JButton atualizarButton = new JButton("Atualizar");
+		atualizarButton.setVisible(false);
+		atualizarButton.setForeground(Color.WHITE);
+		atualizarButton.setFont(new Font("Stencil", Font.PLAIN, 16));
+		atualizarButton.setBackground(new Color(50, 0, 0));
+		atualizarButton.setBounds(416, 110, 130, 25);
+		atualizarButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (produtoText.getText().equals("") || unidadeCombo.getSelectedItem().equals(null) || descTextArea.getText().equals("")
+					|| precoText.getText().equals("") || tipoCombo.getSelectedItem().equals(null) || fornecedorCombo.getSelectedItem().equals(null)
+					|| unidadeCombo.getSelectedIndex()== 0	|| tipoCombo.getSelectedIndex()== 0 || fornecedorCombo.getSelectedIndex()==0){
+					JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos não preenchidos", 2);
+				} else {// Se todos os campos estiverem preenchidos cria o objeto usuario e seta os valores e manda cadastrar
+					Produto produto = new Produto(Integer.parseInt(idText.getText()),produtoText.getText(), String.valueOf(unidadeCombo.getSelectedItem()), descTextArea.getText(),
+							Double.parseDouble(precoText.getText()), String.valueOf(tipoCombo.getSelectedItem()),
+							String.valueOf(fornecedorCombo.getSelectedItem()));
+					if (metodos.atualizar(produto)) {
+						limpar(); // Se der sucesso no cadastro limpa os campos
+						listarTabela(); //lista a tabela de produtos
+					}
+				}
+			}
+		});
+		contentPane.add(atualizarButton);
+		
+		fornecedorLabel = new JLabel("Fornecedor:");
+		fornecedorLabel.setForeground(Color.WHITE);
+		fornecedorLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
+		fornecedorLabel.setBounds(248, 60, 110, 14);
+		contentPane.add(fornecedorLabel);
+		
+		fornecedorCombo = new JComboBox<String>();
+		fornecedorCombo.setModel(new DefaultComboBoxModel(new String[] {"Selecione"}));
+		ResultSet consultarFornRS = ProdutoDAO.consultarForn();
+			try {
+				while(consultarFornRS.next()) {
+					fornecedorCombo.addItem(consultarFornRS.getString(1));
+				}
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		fornecedorCombo.setBounds(361, 55, 264, 25);
+		contentPane.add(fornecedorCombo);
 		
 		idText = new JTextField();
 		idText.setBounds(105, 10, 45, 25);
@@ -163,63 +244,96 @@ public class TelaCadastroProduto extends JFrame {
 		tipoCombo.setBounds(491, 10, 133, 25);
 		contentPane.add(tipoCombo);
 		
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 188, 634, 173);
-		contentPane.add(scrollPane);
-		
 		cancelarButton = new JButton("Limpar");
 		cancelarButton.setVerticalTextPosition(SwingConstants.TOP);
 		cancelarButton.setVerticalAlignment(SwingConstants.TOP);
 		cancelarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				idText.setText("");
-				produtoText.setText("");
-				unidadeCombo.setSelectedIndex(0);
-				descTextArea.setText("");
-				precoText.setText("");
-				tipoCombo.setSelectedIndex(0);
-				
+				limpar();
 			}
 		});
 		cancelarButton.setForeground(Color.WHITE);
 		cancelarButton.setFont(CoresFontes.fonteStencil);
 		cancelarButton.setBackground(CoresFontes.corBotão);
-		cancelarButton.setBounds(490, 155, 130, 25);
+		cancelarButton.setBounds(416, 145, 130, 25);
 		contentPane.add(cancelarButton);
-		
-		salvarButton = new JButton("Cadastrar");
-		salvarButton.setVerticalTextPosition(SwingConstants.TOP);
-		salvarButton.setVerticalAlignment(SwingConstants.TOP);
-		salvarButton.setForeground(Color.WHITE);
-		salvarButton.setFont(CoresFontes.fonteStencil);
-		salvarButton.setBackground(CoresFontes.corBotão);
-		salvarButton.setBounds(345, 155, 130, 25);
-		salvarButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (produtoText.getText().equals("") || unidadeCombo.getSelectedItem().equals(null) || descTextArea.getText().equals("")
-						|| precoText.getText().equals("") || tipoCombo.getSelectedItem().equals(null)|| unidadeCombo.getSelectedIndex()== 0 || tipoCombo.getSelectedIndex()== 0) {
-					JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos não preenchidos", 2);
-				} else {// Se todos os campos estiverem preenchidos cria o objeto usuario e seta os
-						// valores e manda cadastrar
-					Produto produto = new Produto(produtoText.getText(), String.valueOf(unidadeCombo.getSelectedItem()), descTextArea.getText(), Double.parseDouble(precoText.getText()), String.valueOf(tipoCombo.getSelectedItem()));
-					
-					if (metodos.cadastrar(produto)) limpar(); // Se der sucesso no  cadastro limpa os campos
-				}
-			}
-		});
-		contentPane.add(salvarButton);
-		
 		
 		fundoLabel = new JLabel("");
 		fundoLabel.setBounds(0, 0, 634, 361);
 		fundoLabel.setIcon(new ImageIcon(TelaCadastroProduto.class.getResource("/assets/fundo com cerveja.jpeg")));
 		contentPane.add(fundoLabel);
+		
+		listarTabela(); //lista a tabela de produtos
+		}
+	public void ativarBotao(JButton botao) {
+		if (botao.getModel().equals(atualizarButton.getModel())) {
+			salvarButton.setVisible(false);
+			atualizarButton.setVisible(true);
+		} else {
+			salvarButton.setVisible(true);
+			atualizarButton.setVisible(false);
+		}
+	}
+
+	public void listarTabela() {
+
+		Vector<String> cabecalhoPersonalizado = new Vector<>();
+		cabecalhoPersonalizado.addElement("ID");
+		cabecalhoPersonalizado.addElement("Fornecedor");
+		cabecalhoPersonalizado.addElement("Nome");
+		cabecalhoPersonalizado.addElement("Unidade");
+		cabecalhoPersonalizado.addElement("Descricao");
+		cabecalhoPersonalizado.addElement("Preco");
+		cabecalhoPersonalizado.addElement("Tipo");
+		cabecalhoPersonalizado.addElement("Quantidade");
+
+		String sql = "SELECT p.idproduto,\r\n" + 
+				"	   f.nomefantasia fornecedor,\r\n" + 
+				"       p.nome,\r\n" + 
+				"       p.unidade,\r\n" + 
+				"       p.descricao,\r\n" + 
+				"       p.preco,\r\n" + 
+				"       p.tipo,\r\n" + 
+				"       p.quantidade\r\n" + 
+				"FROM produto p INNER JOIN fornecedor f on p.idfornecedor = f.idfornecedor\r\n" + 
+				"order by idproduto;";
+		
+		if(produtosTable != null) {
+			produtosTable.setVisible(false);
+			produtosTable = null;
+			produtosSP.setVisible(false);		
+			produtosSP = null;
+		}
+		
+		produtosTable = metodos.criarTabela(sql, cabecalhoPersonalizado);
+		produtosTable.addMouseListener(new MouseAdapter() {
+			public void mouseReleased(MouseEvent a) {
+				idText.setText(produtosTable.getValueAt(produtosTable.getSelectedRow(), 0).toString());
+				fornecedorCombo.setSelectedItem(produtosTable.getValueAt(produtosTable.getSelectedRow(), 1).toString());
+				produtoText.setText(produtosTable.getValueAt(produtosTable.getSelectedRow(), 2).toString());
+				unidadeCombo.setSelectedItem(produtosTable.getValueAt(produtosTable.getSelectedRow(), 3).toString());
+				descTextArea.setText(produtosTable.getValueAt(produtosTable.getSelectedRow(), 4).toString());
+				precoText.setText(produtosTable.getValueAt(produtosTable.getSelectedRow(), 5).toString());
+				tipoCombo.setSelectedItem(produtosTable.getValueAt(produtosTable.getSelectedRow(), 6).toString());
+				
+				ativarBotao(atualizarButton);
+			}
+		});
+		produtosSP = new JScrollPane(produtosTable);
+		produtosSP.setBounds(0, 188, 634, 173);
+		contentPane.remove(fundoLabel);
+		contentPane.add(produtosSP);
+		contentPane.add(fundoLabel);
+		contentPane.updateUI();
+		
 	}
 	public void limpar() {
+		idText.setText("");
 		produtoText.setText("");
-		unidadeCombo.setSelectedItem("");
+		unidadeCombo.setSelectedIndex(0);
 		descTextArea.setText("");
 		precoText.setText("");
-		tipoCombo.setSelectedItem("");
+		tipoCombo.setSelectedIndex(0);
+		fornecedorCombo.setSelectedIndex(0);
 }
 }
