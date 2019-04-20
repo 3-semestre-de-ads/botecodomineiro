@@ -135,6 +135,7 @@ public class TelaCadastroProduto extends JFrame {
 		contentPane.add(salvarButton);
 		
 		atualizarButton = new JButton("Atualizar");
+		atualizarButton.setVerticalAlignment(SwingConstants.TOP);
 		atualizarButton.setVisible(false);
 		atualizarButton.setForeground(Color.WHITE);
 		atualizarButton.setFont(new Font("Stencil", Font.PLAIN, 16));
@@ -295,7 +296,7 @@ public class TelaCadastroProduto extends JFrame {
 				"       p.descricao,\r\n" + 
 				"       p.preco,\r\n" + 
 				"       p.tipo,\r\n" + 
-				"       p.quantidade\r\n" + 
+				"       p.quantidade AS Qtd\r\n" + 
 				"FROM produto p INNER JOIN fornecedor f on p.idfornecedor = f.idfornecedor\r\n" + 
 				"order by idproduto;";
 		

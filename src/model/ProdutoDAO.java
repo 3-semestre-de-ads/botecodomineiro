@@ -41,13 +41,13 @@ public class ProdutoDAO {
 				boolean retorno = false;
 				if (BD.conexao()) {// Verificando se a conexão está estabelecida
 				String sql = "UPDATE produto SET\r\n" + 
-						"fornecedor = '" + produto.getFornecedor() + "',\r\n" + 
+						" idfornecedor = " + "(SELECT idfornecedor FROM fornecedor where nomefantasia = '" + produto.getFornecedor() + "'),\r\n" + 
 						"nome = '" + produto.getNome() + "',\r\n" +
 						"unidade = '" + produto.getUnidade() + "',\r\n" +
 						"descricao = '" + produto.getDescricao() + "',\r\n" +
 						"preco = '" + produto.getPreco() + "',\r\n" + 
-						"tipo = '" + produto.getTipo() + "',\r\n" + 
-						"WHERE idproduto = '" + produto.getIdproduto() + "'";
+						"tipo = '" + produto.getTipo() + "' \r\n" + 
+						"WHERE idproduto = " + produto.getIdproduto();
 
 				try {
 					BD.st = BD.con.prepareStatement(sql);
@@ -94,12 +94,13 @@ public class ProdutoDAO {
 
 							tabela = TableGrade.getTable(sql, cabecalhoPersonalizado);
 							tabela.getColumnModel().getColumn(0).setPreferredWidth(50);
-							tabela.getColumnModel().getColumn(1).setPreferredWidth(140);
-							tabela.getColumnModel().getColumn(2).setPreferredWidth(140);
-							tabela.getColumnModel().getColumn(3).setPreferredWidth(140);
-							tabela.getColumnModel().getColumn(4).setPreferredWidth(140);
-							tabela.getColumnModel().getColumn(5).setPreferredWidth(140);
-							tabela.getColumnModel().getColumn(6).setPreferredWidth(140);
+							tabela.getColumnModel().getColumn(1).setPreferredWidth(150);
+							tabela.getColumnModel().getColumn(2).setPreferredWidth(150);
+							tabela.getColumnModel().getColumn(3).setPreferredWidth(120);
+							tabela.getColumnModel().getColumn(4).setPreferredWidth(170);
+							tabela.getColumnModel().getColumn(5).setPreferredWidth(70);
+							tabela.getColumnModel().getColumn(6).setPreferredWidth(150);
+							tabela.getColumnModel().getColumn(7).setPreferredWidth(70);
 							tabela.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
 							tabela.setEditingRow(0);
