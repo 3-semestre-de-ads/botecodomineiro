@@ -15,11 +15,12 @@ public class Fornecedor {
 	private String bairro;
 	private String email;
 	private String cep;
+	private String celular;
 
 	// Construtor para atualização
 	public Fornecedor(int idfornecedor, String pais, String cidade, String razaosocial, String nomefantasia,
 			String inscestadual, String cnpj, String estado, String rua, String telefone, String numero, String bairro,
-			String email, String cep) {
+			String email, String cep, String celular) {
 		super();
 		this.idfornecedor = idfornecedor;
 		this.pais = pais;
@@ -35,11 +36,13 @@ public class Fornecedor {
 		this.bairro = bairro;
 		this.email = email;
 		this.cep = cep;
+		this.celular = celular;
 	}
 
 	// Construtor para cadastro
 	public Fornecedor(String pais, String cidade, String razaosocial, String nomefantasia, String inscestadual,
-			String cnpj, String estado, String rua, String telefone, String numero, String bairro, String email, String cep) {
+			String cnpj, String estado, String rua, String telefone, String numero, String bairro, String email,
+			String cep, String celular) {
 		super();
 		this.pais = pais;
 		this.cidade = cidade;
@@ -54,6 +57,7 @@ public class Fornecedor {
 		this.bairro = bairro;
 		this.email = email;
 		this.cep = cep;
+		this.celular = celular;
 	}
 
 	public int getIdfornecedor() {
@@ -162,5 +166,13 @@ public class Fornecedor {
 
 	public void setCep(String cep) {
 		this.cep = cep;
+	}
+
+	public String getCelular() {
+		return celular;
+	}
+
+	public void setCelular(String celular) {
+		this.celular = celular;
 	}
 }

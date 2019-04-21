@@ -1,31 +1,39 @@
 package view;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import model.CoresFontes;
-import model.FornecedorDAO;
-
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-import javax.swing.JTextField;
 import java.awt.Color;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JButton;
-
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Vector;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import java.awt.Font;
+import javax.swing.border.EmptyBorder;
 
+import model.CoresFontes;
+import model.Fornecedor;
+import model.FornecedorDAO;
+
+/**
+ * 
+ * @author MATIAS E HEITOR
+ *
+ * Nesta tela feita a visualização, cadastro e alteração dos fornecedores
+ *
+ */
 public class TelaCadastroFornecedor extends JFrame {
 
 	/**
@@ -82,7 +90,8 @@ public class TelaCadastroFornecedor extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-				controller.Controle.cadastrofornecedor = false;
+				controller.Controle.cadastrofornecedor = false;//Passa um false para a variavel boolean referente a tela
+				dispose();//fecha tela atual
 			}
 		});
 		setBounds(100, 100, 639, 389);
@@ -275,16 +284,31 @@ public class TelaCadastroFornecedor extends JFrame {
 		emailText.setBounds(75, 180, 395, 25);
 		contentPane.add(emailText);
 		
-		JScrollPane fornecedorSP = new JScrollPane();
-		fornecedorSP.setBounds(0, 215, 633, 145);
-		contentPane.add(fornecedorSP);
-		
 		salvarButton = new JButton("Cadastrar");
 		salvarButton.setVerticalAlignment(SwingConstants.TOP);
 		salvarButton.setForeground(Color.WHITE);
 		salvarButton.setBounds(483, 145, 140, 25);
 		salvarButton.setFont(CoresFontes.fonteStencil);
 		salvarButton.setBackground(CoresFontes.corBotão);
+		salvarButton.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			if (razaoText.getText().equals("") || nomeText.getText().equals("") || cnpjText.getText().equals("") || inscText.getText().equals("")
+				|| cepText.getText().equals("") || ufText.getText().equals("") || paisText.getText().equals("") || cidadeText.getText().equals("")
+				|| ruaText.getText().equals("")	|| bairroText.getText().equals("") || numText.getText().equals("") || telText.getText().equals("")
+				|| celularText.getText().equals("")	|| emailText.getText().equals("")){
+				JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos não preenchidos", 2);
+			} else {// Se todos os campos estiverem preenchidos cria o objeto fornecedor e seta os valores e manda cadastrar
+				Fornecedor fornecedor = new Fornecedor(paisText.getText(), cidadeText.getText(), razaoText.getText(), nomeText.getText(),
+													   inscText.getText(), cnpjText.getText(), ufText.getText(), ruaText.getText(), telText.getText(),
+													   numText.getText(), bairroText.getText(), emailText.getText(), cepText.getText(),
+													   celularText.getText());
+				if (metodos.cadastrar(fornecedor)) {
+					limpar(); // Se der sucesso no cadastro limpa os campos
+					listarTabela(); //lista a tabela de fornecedor
+				}
+			}
+		}
+	});
 		contentPane.add(salvarButton);
 		
 		limparButton = new JButton("Limpar");
@@ -293,6 +317,11 @@ public class TelaCadastroFornecedor extends JFrame {
 		limparButton.setBounds(483, 180, 140, 25);
 		limparButton.setFont(CoresFontes.fonteStencil);
 		limparButton.setBackground(CoresFontes.corBotão);
+		limparButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				limpar();
+			}
+		});
 		contentPane.add(limparButton);
 		
 		atualizarButton = new JButton("Atualizar");
@@ -302,12 +331,33 @@ public class TelaCadastroFornecedor extends JFrame {
 		atualizarButton.setBounds(483, 146, 134, 25);
 		atualizarButton.setFont(CoresFontes.fonteStencil);
 		atualizarButton.setBackground(CoresFontes.corBotão);
+		atualizarButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (razaoText.getText().equals("") || nomeText.getText().equals("") || cnpjText.getText().equals("") || inscText.getText().equals("")
+						|| cepText.getText().equals("") || ufText.getText().equals("") || paisText.getText().equals("") || cidadeText.getText().equals("")
+						|| ruaText.getText().equals("")	|| bairroText.getText().equals("") || numText.getText().equals("") || telText.getText().equals("")
+						|| celularText.getText().equals("")	|| emailText.getText().equals("")){
+						JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos não preenchidos", 2);
+					} else {// Se todos os campos estiverem preenchidos cria o objeto fornecedor e seta os valores e manda atualizar
+						Fornecedor fornecedor = new Fornecedor(Integer.parseInt(idText.getText()), paisText.getText(), cidadeText.getText(), razaoText.getText(), nomeText.getText(),
+															   inscText.getText(), cnpjText.getText(), ufText.getText(), ruaText.getText(), telText.getText(),
+															   numText.getText(), bairroText.getText(), emailText.getText(), cepText.getText(),
+															   celularText.getText());
+					if (metodos.atualizar(fornecedor)) {
+						limpar(); // Se der sucesso na atualização limpa os campos
+						listarTabela(); //lista a tabela de fornecedor
+					}
+				}
+			}
+		});
 		contentPane.add(atualizarButton);
 		
 		fundoLabel = new JLabel("");
 		fundoLabel.setIcon(new ImageIcon(TelaCadastroFornecedor.class.getResource("/assets/fundo com cerveja.jpeg")));
 		fundoLabel.setBounds(0, 0, 633, 360);
 		contentPane.add(fundoLabel);
+		
+		listarTabela(); //lista a tabela de fornecedor
 	}
 	
 	public void limpar() {
@@ -320,10 +370,12 @@ public class TelaCadastroFornecedor extends JFrame {
 		ufText.setText("");
 		paisText.setText("");
 		cidadeText.setText("");
+		ruaText.setText("");
 		bairroText.setText("");
 		numText.setText("");
 		telText.setText("");
 		emailText.setText("");
+		celularText.setText("");
 		
 		ativarBotao(salvarButton);
 	}
@@ -342,53 +394,73 @@ public class TelaCadastroFornecedor extends JFrame {
 
 		Vector<String> cabecalhoPersonalizado = new Vector<>();
 		cabecalhoPersonalizado.addElement("ID");
-		cabecalhoPersonalizado.addElement("Fornecedor");
-		cabecalhoPersonalizado.addElement("Nome");
-		cabecalhoPersonalizado.addElement("Unidade");
-		cabecalhoPersonalizado.addElement("Descricao");
-		cabecalhoPersonalizado.addElement("Preco");
-		cabecalhoPersonalizado.addElement("Tipo");
-		cabecalhoPersonalizado.addElement("Quantidade");
+		cabecalhoPersonalizado.addElement("Razao Social");
+		cabecalhoPersonalizado.addElement("Insc. Estadual");
+		cabecalhoPersonalizado.addElement("Nome Fantasia");
+		cabecalhoPersonalizado.addElement("CNPJ");
+		cabecalhoPersonalizado.addElement("Pais");
+		cabecalhoPersonalizado.addElement("Estado");
+		cabecalhoPersonalizado.addElement("CEP");
+		cabecalhoPersonalizado.addElement("Cidade");
+		cabecalhoPersonalizado.addElement("Bairro");
+		cabecalhoPersonalizado.addElement("Rua");
+		cabecalhoPersonalizado.addElement("Número");
+		cabecalhoPersonalizado.addElement("E-mail");
+		cabecalhoPersonalizado.addElement("Telefone");
+		cabecalhoPersonalizado.addElement("Celular");
 
-		String sql = "SELECT p.idproduto,\r\n" + 
-				"	   f.nomefantasia fornecedor,\r\n" + 
-				"       p.nome,\r\n" + 
-				"       p.unidade,\r\n" + 
-				"       p.descricao,\r\n" + 
-				"       p.preco,\r\n" + 
-				"       p.tipo,\r\n" + 
-				"       p.quantidade AS Qtd\r\n" + 
-				"FROM produto p INNER JOIN fornecedor f on p.idfornecedor = f.idfornecedor\r\n" + 
-				"order by idproduto;";
+		String sql = "select idfornecedor ID,\r\n" + 
+				"	   razaosocial 'Razao Social',\r\n" +
+				"       inscestadual 'Insc. Estadual',\r\n" +
+				"       nomefantasia 'Nome Fantasia',\r\n" + 
+				"       cnpj,\r\n" + 
+				"       pais,\r\n" + 
+				"       estado,\r\n" + 
+				"       cep,\r\n" + 
+				"       cidade,\r\n" + 
+				"       bairro,\r\n" + 
+				"       rua,\r\n" + 
+				"       numero,\r\n" + 
+				"       email,\r\n" + 
+				"       telefone,\r\n" + 
+				"       celular\r\n" + 
+				"from fornecedor order by nomefantasia;";
 		
-		if(produtosTable != null) {
-			produtosTable.setVisible(false);
-			produtosTable = null;
-			produtosSP.setVisible(false);		
-			produtosSP = null;
+		if(fornecedorTable != null) {
+			fornecedorTable.setVisible(false);
+			fornecedorTable = null;
+			fornecedorSP.setVisible(false);		
+			fornecedorSP = null;
 		}
 		
-		produtosTable = metodos.criarTabela(sql, cabecalhoPersonalizado);
-		produtosTable.addMouseListener(new MouseAdapter() {
+		fornecedorTable = metodos.criarTabela(sql, cabecalhoPersonalizado);
+		fornecedorTable.addMouseListener(new MouseAdapter() {
 			public void mouseReleased(MouseEvent a) {
-				idText.setText(produtosTable.getValueAt(produtosTable.getSelectedRow(), 0).toString());
-				fornecedorCombo.setSelectedItem(produtosTable.getValueAt(produtosTable.getSelectedRow(), 1).toString());
-				produtoText.setText(produtosTable.getValueAt(produtosTable.getSelectedRow(), 2).toString());
-				unidadeCombo.setSelectedItem(produtosTable.getValueAt(produtosTable.getSelectedRow(), 3).toString());
-				descTextArea.setText(produtosTable.getValueAt(produtosTable.getSelectedRow(), 4).toString());
-				precoText.setText(produtosTable.getValueAt(produtosTable.getSelectedRow(), 5).toString());
-				tipoCombo.setSelectedItem(produtosTable.getValueAt(produtosTable.getSelectedRow(), 6).toString());
+				idText.setText(fornecedorTable.getValueAt(fornecedorTable.getSelectedRow(), 0).toString());
+				razaoText.setText(fornecedorTable.getValueAt(fornecedorTable.getSelectedRow(), 1).toString());
+				inscText.setText(fornecedorTable.getValueAt(fornecedorTable.getSelectedRow(), 2).toString());
+				nomeText.setText(fornecedorTable.getValueAt(fornecedorTable.getSelectedRow(), 3).toString());
+				cnpjText.setText(fornecedorTable.getValueAt(fornecedorTable.getSelectedRow(), 4).toString());
+				paisText.setText(fornecedorTable.getValueAt(fornecedorTable.getSelectedRow(), 5).toString());
+				ufText.setText(fornecedorTable.getValueAt(fornecedorTable.getSelectedRow(), 6).toString());
+				cepText.setText(fornecedorTable.getValueAt(fornecedorTable.getSelectedRow(), 7).toString());
+				cidadeText.setText(fornecedorTable.getValueAt(fornecedorTable.getSelectedRow(), 8).toString());
+				bairroText.setText(fornecedorTable.getValueAt(fornecedorTable.getSelectedRow(), 9).toString());
+				ruaText.setText(fornecedorTable.getValueAt(fornecedorTable.getSelectedRow(), 10).toString());
+				numText.setText(fornecedorTable.getValueAt(fornecedorTable.getSelectedRow(), 11).toString());
+				emailText.setText(fornecedorTable.getValueAt(fornecedorTable.getSelectedRow(), 12).toString());
+				telText.setText(fornecedorTable.getValueAt(fornecedorTable.getSelectedRow(), 13).toString());
+				celularText.setText(fornecedorTable.getValueAt(fornecedorTable.getSelectedRow(), 14).toString());
 				
 				ativarBotao(atualizarButton);
 			}
 		});
-		produtosSP = new JScrollPane(produtosTable);
-		produtosSP.setBounds(0, 188, 634, 173);
-		
+		fornecedorSP = new JScrollPane(fornecedorTable);
+		fornecedorSP.setBounds(0, 215, 633, 145);
 		
 		contentPane.remove(fundoLabel);
 		contentPane.add(fornecedorSP);
-		contentPane.add(fornecedorSP);
+		contentPane.add(fundoLabel);
 		contentPane.updateUI();
 		
 	}

@@ -46,6 +46,7 @@ public class TelaCadastroProduto extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private JPanel contentPane;
 	private JTextField idText;
 	private JTextField produtoText;
@@ -287,7 +288,6 @@ public class TelaCadastroProduto extends JFrame {
 		cabecalhoPersonalizado.addElement("Descricao");
 		cabecalhoPersonalizado.addElement("Preco");
 		cabecalhoPersonalizado.addElement("Tipo");
-		cabecalhoPersonalizado.addElement("Quantidade");
 
 		String sql = "SELECT p.idproduto,\r\n" + 
 				"	   f.nomefantasia fornecedor,\r\n" + 
@@ -295,8 +295,7 @@ public class TelaCadastroProduto extends JFrame {
 				"       p.unidade,\r\n" + 
 				"       p.descricao,\r\n" + 
 				"       p.preco,\r\n" + 
-				"       p.tipo,\r\n" + 
-				"       p.quantidade AS Qtd\r\n" + 
+				"       p.tipo\r\n" + 
 				"FROM produto p INNER JOIN fornecedor f on p.idfornecedor = f.idfornecedor\r\n" + 
 				"order by idproduto;";
 		
@@ -324,7 +323,6 @@ public class TelaCadastroProduto extends JFrame {
 		produtosSP = new JScrollPane(produtosTable);
 		produtosSP.setBounds(0, 188, 634, 173);
 		
-		
 		contentPane.remove(fundoLabel);
 		contentPane.add(produtosSP);
 		contentPane.add(fundoLabel);
@@ -341,5 +339,5 @@ public class TelaCadastroProduto extends JFrame {
 		fornecedorCombo.setSelectedIndex(0);
 		
 		ativarBotao(salvarButton);
-}
+	}
 }
