@@ -67,6 +67,10 @@ public class TelaCadastroClientes extends JFrame {
 	private JLabel ufSP;
 	private JTextField cpfText;
 	private JLabel cpfLabel;
+	private JFormattedTextField telFixoText_1;
+	private JFormattedTextField telCelText_1;
+	private JLabel telSecundLabel;
+	private JLabel telCelularLabel;
 
 	/**
 	 * Launch the application.
@@ -178,27 +182,27 @@ public class TelaCadastroClientes extends JFrame {
 		telFixoLabel.setBounds(386, 59, 101, 16);
 		contentPane.add(telFixoLabel);
 
-		JLabel telCelularLabel = new JLabel("TEL CELULAR:");
+		telCelularLabel = new JLabel("TEL CELULAR:");
 		telCelularLabel.setForeground(Color.WHITE);
 		telCelularLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
 		telCelularLabel.setBounds(386, 87, 105, 16);
 		contentPane.add(telCelularLabel);
 
-		JLabel telSecundLabel = new JLabel("TEL SECUND:");
+		telSecundLabel = new JLabel("TEL SECUND:");
 		telSecundLabel.setForeground(Color.WHITE);
 		telSecundLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
 		telSecundLabel.setBounds(386, 115, 105, 16);
 		contentPane.add(telSecundLabel);
 
-		JFormattedTextField telFixoText = new JFormattedTextField(model.Mascara.Mascara("(##) ####-####"));
-		telFixoText.setColumns(10);
-		telFixoText.setBounds(495, 55, 122, 26);
-		contentPane.add(telFixoText);
+		telFixoText_1 = new JFormattedTextField(model.Mascara.Mascara("(##) ####-####"));
+		telFixoText_1.setColumns(10);
+		telFixoText_1.setBounds(495, 55, 122, 26);
+		contentPane.add(telFixoText_1);
 
-		JFormattedTextField telCelText = new JFormattedTextField(model.Mascara.Mascara("(##) #####-####"));
-		telCelText.setColumns(10);
-		telCelText.setBounds(495, 83, 122, 26);
-		contentPane.add(telCelText);
+		telCelText_1 = new JFormattedTextField(model.Mascara.Mascara("(##) #####-####"));
+		telCelText_1.setColumns(10);
+		telCelText_1.setBounds(495, 83, 122, 26);
+		contentPane.add(telCelText_1);
 
 		telSecundText = new JTextField();
 		telSecundText.setColumns(10);
@@ -265,7 +269,7 @@ public class TelaCadastroClientes extends JFrame {
 		pesquisarCepButton = new JButton("New button");
 		pesquisarCepButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				buscaCep();
+				buscaCep(cepText.getText());
 			}
 		});
 		pesquisarCepButton.setBounds(217, 61, 32, 23);
@@ -288,23 +292,23 @@ public class TelaCadastroClientes extends JFrame {
 		contentPane.add(fundoLabel);
 	}
 
-	public void buscaCep() {
+	public void buscaCep(String cep) {
 
 		// Faz a busca para o cep 58043-280
-		WebServiceCep webServiceCep = WebServiceCep.searchCep(cepText.getText());
+		WebServiceCep WSC = WebServiceCep.searchCep(cep);
 		// A ferramenta de busca ignora qualquer caracter que n?o seja n?mero.
 
 		// caso a busca ocorra bem, imprime os resultados.
-		if (webServiceCep.wasSuccessful()) {
-			ruaText.setText(webServiceCep.getLogradouroFull());
-			cidadeText.setText(webServiceCep.getCidade());
-			bairroText.setText(webServiceCep.getBairro());
-			ufText.setText(webServiceCep.getUf());
+		if (WSC.wasSuccessful()) {
+			ruaText.setText(WSC.getLogradouroFull());
+			cidadeText.setText(WSC.getCidade());
+			bairroText.setText(WSC.getBairro());
+			ufText.setText(WSC.getUf());
 			// caso haja problemas imprime as exce??es.
 		} else {
-			JOptionPane.showMessageDialog(null, "Erro numero: " + webServiceCep.getResulCode());
+			JOptionPane.showMessageDialog(null, "Erro numero: " + WSC.getResulCode());
 
-			JOptionPane.showMessageDialog(null, "Descrição do erro: " + webServiceCep.getResultText());
+			JOptionPane.showMessageDialog(null, "Descrição do erro: " + WSC.getResultText());
 		}
 	}
 
