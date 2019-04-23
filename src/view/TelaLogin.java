@@ -80,7 +80,6 @@ public class TelaLogin extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-
 	public TelaLogin() {
 		addWindowListener(new WindowAdapter() {
 			@Override
