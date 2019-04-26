@@ -23,7 +23,6 @@ import javax.swing.border.EmptyBorder;
 import model.Cliente;
 import model.ClienteDAO;
 import model.CoresFontes;
-import model.Produto;
 import model.WebServiceCep;
 
 /**
@@ -350,7 +349,6 @@ public class TelaCadastroClientes extends JFrame {
 		emailText.setText("");
 		telFixoText.setText("");
 		telCelularText.setText("");
-		telSecundText.setText("");
 		emailText.setText("");
 
 	}
