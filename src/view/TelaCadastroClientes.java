@@ -5,8 +5,11 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -16,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -57,6 +61,7 @@ public class TelaCadastroClientes extends JFrame {
 	private JButton atualizarButton;
 	private JLabel fundoLabel;
 	private JScrollPane clientesSP;
+	private JTable clientesTable;
 	private JLabel emailLabel;
 	private JLabel telFixoLabel;
 	private JLabel cidadeLabel;
@@ -70,6 +75,7 @@ public class TelaCadastroClientes extends JFrame {
 	private JFormattedTextField telFixoText;
 	private JFormattedTextField telCelularText;
 	private JLabel telCelularLabel;
+	
 	ClienteDAO metodos = new ClienteDAO();
 	/**
 	 * Launch the application.
@@ -91,6 +97,9 @@ public class TelaCadastroClientes extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaCadastroClientes() {
+		
+		listarTabela(); //lista a tabela de clientes
+		
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -208,10 +217,6 @@ public class TelaCadastroClientes extends JFrame {
 		emailText.setBounds(386, 116, 239, 25);
 		contentPane.add(emailText);
 
-		clientesSP = new JScrollPane();
-		clientesSP.setBounds(0, 206, 633, 154);
-		contentPane.add(clientesSP);
-
 		limparButton = new JButton("Limpar");
 		limparButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -238,7 +243,7 @@ public class TelaCadastroClientes extends JFrame {
 								telFixoText.getText(), telCelularText.getText(), emailText.getText());
 						if (metodos.cadastrar(cliente)) {
 							limpar(); // Se der sucesso no cadastro limpa os campos
-						//	listarTabela(); //lista a tabela de produtos
+							listarTabela(); //lista a tabela de clientes
 						}
 					}
 				}
@@ -298,6 +303,24 @@ public class TelaCadastroClientes extends JFrame {
 		contentPane.add(fundoLabel);
 		
 		JButton atualizarButton = new JButton("Atualizar");
+		atualizarButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (nomeText.getText().equals("") || cepText.getText().equals("") || bairroText.getText().equals("") ||
+						ruaText.getText().equals("") || cidadeText.getText().equals("") || nText.getText().equals("") ||
+						ufText.getText().equals("") || cpfText.getText().equals("") || telFixoText.getText().equals("") ||
+						telCelularText.getText().equals("") || emailText.getText().equals("")){
+							JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos não preenchidos", 2);
+						} else {// Se todos os campos estiverem preenchidos cria o objeto usuario e seta os valores e manda cadastrar
+							Cliente cliente = new Cliente(Integer.parseInt(idText.getText()), nomeText.getText(), cepText.getText(),
+									bairroText.getText(),ruaText.getText(), cidadeText.getText(), nText.getText(), ufText.getText(),
+									telFixoText.getText(), telCelularText.getText(), emailText.getText());
+							if (metodos.atualizar(cliente)) {
+								limpar(); // Se der sucesso na atualização limpa os campos
+								listarTabela(); //lista a tabela de clientes
+							}
+						}
+					}
+				});
 		atualizarButton.setVisible(false);
 		atualizarButton.setVerticalAlignment(SwingConstants.TOP);
 		atualizarButton.setForeground(Color.WHITE);
@@ -305,15 +328,17 @@ public class TelaCadastroClientes extends JFrame {
 		atualizarButton.setBackground(new Color(50, 0, 0));
 		atualizarButton.setBounds(350, 170, 130, 28);
 		contentPane.add(atualizarButton);
+		
 	}
 
 	public void buscaCep(String cep) {
 
 		// Faz a busca para o cep 58043-280
 		WebServiceCep WSC = WebServiceCep.searchCep(cep);
-		// A ferramenta de busca ignora qualquer caracter que n?o seja n?mero.
-
-		// caso a busca ocorra bem, imprime os resultados.
+		/*
+		 * A ferramenta de busca ignora qualquer caracter que não seja número.
+		 * Caso a busca ocorra bem, imprime os resultados.
+		 */
 		if (WSC.wasSuccessful()) {
 			ruaText.setText(WSC.getLogradouroFull());
 			cidadeText.setText(WSC.getCidade());
@@ -327,16 +352,28 @@ public class TelaCadastroClientes extends JFrame {
 		}
 	}
 	
+	/*
+	 * Método que alterna entre o botão de cadastro e atualizar
+	 * Quando a tabela recebe um clique de seleção, ele é ativado
+	 */
 	public void ativarBotao(JButton botao) {
 		if (botao.getModel().equals(atualizarButton.getModel())) {
 			salvarButton.setVisible(false);
 			atualizarButton.setVisible(true);
+			/*
+			 * Passa um false na edição do CPF, pois o mesmo é PK no Banco de Dados
+			 */
+			cpfText.setEditable(false);
 		} else {
 			salvarButton.setVisible(true);
 			atualizarButton.setVisible(false);
+			cpfText.setEditable(true);
 		}
 	}
-
+	
+	/*
+	 * Limpa todos os campos do cadastro
+	 */
 	public void limpar() {
 		idText.setText("");
 		nomeText.setText("");
@@ -350,6 +387,71 @@ public class TelaCadastroClientes extends JFrame {
 		telFixoText.setText("");
 		telCelularText.setText("");
 		emailText.setText("");
+	}
+	
+	public void listarTabela() {
 
+		Vector<String> cabecalhoPersonalizado = new Vector<>();
+		cabecalhoPersonalizado.addElement("ID");
+		cabecalhoPersonalizado.addElement("Nome");
+		cabecalhoPersonalizado.addElement("CPF");
+		cabecalhoPersonalizado.addElement("Telefone");
+		cabecalhoPersonalizado.addElement("Celular");
+		cabecalhoPersonalizado.addElement("E-mail");
+		cabecalhoPersonalizado.addElement("CEP");
+		cabecalhoPersonalizado.addElement("UF");
+		cabecalhoPersonalizado.addElement("Cidade");
+		cabecalhoPersonalizado.addElement("Bairro");
+		cabecalhoPersonalizado.addElement("Rua");
+		cabecalhoPersonalizado.addElement("Número");
+
+		String sql = "select idcliente ID,\r\n" + 
+				"	   nome,\r\n" + 
+				"       cpf,\r\n" + 
+				"       telefoneFixo,\r\n" + 
+				"       telefoneCelular,\r\n" + 
+				"       email,\r\n" + 
+				"       cep,\r\n" + 
+				"       uf,\r\n" + 
+				"       cidade,\r\n" + 
+				"       bairro,\r\n" + 
+				"       rua,\r\n" + 
+				"       numero\r\n" + 
+				"FROM cliente\r\n" + 
+				"ORDER BY nome;";
+		
+		if(clientesTable != null) {
+			clientesTable.setVisible(false);
+			clientesTable = null;
+			clientesSP.setVisible(false);		
+			clientesSP = null;
+		}
+		
+		clientesTable = metodos.criarTabela(sql, cabecalhoPersonalizado);
+		clientesTable.addMouseListener(new MouseAdapter() {
+			public void mouseReleased(MouseEvent a) {
+				idText.setText(clientesTable.getValueAt(clientesTable.getSelectedRow(), 0).toString());
+				nomeText.setText(clientesTable.getValueAt(clientesTable.getSelectedRow(), 1).toString());
+				cpfText.setText(clientesTable.getValueAt(clientesTable.getSelectedRow(), 2).toString());
+				telFixoText.setText(clientesTable.getValueAt(clientesTable.getSelectedRow(), 3).toString());
+				telCelularText.setText(clientesTable.getValueAt(clientesTable.getSelectedRow(), 4).toString());
+				emailText.setText(clientesTable.getValueAt(clientesTable.getSelectedRow(), 5).toString());
+				cepText.setText(clientesTable.getValueAt(clientesTable.getSelectedRow(), 6).toString());
+				ufText.setText(clientesTable.getValueAt(clientesTable.getSelectedRow(), 7).toString());
+				cidadeText.setText(clientesTable.getValueAt(clientesTable.getSelectedRow(), 8).toString());
+				bairroText.setText(clientesTable.getValueAt(clientesTable.getSelectedRow(), 9).toString());
+				ruaText.setText(clientesTable.getValueAt(clientesTable.getSelectedRow(), 10).toString());
+				nText.setText(clientesTable.getValueAt(clientesTable.getSelectedRow(), 11).toString());
+				
+				ativarBotao(atualizarButton);
+			}
+		});
+		clientesSP = new JScrollPane(clientesTable);
+		clientesSP.setBounds(0, 206, 633, 154);
+		
+		contentPane.remove(fundoLabel);
+		contentPane.add(clientesSP);
+		contentPane.add(fundoLabel);
+		contentPane.updateUI();	
 	}
 }
