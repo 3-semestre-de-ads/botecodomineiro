@@ -507,6 +507,5 @@ public class TelaCadastroFornecedor extends JFrame {
 		contentPane.add(fornecedorSP);
 		contentPane.add(fundoLabel);
 		contentPane.updateUI();
-		
 	}
 }
