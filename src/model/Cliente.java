@@ -9,15 +9,32 @@ public class Cliente {
 	private String cidade;
 	private String numero;
 	private String uf;
-	private String fixo;
-	private String movel;
-	private String telSecundario;
-	private String email;
 	private String cpf;
+	private String fixo;
+	private String celular;
+	private String email;
 	
+	//Construtor de cliente para usar na inserção no banco de dados
+	public Cliente(String nome, String cep, String bairro, String rua, String cidade, String numero, String uf,
+			String cpf, String fixo, String celular, String email) {
+		super();
+		this.nome = nome;
+		this.cep = cep;
+		this.bairro = bairro;
+		this.rua = rua;
+		this.cidade = cidade;
+		this.numero = numero;
+		this.uf = uf;
+		this.cpf = cpf;
+		this.fixo = fixo;
+		this.celular = celular;
+		this.email = email;
+	}
+	
+	//Construtor de cliente para usar na atualização no banco de dados	
 	public Cliente(int id, String nome, String cep, String bairro, String rua, String cidade, String numero, String uf,
-			String fixo, String movel, String telSecundario, String email, String cpf) {
-	
+			String fixo, String celular, String email) {
+		super();
 		this.id = id;
 		this.nome = nome;
 		this.cep = cep;
@@ -27,12 +44,9 @@ public class Cliente {
 		this.numero = numero;
 		this.uf = uf;
 		this.fixo = fixo;
-		this.movel = movel;
-		this.telSecundario = telSecundario;
+		this.celular = celular;
 		this.email = email;
-		this.cpf = cpf;
 	}
-	
 	public int getId() {
 		return id;
 	}
@@ -87,17 +101,11 @@ public class Cliente {
 	public void setFixo(String fixo) {
 		this.fixo = fixo;
 	}
-	public String getMovel() {
-		return movel;
+	public String getCelular() {
+		return celular;
 	}
-	public void setMovel(String movel) {
-		this.movel = movel;
-	}
-	public String getTelSecundario() {
-		return telSecundario;
-	}
-	public void setTelSecundario(String telSecundario) {
-		this.telSecundario = telSecundario;
+	public void setCelular(String celular) {
+		this.celular = celular;
 	}
 	public String getEmail() {
 		return email;
