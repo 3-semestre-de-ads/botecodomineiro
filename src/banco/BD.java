@@ -8,10 +8,16 @@ import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
+/**
+ * @author MATIAS
+ *
+ *	Nesta classe fazemos todo o tratamento de conexo com o banco de dados.
+ */
+
 public abstract class BD {
-	public static Connection con = null; // conecta ao banco
-	public static PreparedStatement st = null; // Executa SQL
-	public static ResultSet rs = null; // recebe resultado SQL
+	public static Connection con = null; 
+	public static PreparedStatement st = null; 
+	public static ResultSet rs = null; 
 	public static boolean conexao = false;
 
 	// CONEXÃO PARA O SERVIDOR AWS
@@ -27,9 +33,11 @@ public abstract class BD {
 	//private static final String SENHA = "colete47";
 	
 	/**
-	 * Realiza a conexão com o banco de dados
+	 * Realiza a conexão com o banco de dados, caso esta conexo obtenha sucesso, a variavel conexao recevbe true
 	 * 
 	 * @return retorna true caso obtenha sucesso na conexão
+	 * @exception Caso o driver nao seja encotrado, e apresentando uma mensagem no console
+	 * @exception Casso ocorra algum erro na conexao, e imprimido no console
 	 */
 	public static boolean getConnection() {
 
@@ -51,7 +59,9 @@ public abstract class BD {
 	}
 
 	/**
-	 * Encerra a conexão ao banco de dados
+	 * Encerra a conexão ao banco de dados, fechando o ResultSet, PreparedStatement e o Connection
+	 * 
+	 * @exception Caso ocorra alguma falha na finalizacao da conexao, apresenta mensagem no console
 	 */
 	public static void close() {
 		conexao = false;
@@ -78,24 +88,22 @@ public abstract class BD {
 	}
 
 	/**
-	 * Verifica se a conexão com o banco está estabelecida caso não esteja tenta
-	 * conectar
+	 * Neste metodo fazemos a verificacao da variavel conexao, 
+	 * caso seja false o seu valor, tentamos fazer a conexao com o banco de dados e setamos o valor true para o retorno, 
+	 * caso seja true pulamos direto para o retorno, que ja inicia com um valor true.
 	 * 
-	 * @return retorna true caso a conexão esteja ou seja estabelecida false para
-	 *         falha na conexão
+	 * @return retorna true caso a conexão esteja ou seja estabelecida ou false para falha na conexão
 	 */
 	public static boolean conexao() {
-		boolean retorno = false;
-		if (BD.conexao == false) {// Se o banco não estiver conectado tente conectar
-			try {// Tente conectar
+		boolean retorno = true;
+		if (BD.conexao == false) {
+			try {
 				BD.getConnection();
 				retorno = true;
 			} catch (Exception erro) {
 				JOptionPane.showMessageDialog(null, erro.toString(), "Falha na conexão com o banco", 0);
 				retorno = false;
 			}
-		} else {
-			retorno = true;
 		}
 		return retorno;
 	}

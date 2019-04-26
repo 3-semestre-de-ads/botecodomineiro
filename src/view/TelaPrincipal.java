@@ -19,7 +19,7 @@ import javax.swing.ImageIcon;
  * 
  * @author MATIAS
  *
- * Nesta tela, temos o acesso a todas outras telas a partir das opções no menu superior, sendo tudo controlado pela clase Controle
+ * Nesta tela, temos o acesso a todas outras telas a partir das opções no menu superior, sendo tudo controlado pela clase Controle do pacote controller
  *
  */
 public class TelaPrincipal extends JFrame {
@@ -158,7 +158,6 @@ public class TelaPrincipal extends JFrame {
 			}
 		});
 		administracaoMenu.add(fornecedoresMenuItem);
-		
 		
 	}
 }

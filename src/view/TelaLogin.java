@@ -38,11 +38,6 @@ import java.awt.event.KeyEvent;
 
 public class TelaLogin extends JFrame {
 
-	/**
-	 * 
-	 */
-	
-	
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JLabel fundoLabel;
@@ -56,9 +51,9 @@ public class TelaLogin extends JFrame {
 	LoginDAO metodo = new LoginDAO();
 
 	/**
-	 * Launch the application.
+	 * Construtor da classe, definindo o Look and Feel que ser usado e executando a classe 
+	 * @param args
 	 */
-
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -173,6 +168,6 @@ public class TelaLogin extends JFrame {
 		fundoLabel.setBounds(0, -44, 354, 441);
 		contentPane.add(fundoLabel);
 
-		BD.conexao();//Estabelece conexão com o banco
+		BD.conexao();
 	}
 }

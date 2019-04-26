@@ -12,6 +12,14 @@ import model.Sessao;
 
 public class LoginDAO {
 
+	/**
+	 * Neste metodo logar, e feito uma consulta no banco com os dados fornecidos pelo usuario para verificar se o login e senha esto corretos, 
+	 * para isso a senha passa por um processo de criptografia antes que seja feita a consulta
+	 * 
+	 * @param login fornecido pelo usuario no campo login da TelaLogin
+	 * @param senha fornecido pelo usuario no campo senha da TelaLogin
+	 * @return retorna true caso o usuario e senha estejam corretos ou false caso estejam incorretos
+	 */
 	public boolean logar(String login, String senha) {
 		boolean retorno = false;
 		MessageDigest md = null;
