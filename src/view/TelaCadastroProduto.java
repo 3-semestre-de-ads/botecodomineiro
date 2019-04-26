@@ -296,8 +296,10 @@ public class TelaCadastroProduto extends JFrame {
 				"       p.descricao,\r\n" + 
 				"       p.preco,\r\n" + 
 				"       p.tipo\r\n" + 
-				"FROM produto p INNER JOIN fornecedor f on p.idfornecedor = f.idfornecedor\r\n" + 
-				"order by idproduto;";
+				"FROM produto p \r\n " +
+				"INNER JOIN fornecedor f \r\n" + 
+				"ON p.idfornecedor = f.idfornecedor\r\n" + 
+				"ORDER BY idproduto;";
 		
 		if(produtosTable != null) {
 			produtosTable.setVisible(false);

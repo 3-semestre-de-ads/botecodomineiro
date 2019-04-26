@@ -26,12 +26,15 @@ import javax.swing.border.EmptyBorder;
 import model.CoresFontes;
 import model.Fornecedor;
 import model.FornecedorDAO;
+import model.WebServiceCep;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 /**
  * 
  * @author MATIAS E HEITOR
  *
- * Nesta tela feita a visualização, cadastro e alteração dos fornecedores
+ * Nesta tela feita a visualização, cadastro e alteração dos fornecedores no sistema
  *
  */
 public class TelaCadastroFornecedor extends JFrame {
@@ -64,6 +67,20 @@ public class TelaCadastroFornecedor extends JFrame {
 	private JTextField celularText;
 	private JTable fornecedorTable;
 	private JScrollPane fornecedorSP;
+	private JLabel nomeLabel;
+	private JLabel cepLabel;
+	private JLabel ruaLabel;
+	private JLabel telLabel;
+	private JLabel emailLabel;
+	private JLabel ufLabel;
+	private JLabel paisLabel;
+	private JLabel biarroLabel;
+	private JLabel celularLabel;
+	private JLabel numLabel;
+	private JLabel cidadeLabel;
+	private JLabel razaoLabel;
+	private JLabel inscLabel;
+	private JLabel cnpjLabel;
 	
 	FornecedorDAO metodos = new FornecedorDAO();
 
@@ -107,7 +124,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		celularText.setBounds(335, 145, 135, 25);
 		contentPane.add(celularText);
 		
-		JLabel celularLabel = new JLabel("CELULAR:");
+		celularLabel = new JLabel("CELULAR:");
 		celularLabel.setVerticalAlignment(SwingConstants.TOP);
 		celularLabel.setForeground(Color.WHITE);
 		celularLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
@@ -132,7 +149,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		razaoText.setBounds(412, 40, 211, 25);
 		contentPane.add(razaoText);
 		
-		JLabel razaoLabel = new JLabel("<html>Raz\u00E3o<br/>Social:<html/>");
+		razaoLabel = new JLabel("<html>Raz\u00E3o<br/>Social:<html/>");
 		razaoLabel.setVerticalAlignment(SwingConstants.TOP);
 		razaoLabel.setForeground(Color.WHITE);
 		razaoLabel.setFont(CoresFontes.fonteStencil);
@@ -144,7 +161,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		nomeText.setBounds(100, 40, 233, 25);
 		contentPane.add(nomeText);
 		
-		JLabel nomeLabel = new JLabel("<html>Nome<br/> fantasia:</html>");
+		nomeLabel = new JLabel("<html>Nome<br/> fantasia:</html>");
 		nomeLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		nomeLabel.setVerticalAlignment(SwingConstants.TOP);
 		nomeLabel.setForeground(Color.WHITE);
@@ -157,7 +174,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		cnpjText.setBounds(150, 5, 183, 25);
 		contentPane.add(cnpjText);
 		
-		JLabel cnpjLabel = new JLabel("CNPJ:");
+		cnpjLabel = new JLabel("CNPJ:");
 		cnpjLabel.setVerticalAlignment(SwingConstants.TOP);
 		cnpjLabel.setForeground(Color.WHITE);
 		cnpjLabel.setFont(CoresFontes.fonteStencil);
@@ -169,14 +186,14 @@ public class TelaCadastroFornecedor extends JFrame {
 		inscText.setBounds(446, 5, 177, 25);
 		contentPane.add(inscText);
 		
-		JLabel inscLabel = new JLabel("Insc. estad:");
+		inscLabel = new JLabel("Insc. estad:");
 		inscLabel.setVerticalAlignment(SwingConstants.TOP);
 		inscLabel.setForeground(Color.WHITE);
 		inscLabel.setFont(CoresFontes.fonteStencil);
 		inscLabel.setBounds(343, 10, 104, 14);
 		contentPane.add(inscLabel);
 		
-		JLabel cepLabel = new JLabel("CEP:");
+		cepLabel = new JLabel("CEP:");
 		cepLabel.setVerticalAlignment(SwingConstants.TOP);
 		cepLabel.setForeground(Color.WHITE);
 		cepLabel.setFont(CoresFontes.fonteStencil);
@@ -184,6 +201,14 @@ public class TelaCadastroFornecedor extends JFrame {
 		contentPane.add(cepLabel);
 		
 		cepText = new JTextField();
+		cepText.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent event) {
+				if(event.getKeyCode() == KeyEvent.VK_ENTER) {
+					buscaCep(cepText.getText());
+				} 
+			}
+		});
 		cepText.setColumns(10);
 		cepText.setBounds(54, 75, 100, 25);
 		contentPane.add(cepText);
@@ -193,7 +218,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		ufText.setBounds(200, 75, 54, 25);
 		contentPane.add(ufText);
 		
-		JLabel ufLabel = new JLabel("UF:");
+		ufLabel = new JLabel("UF:");
 		ufLabel.setVerticalAlignment(SwingConstants.TOP);
 		ufLabel.setForeground(Color.WHITE);
 		ufLabel.setFont(CoresFontes.fonteStencil);
@@ -205,14 +230,14 @@ public class TelaCadastroFornecedor extends JFrame {
 		paisText.setBounds(315, 75, 84, 25);
 		contentPane.add(paisText);
 		
-		JLabel paisLabel = new JLabel("PA\u00CDS:");
+		paisLabel = new JLabel("PA\u00CDS:");
 		paisLabel.setVerticalAlignment(SwingConstants.TOP);
 		paisLabel.setForeground(Color.WHITE);
 		paisLabel.setFont(CoresFontes.fonteStencil);
 		paisLabel.setBounds(265, 80, 54, 14);
 		contentPane.add(paisLabel);
 		
-		JLabel cidadeLabel = new JLabel("CIDADE:");
+		cidadeLabel = new JLabel("CIDADE:");
 		cidadeLabel.setVerticalAlignment(SwingConstants.TOP);
 		cidadeLabel.setForeground(Color.WHITE);
 		cidadeLabel.setFont(CoresFontes.fonteStencil);
@@ -224,7 +249,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		cidadeText.setBounds(481, 75, 142, 25);
 		contentPane.add(cidadeText);
 		
-		JLabel ruaLabel = new JLabel("RUA:");
+		ruaLabel = new JLabel("RUA:");
 		ruaLabel.setVerticalAlignment(SwingConstants.TOP);
 		ruaLabel.setForeground(Color.WHITE);
 		ruaLabel.setFont(CoresFontes.fonteStencil);
@@ -236,7 +261,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		ruaText.setBounds(54, 110, 200, 25);
 		contentPane.add(ruaText);
 		
-		JLabel biarroLabel = new JLabel("BAIRRO:");
+		biarroLabel = new JLabel("BAIRRO:");
 		biarroLabel.setVerticalAlignment(SwingConstants.TOP);
 		biarroLabel.setForeground(Color.WHITE);
 		biarroLabel.setFont(CoresFontes.fonteStencil);
@@ -248,7 +273,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		bairroText.setBounds(335, 110, 135, 25);
 		contentPane.add(bairroText);
 		
-		JLabel numLabel = new JLabel("Num\u00BA:");
+		numLabel = new JLabel("Num\u00BA:");
 		numLabel.setVerticalAlignment(SwingConstants.TOP);
 		numLabel.setForeground(Color.WHITE);
 		numLabel.setFont(CoresFontes.fonteStencil);
@@ -260,7 +285,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		numText.setBounds(538, 110, 85, 25);
 		contentPane.add(numText);
 		
-		JLabel telLabel = new JLabel("TELEFONE:");
+		telLabel = new JLabel("TELEFONE:");
 		telLabel.setVerticalAlignment(SwingConstants.TOP);
 		telLabel.setForeground(Color.WHITE);
 		telLabel.setFont(CoresFontes.fonteStencil);
@@ -272,7 +297,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		telText.setBounds(100, 145, 135, 25);
 		contentPane.add(telText);
 		
-		JLabel emailLabel = new JLabel("E-MAIL:");
+		emailLabel = new JLabel("E-MAIL:");
 		emailLabel.setVerticalAlignment(SwingConstants.TOP);
 		emailLabel.setForeground(Color.WHITE);
 		emailLabel.setFont(CoresFontes.fonteStencil);
@@ -358,6 +383,26 @@ public class TelaCadastroFornecedor extends JFrame {
 		contentPane.add(fundoLabel);
 		
 		listarTabela(); //lista a tabela de fornecedor
+	}
+	
+	public void buscaCep(String cep) {
+
+		// Faz a busca para o cep 58043-280
+		WebServiceCep WSC = WebServiceCep.searchCep(cep);
+		// A ferramenta de busca ignora qualquer caracter que n?o seja n?mero.
+
+		// caso a busca ocorra bem, imprime os resultados.
+		if (WSC.wasSuccessful()) {
+			ruaText.setText(WSC.getLogradouroFull());
+			cidadeText.setText(WSC.getCidade());
+			bairroText.setText(WSC.getBairro());
+			ufText.setText(WSC.getUf());
+			// caso haja problemas imprime as exce??es.
+		} else {
+			JOptionPane.showMessageDialog(null, "Erro numero: " + WSC.getResulCode());
+
+			JOptionPane.showMessageDialog(null, "Descrição do erro: " + WSC.getResultText());
+		}
 	}
 	
 	public void limpar() {

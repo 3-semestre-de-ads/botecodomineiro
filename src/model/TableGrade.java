@@ -110,7 +110,7 @@ public class TableGrade {
 			};
 			table.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 			table.setSelectionForeground(Color.WHITE);
-			table.setSelectionBackground(new Color(42, 42, 180));
+			table.setSelectionBackground(CoresFontes.corBotão);
 			table.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			table.setFont(new Font("Arial", Font.ITALIC, 13));
 			table.setBackground(Color.WHITE);

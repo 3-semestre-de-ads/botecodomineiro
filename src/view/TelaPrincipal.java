@@ -19,7 +19,7 @@ import javax.swing.ImageIcon;
  * 
  * @author MATIAS
  *
- * Nesta tela, temos o acesso a todas outras telas a partir das opções no menu superior
+ * Nesta tela, temos o acesso a todas outras telas a partir das opções no menu superior, sendo tudo controlado pela clase Controle
  *
  */
 public class TelaPrincipal extends JFrame {
@@ -108,12 +108,17 @@ public class TelaPrincipal extends JFrame {
 		cadastroMenuItem = new JMenuItem("Cadastro");
 		cadastroMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				controller.Controle.abrirTela("TelaCadastroProduto");//Abre a tela login
+				controller.Controle.abrirTela("TelaCadastroProduto");
 			}
 		});
 		produtosMenu.add(cadastroMenuItem);
 		
 		estoqueMenuItem = new JMenuItem("Estoque");
+		estoqueMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				controller.Controle.abrirTela("TelaEstoque");
+			}
+		});
 		produtosMenu.add(estoqueMenuItem);
 		
 		pedidosMenu = new JMenu("Pedidos");

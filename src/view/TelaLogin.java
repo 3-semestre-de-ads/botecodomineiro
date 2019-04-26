@@ -32,7 +32,7 @@ import java.awt.event.KeyEvent;
  * @author MATIAS
  *
  *         Nesta tela é feito o login no sistema, caso o login for bem sucedido
- *         e aberta a TelaPrincipal
+ *         e aberta a TelaPrincipal, caso não seja o usuario recebe mensagem de login incorreto
  *
  */
 
