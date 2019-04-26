@@ -7,9 +7,13 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import controller.Controle;
+import model.CoresFontes;
 import model.EstoqueDAO;
+import model.ProdutoDAO;
+import model.TextPrompt;
 
 import javax.swing.JLabel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -18,9 +22,25 @@ import java.awt.Font;
 import java.util.Vector;
 import java.awt.Color;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.JTextArea;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.swing.border.MatteBorder;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.JComboBox;
+import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class TelaEstoque extends JFrame {
 
@@ -46,8 +66,17 @@ public class TelaEstoque extends JFrame {
 	private JLabel precoLabel;
 	private JLabel fornecedorLabel;
 	private JLabel tipoLabel;
+	private JTextField pesquisarText;
+	private TableRowSorter<TableModel> sorter;
 	
 	EstoqueDAO metodos = new EstoqueDAO();
+	private JLabel pesquisaFornLabel;
+	private JComboBox<String> pesquisaFornecedor;
+	private JComboBox<String> pesquisaUnidade;
+	private JLabel pesquisaUniLabel;
+	private JComboBox<String> pesquisaTipo;
+	private JLabel tipoUniLabel;
+
 
 	/**
 	 * Launch the application.
@@ -82,6 +111,88 @@ public class TelaEstoque extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
+		
+		pesquisarText = new JTextField();
+		pesquisarText.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				sorter.setRowFilter(RowFilter.regexFilter("(?i)" + pesquisarText.getText()));
+			}
+		});
+		TextPrompt tp = new TextPrompt("PESQUISAR",pesquisarText);
+		tp.setForeground(Color.WHITE);
+		tp.setFont(CoresFontes.fonteStencil);
+		tp.changeAlpha(0.5f);
+		
+		pesquisaUniLabel = new JLabel("Unidade");
+		pesquisaUniLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		pesquisaUniLabel.setForeground(Color.WHITE);
+		pesquisaUniLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
+		pesquisaUniLabel.setBounds(508, 215, 133, 14);
+		contentPane.add(pesquisaUniLabel);
+		
+		pesquisaUnidade = new JComboBox<String>();
+		pesquisaUnidade.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(pesquisaUnidade.getSelectedIndex() == 0) {
+					sorter.setRowFilter(RowFilter.regexFilter(""));
+				} else {
+					sorter.setRowFilter(RowFilter.regexFilter("(?i)" + pesquisaUnidade.getSelectedItem().toString(), 3));
+				}
+			}
+		});
+		pesquisaUnidade.setModel(new DefaultComboBoxModel<String>(new String[] {"Selecione", "Litro", "Saco", "Prato P", "Prato M", "Prato G", "Por\u00E7\u00E3o P", "Por\u00E7\u00E3o M", "Por\u00E7\u00E3o G"}));
+		pesquisaUnidade.setBounds(508, 241, 133, 25);
+		contentPane.add(pesquisaUnidade);
+		
+		pesquisaTipo = new JComboBox<String>();
+		pesquisaTipo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(pesquisaTipo.getSelectedIndex() == 0) {
+					sorter.setRowFilter(RowFilter.regexFilter(""));
+				} else {
+					sorter.setRowFilter(RowFilter.regexFilter("(?i)" + pesquisaTipo.getSelectedItem().toString(), 6));
+				}
+			}
+		});
+		pesquisaTipo.setModel(new DefaultComboBoxModel<String>(new String[] {"Selecione", "Alimentos", "Bebidas Alcolicas", "Bebidas N\u00E3o Alcolicas"}));
+		pesquisaTipo.setBounds(651, 241, 133, 25);
+		contentPane.add(pesquisaTipo);
+		
+		tipoUniLabel = new JLabel("TIPO");
+		tipoUniLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		tipoUniLabel.setForeground(Color.WHITE);
+		tipoUniLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
+		tipoUniLabel.setBounds(651, 215, 133, 14);
+		contentPane.add(tipoUniLabel);
+		
+		pesquisaFornLabel = new JLabel("Fornecedor");
+		pesquisaFornLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		pesquisaFornLabel.setFont(CoresFontes.fonteStencil);
+		pesquisaFornLabel.setForeground(Color.WHITE);
+		pesquisaFornLabel.setBounds(365, 215, 133, 14);
+		contentPane.add(pesquisaFornLabel);
+		
+		pesquisaFornecedor = new JComboBox<String>();
+		pesquisaFornecedor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(pesquisaFornecedor.getSelectedIndex() == 0) {
+					sorter.setRowFilter(RowFilter.regexFilter(""));
+				} else {
+					sorter.setRowFilter(RowFilter.regexFilter("(?i)" + pesquisaFornecedor.getSelectedItem().toString(), 1));
+				}
+			}
+		});
+		pesquisaFornecedor.setModel(new DefaultComboBoxModel<String>(new String[] {"Selecione"}));
+		pesquisaFornecedor.setBounds(365, 241, 133, 25);
+		contentPane.add(pesquisaFornecedor);
+		
+		pesquisarText.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 0)));
+		pesquisarText.setBounds(10, 240, 229, 25);
+		pesquisarText.setBackground(CoresFontes.fundoTransparente);
+		pesquisarText.setFont(CoresFontes.fonteStencil);
+		pesquisarText.setForeground(Color.WHITE);
+		contentPane.add(pesquisarText);
 		
 		idLabel = new JLabel("ID:");
 		idLabel.setForeground(Color.WHITE);
@@ -172,6 +283,7 @@ public class TelaEstoque extends JFrame {
 		contentPane.add(fundo);
 	
 		listarTabela();
+		preencherComboFornecedor();
 	}
 	
 	public void listarTabela() {
@@ -184,14 +296,16 @@ public class TelaEstoque extends JFrame {
 		cabecalhoPersonalizado.addElement("Descricao");
 		cabecalhoPersonalizado.addElement("Preco");
 		cabecalhoPersonalizado.addElement("Tipo");
+		cabecalhoPersonalizado.addElement("Quantiadade");
 
 		String sql = "SELECT p.idproduto,\r\n" + 
-				"	   f.nomefantasia fornecedor,\r\n" + 
+				"	  	f.nomefantasia fornecedor,\r\n" + 
 				"       p.nome,\r\n" + 
 				"       p.unidade,\r\n" + 
 				"       p.descricao,\r\n" + 
 				"       p.preco,\r\n" + 
-				"       p.tipo\r\n" + 
+				"       p.tipo,\r\n" +
+				"       p.quantidade\r\n  " + 
 				"FROM produto p \r\n " +
 				"INNER JOIN fornecedor f \r\n" + 
 				"ON p.idfornecedor = f.idfornecedor\r\n" + 
@@ -205,6 +319,18 @@ public class TelaEstoque extends JFrame {
 		}
 		
 		produtosTable = metodos.criarTabela(sql, cabecalhoPersonalizado);
+		produtosTable.addMouseListener(new MouseAdapter() {
+			public void mouseReleased(MouseEvent a) {
+				idText.setText(produtosTable.getValueAt(produtosTable.getSelectedRow(), 0).toString());
+				fornecedorText.setText(produtosTable.getValueAt(produtosTable.getSelectedRow(), 1).toString());
+				produtoText.setText(produtosTable.getValueAt(produtosTable.getSelectedRow(), 2).toString());
+				unidadeText.setText(produtosTable.getValueAt(produtosTable.getSelectedRow(), 3).toString());
+				descText.setText(produtosTable.getValueAt(produtosTable.getSelectedRow(), 4).toString());
+				precoText.setText(produtosTable.getValueAt(produtosTable.getSelectedRow(), 5).toString());
+				tipoText.setText(produtosTable.getValueAt(produtosTable.getSelectedRow(), 6).toString());
+				
+			}
+		});
 		
 		produtosSP = new JScrollPane(produtosTable);
 		produtosSP.setBounds(0, 276, 1264, 405);
@@ -214,5 +340,18 @@ public class TelaEstoque extends JFrame {
 		contentPane.add(fundo);
 		contentPane.updateUI();
 		
+		sorter = new TableRowSorter<TableModel>(produtosTable.getModel());
+		produtosTable.setRowSorter(sorter);
+	}
+
+	public void preencherComboFornecedor() {
+		ResultSet consultarFornRS = metodos.consultarForn();
+		try {
+			while(consultarFornRS.next()) {
+				pesquisaFornecedor.addItem(consultarFornRS.getString(1));
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 	}
 }

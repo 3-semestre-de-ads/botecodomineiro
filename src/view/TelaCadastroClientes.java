@@ -453,5 +453,6 @@ public class TelaCadastroClientes extends JFrame {
 		contentPane.add(clientesSP);
 		contentPane.add(fundoLabel);
 		contentPane.updateUI();	
+	
 	}
 }
