@@ -77,6 +77,7 @@ public class TelaCadastroClientes extends JFrame {
 	private JLabel telCelularLabel;
 	
 	ClienteDAO metodos = new ClienteDAO();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -97,9 +98,6 @@ public class TelaCadastroClientes extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaCadastroClientes() {
-		
-		listarTabela(); //lista a tabela de clientes
-		
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -302,7 +300,7 @@ public class TelaCadastroClientes extends JFrame {
 		fundoLabel.setBounds(0, 0, 633, 360);
 		contentPane.add(fundoLabel);
 		
-		JButton atualizarButton = new JButton("Atualizar");
+		atualizarButton = new JButton("Atualizar");
 		atualizarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (nomeText.getText().equals("") || cepText.getText().equals("") || bairroText.getText().equals("") ||
@@ -328,6 +326,8 @@ public class TelaCadastroClientes extends JFrame {
 		atualizarButton.setBackground(new Color(50, 0, 0));
 		atualizarButton.setBounds(350, 170, 130, 28);
 		contentPane.add(atualizarButton);
+		
+		listarTabela(); //lista a tabela de clientes
 		
 	}
 
