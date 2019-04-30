@@ -9,7 +9,6 @@ import javax.swing.border.EmptyBorder;
 import controller.Controle;
 import model.CoresFontes;
 import model.EstoqueDAO;
-import model.ProdutoDAO;
 import model.TextPrompt;
 
 import javax.swing.JLabel;
@@ -42,6 +41,13 @@ import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * 
+ * @author MATIAS
+ *
+ * Nesta tela e feito a visualizacao e controle de estoque, verificando produtos cadastrados e suas quantidades
+ */
+
 public class TelaEstoque extends JFrame {
 
 	/**
@@ -68,14 +74,14 @@ public class TelaEstoque extends JFrame {
 	private JLabel tipoLabel;
 	private JTextField pesquisarText;
 	private TableRowSorter<TableModel> sorter;
-	
-	EstoqueDAO metodos = new EstoqueDAO();
 	private JLabel pesquisaFornLabel;
 	private JComboBox<String> pesquisaFornecedor;
 	private JComboBox<String> pesquisaUnidade;
 	private JLabel pesquisaUniLabel;
 	private JComboBox<String> pesquisaTipo;
 	private JLabel tipoUniLabel;
+	
+	EstoqueDAO metodos = new EstoqueDAO();
 
 
 	/**
@@ -116,7 +122,7 @@ public class TelaEstoque extends JFrame {
 		pesquisarText.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
-				sorter.setRowFilter(RowFilter.regexFilter("(?i)" + pesquisarText.getText()));
+				filtroTabela(pesquisarText.getText(), 0);
 			}
 		});
 		TextPrompt tp = new TextPrompt("PESQUISAR",pesquisarText);
@@ -134,10 +140,10 @@ public class TelaEstoque extends JFrame {
 		pesquisaUnidade = new JComboBox<String>();
 		pesquisaUnidade.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(pesquisaUnidade.getSelectedIndex() == 0) {
-					sorter.setRowFilter(RowFilter.regexFilter(""));
+				if(pesquisaUnidade.getSelectedIndex() != 0) {
+					filtroTabela(pesquisaUnidade.getSelectedItem().toString(), 3);
 				} else {
-					sorter.setRowFilter(RowFilter.regexFilter("(?i)" + pesquisaUnidade.getSelectedItem().toString(), 3));
+					filtroTabela("", 0);
 				}
 			}
 		});
@@ -148,10 +154,10 @@ public class TelaEstoque extends JFrame {
 		pesquisaTipo = new JComboBox<String>();
 		pesquisaTipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(pesquisaTipo.getSelectedIndex() == 0) {
-					sorter.setRowFilter(RowFilter.regexFilter(""));
+				if(pesquisaTipo.getSelectedIndex() != 0) {
+					filtroTabela(pesquisaTipo.getSelectedItem().toString(), 6);
 				} else {
-					sorter.setRowFilter(RowFilter.regexFilter("(?i)" + pesquisaTipo.getSelectedItem().toString(), 6));
+					filtroTabela("", 0);
 				}
 			}
 		});
@@ -176,10 +182,10 @@ public class TelaEstoque extends JFrame {
 		pesquisaFornecedor = new JComboBox<String>();
 		pesquisaFornecedor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(pesquisaFornecedor.getSelectedIndex() == 0) {
-					sorter.setRowFilter(RowFilter.regexFilter(""));
+				if(pesquisaFornecedor.getSelectedIndex() != 0) {
+					filtroTabela(pesquisaFornecedor.getSelectedItem().toString(), 1);
 				} else {
-					sorter.setRowFilter(RowFilter.regexFilter("(?i)" + pesquisaFornecedor.getSelectedItem().toString(), 1));
+					filtroTabela("", 0);
 				}
 			}
 		});
@@ -297,7 +303,9 @@ public class TelaEstoque extends JFrame {
 		cabecalhoPersonalizado.addElement("Preco");
 		cabecalhoPersonalizado.addElement("Tipo");
 		cabecalhoPersonalizado.addElement("Quantiadade");
-
+		cabecalhoPersonalizado.addElement("Minimo");
+		cabecalhoPersonalizado.addElement("Maximo");
+		
 		String sql = "SELECT p.idproduto,\r\n" + 
 				"	  	f.nomefantasia fornecedor,\r\n" + 
 				"       p.nome,\r\n" + 
@@ -305,7 +313,9 @@ public class TelaEstoque extends JFrame {
 				"       p.descricao,\r\n" + 
 				"       p.preco,\r\n" + 
 				"       p.tipo,\r\n" +
-				"       p.quantidade\r\n  " + 
+				"       p.quantidade,\r\n  " + 
+				"       p.qtdmin,\r\n  " + 
+				"       p.qtdmax\r\n  " + 
 				"FROM produto p \r\n " +
 				"INNER JOIN fornecedor f \r\n" + 
 				"ON p.idfornecedor = f.idfornecedor\r\n" + 
@@ -354,4 +364,15 @@ public class TelaEstoque extends JFrame {
 			e1.printStackTrace();
 		}
 	}
+	
+	public void filtroTabela(String filtro, int coluna) {
+		if(coluna == 0) {
+			sorter.setRowFilter(RowFilter.regexFilter(filtro));
+
+		} else {
+			sorter.setRowFilter(RowFilter.regexFilter(filtro, coluna));
+
+		}
+	}
+
 }
