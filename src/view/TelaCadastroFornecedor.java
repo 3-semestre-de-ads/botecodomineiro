@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -22,13 +24,13 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
 
 import model.CoresFontes;
 import model.Fornecedor;
 import model.FornecedorDAO;
 import model.WebServiceCep;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import javax.swing.JFormattedTextField;
 
 /**
  * 
@@ -50,21 +52,21 @@ public class TelaCadastroFornecedor extends JFrame {
 	private JLabel fundoLabel;
 	private JTextField razaoText;
 	private JTextField nomeText;
-	private JTextField cnpjText;
+	private JFormattedTextField cnpjText;
 	private JTextField inscText;
-	private JTextField cepText;
+	private JFormattedTextField cepText;
 	private JTextField ufText;
 	private JTextField paisText;
 	private JTextField cidadeText;
 	private JTextField ruaText;
 	private JTextField bairroText;
 	private JTextField numText;
-	private JTextField telText;
+	private JFormattedTextField telText;
 	private JTextField emailText;
 	private JButton salvarButton;
 	private JButton atualizarButton;
 	private JButton limparButton;
-	private JTextField celularText;
+	private JFormattedTextField celularText;
 	private JTable fornecedorTable;
 	private JScrollPane fornecedorSP;
 	private JLabel nomeLabel;
@@ -119,7 +121,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		celularText = new JTextField();
+		celularText = new JFormattedTextField(model.Mascara.Mascara("(##) #####-####"));
 		celularText.setColumns(10);
 		celularText.setBounds(335, 145, 135, 25);
 		contentPane.add(celularText);
@@ -169,7 +171,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		nomeLabel.setBounds(10, 35, 85, 35);
 		contentPane.add(nomeLabel);
 		
-		cnpjText = new JTextField();
+		cnpjText = new JFormattedTextField(model.Mascara.Mascara("##.###.###/####-##"));
 		cnpjText.setColumns(10);
 		cnpjText.setBounds(150, 5, 183, 25);
 		contentPane.add(cnpjText);
@@ -200,15 +202,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		cepLabel.setBounds(10, 80, 40, 14);
 		contentPane.add(cepLabel);
 		
-		cepText = new JTextField();
-		cepText.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent event) {
-				if(event.getKeyCode() == KeyEvent.VK_ENTER) {
-					buscaCep(cepText.getText());
-				} 
-			}
-		});
+		cepText = new JFormattedTextField(model.Mascara.Mascara("#####-###"));;
 		cepText.setColumns(10);
 		cepText.setBounds(54, 75, 100, 25);
 		contentPane.add(cepText);
@@ -292,7 +286,7 @@ public class TelaCadastroFornecedor extends JFrame {
 		telLabel.setBounds(10, 150, 89, 14);
 		contentPane.add(telLabel);
 		
-		telText = new JTextField();
+		telText = new JFormattedTextField(model.Mascara.Mascara("(##) ####-####"));
 		telText.setColumns(10);
 		telText.setBounds(100, 145, 135, 25);
 		contentPane.add(telText);

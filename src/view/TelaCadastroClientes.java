@@ -70,7 +70,7 @@ public class TelaCadastroClientes extends JFrame {
 	private JButton pesquisarCepButton;
 	private JLabel cepLabel;
 	private JLabel ufSP;
-	private JTextField cpfText;
+	private JFormattedTextField cpfText;
 	private JLabel cpfLabel;
 	private JFormattedTextField telFixoText;
 	private JFormattedTextField telCelularText;
@@ -290,7 +290,7 @@ public class TelaCadastroClientes extends JFrame {
 		cpfLabel.setBounds(386, 32, 74, 25);
 		contentPane.add(cpfLabel);
 
-		cpfText = new JTextField();
+		cpfText = new JFormattedTextField(model.Mascara.Mascara("###.###.###-##"));
 		cpfText.setColumns(10);
 		cpfText.setBounds(495, 32, 130, 25);
 		contentPane.add(cpfText);
