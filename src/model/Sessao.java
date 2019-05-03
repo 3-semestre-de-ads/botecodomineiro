@@ -1,11 +1,5 @@
 package model;
 
-/**
- * 
- * @author MATIAS
- *
- * Nesta classe mantemos dados do usuario logado por toda a execução do software
- */
 public class Sessao {
 	private static Sessao instance = null;
 	private String usuario;

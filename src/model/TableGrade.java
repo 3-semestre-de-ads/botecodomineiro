@@ -16,26 +16,11 @@ import javax.swing.table.JTableHeader;
 
 import banco.BD;
 
-/**
- * 
- * @author MATIAS
- * 
- * Nesta classe é usada para a criação das tabelas
- *
- */
-
 public class TableGrade {
 	private static Vector<String> cabecalho;
 	private static Vector<Vector<String>> linhas;
 	private static ResultSetMetaData rsmd;
 
-	/**
-	 * Neste metodo getTable, é feito a consulta no banco para coletar os dados que vão formar a tabela
-	 * @param sql este parametro é o SELECT a ser usado para a coleta dos dados
-	 * @param cabecalhoPersonalizado este parametro é um  Vector que contem o cabeçalho da tabela 
-	 * @return retorna a tabela montada com os dados
-	 */
-	
 	public static JTable getTable(String sql, Vector<String> cabecalhoPersonalizado) {
 		JTable table;
 		try {

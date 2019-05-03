@@ -1,13 +1,5 @@
 package model;
 
-/**
- * 
- * @author MATIAS e Heitor
- * 
- * Classe que representa o objeto pedido
- *
- */
-
 public class Pedido {
 	
 	private int idPedido;

@@ -9,23 +9,10 @@ import javax.swing.JTable;
 
 import banco.BD;
 
-/**
- * 
- * @author MATIAS e Heitor
- *
- *	Nesta classe contém os metodos para tratamento de fornecedor
- */
-
 public class FornecedorDAO {
 
 	private JTable tabela;
 
-	/**
-	 * Neste metodo cadastrar, é feita a inserção de fornecedor no banco de dados
-	 * @param fornecedor como parametro recebe um objeto da classe Fornecedor contendo as informações referente ao fornecedor a ser cadastrado
-	 * @return retorna TRUE caso a inserção no banco seja bem sucedida ou false caso ocorra uma falha
-	 */
-	
 	public boolean cadastrar(Fornecedor fornecedor) {
 		boolean retorno = false;
 		if (BD.conexao()) {// Verificando se a conexão está estabelecida
@@ -51,12 +38,6 @@ public class FornecedorDAO {
 		}
 		return retorno;
 	}
-	
-	/**
-	 * Neste metodo atualizar, é feita a atualização do fornecedor no banco de dados
-	 * @param fornecedor como parametro recebe um objeto da classe Formecedor contendo as informações referente ao fornecedor a ser atualizado
-	 * @return retorna TRUE caso a atualização no banco seja bem sucedida ou false caso ocorra uma falha
-	 */
 	
 	public boolean atualizar(Fornecedor fornecedor) {
 		boolean retorno = false;
@@ -93,13 +74,6 @@ public class FornecedorDAO {
 		}
 		return retorno;
 	}
-	
-	/**
-	 * Neste metodo criar tabela, é feito a chamada da classe TableGrade para a criação da tabela
-	 * @param sql este parametro tras a consulta a ser feita no banco para a criação da tabela
-	 * @param cabecalhoPersonalizado este parametro contém o Vector com o cabeçalho da tabela
-	 * @return
-	 */
 	
 	public JTable criarTabela(String sql, Vector<String> cabecalhoPersonalizado) {
 		tabela = null;

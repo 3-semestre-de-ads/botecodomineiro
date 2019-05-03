@@ -1,13 +1,5 @@
 package model;
 
-/**
- * 
- * @author MATIAS e Heitor
- * 
- * Classe que representa o objeto usuario
- *
- */
-
 public class Usuario {
 	
 	private int ID;
