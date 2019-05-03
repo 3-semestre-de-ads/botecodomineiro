@@ -75,9 +75,9 @@ public class TelaCadastroClientes extends JFrame {
 	private JFormattedTextField telFixoText;
 	private JFormattedTextField telCelularText;
 	private JLabel telCelularLabel;
-	
+
 	ClienteDAO metodos = new ClienteDAO();
-	
+
 	/**
 	 * Launch the application.
 	 */
@@ -115,71 +115,71 @@ public class TelaCadastroClientes extends JFrame {
 		idLabel = new JLabel("ID:");
 		idLabel.setFont(CoresFontes.fonteStencil);
 		idLabel.setForeground(Color.WHITE);
-		idLabel.setBounds(10, 4, 55, 25);
+		idLabel.setBounds(10, 5, 55, 25);
 		contentPane.add(idLabel);
 
 		nomeLabel = new JLabel("Nome Cliente:");
 		nomeLabel.setFont(CoresFontes.fonteStencil);
 		nomeLabel.setForeground(Color.WHITE);
-		nomeLabel.setBounds(10, 32, 123, 25);
+		nomeLabel.setBounds(10, 33, 123, 25);
 		contentPane.add(nomeLabel);
 
 		bairroLabel = new JLabel("Bairro:");
 		bairroLabel.setFont(CoresFontes.fonteStencil);
 		bairroLabel.setForeground(Color.WHITE);
-		bairroLabel.setBounds(10, 88, 74, 25);
+		bairroLabel.setBounds(10, 89, 74, 25);
 		contentPane.add(bairroLabel);
 
 		ruaLabel = new JLabel("Rua:");
 		ruaLabel.setFont(CoresFontes.fonteStencil);
 		ruaLabel.setForeground(Color.WHITE);
-		ruaLabel.setBounds(10, 116, 65, 25);
+		ruaLabel.setBounds(10, 117, 65, 25);
 		contentPane.add(ruaLabel);
 
 		nLabel = new JLabel("N\u00FAmero:");
 		nLabel.setFont(CoresFontes.fonteStencil);
 		nLabel.setForeground(Color.WHITE);
-		nLabel.setBounds(10, 172, 85, 25);
+		nLabel.setBounds(10, 173, 85, 25);
 		contentPane.add(nLabel);
 
 		idText = new JTextField();
 		idText.setEditable(false);
-		idText.setBounds(134, 4, 47, 25);
+		idText.setBounds(134, 4, 47, 26);
 		contentPane.add(idText);
 		idText.setColumns(10);
 
 		nomeText = new JTextField();
 		nomeText.setColumns(10);
-		nomeText.setBounds(134, 32, 240, 25);
+		nomeText.setBounds(134, 32, 240, 26);
 		contentPane.add(nomeText);
 
 		bairroText = new JTextField();
 		bairroText.setEditable(false);
 		bairroText.setColumns(10);
-		bairroText.setBounds(85, 88, 289, 25);
+		bairroText.setBounds(85, 88, 289, 26);
 		contentPane.add(bairroText);
 
 		ruaText = new JTextField();
 		ruaText.setEditable(false);
 		ruaText.setColumns(10);
-		ruaText.setBounds(85, 116, 230, 25);
+		ruaText.setBounds(85, 116, 230, 26);
 		contentPane.add(ruaText);
 
 		nText = new JTextField();
 		nText.setColumns(10);
-		nText.setBounds(85, 172, 47, 25);
+		nText.setBounds(85, 172, 47, 26);
 		contentPane.add(nText);
 
 		cidadeLabel = new JLabel("Cidade:");
 		cidadeLabel.setForeground(Color.WHITE);
 		cidadeLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
-		cidadeLabel.setBounds(10, 144, 65, 25);
+		cidadeLabel.setBounds(10, 145, 65, 25);
 		contentPane.add(cidadeLabel);
 
 		cidadeText = new JTextField();
 		cidadeText.setEditable(false);
 		cidadeText.setColumns(10);
-		cidadeText.setBounds(85, 144, 164, 25);
+		cidadeText.setBounds(85, 144, 164, 26);
 		contentPane.add(cidadeText);
 
 		telFixoLabel = new JLabel("TEL FIXO:");
@@ -191,7 +191,7 @@ public class TelaCadastroClientes extends JFrame {
 		telCelularLabel = new JLabel("TEL CELULAR:");
 		telCelularLabel.setForeground(Color.WHITE);
 		telCelularLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
-		telCelularLabel.setBounds(386, 88, 105, 25);
+		telCelularLabel.setBounds(386, 89, 105, 25);
 		contentPane.add(telCelularLabel);
 
 		telFixoText = new JFormattedTextField(model.Mascara.Mascara("(##) ####-####"));
@@ -201,18 +201,18 @@ public class TelaCadastroClientes extends JFrame {
 
 		telCelularText = new JFormattedTextField(model.Mascara.Mascara("(##) #####-####"));
 		telCelularText.setColumns(10);
-		telCelularText.setBounds(495, 87, 130, 26);
+		telCelularText.setBounds(495, 88, 130, 26);
 		contentPane.add(telCelularText);
 
 		emailLabel = new JLabel("E-MAIL:");
 		emailLabel.setForeground(Color.WHITE);
 		emailLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
-		emailLabel.setBounds(325, 116, 65, 25);
+		emailLabel.setBounds(325, 117, 65, 25);
 		contentPane.add(emailLabel);
 
 		emailText = new JTextField();
 		emailText.setColumns(10);
-		emailText.setBounds(386, 116, 239, 25);
+		emailText.setBounds(386, 117, 239, 25);
 		contentPane.add(emailText);
 
 		limparButton = new JButton("Limpar");
@@ -224,44 +224,52 @@ public class TelaCadastroClientes extends JFrame {
 		limparButton.setFont(CoresFontes.fonteStencil);
 		limparButton.setForeground(Color.WHITE);
 		limparButton.setBackground(CoresFontes.corBotão);
-		limparButton.setBounds(495, 170, 130, 28);
+		limparButton.setBounds(495, 171, 130, 28);
 		contentPane.add(limparButton);
 
 		salvarButton = new JButton("Salvar");
 		salvarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (nomeText.getText().equals("") || cepText.getText().equals("") || bairroText.getText().equals("") ||
-					ruaText.getText().equals("") || cidadeText.getText().equals("") || nText.getText().equals("") ||
-					ufText.getText().equals("") || cpfText.getText().equals("") || telFixoText.getText().equals("") ||
-					telCelularText.getText().equals("") || emailText.getText().equals("")){
-						JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos não preenchidos", 2);
-					} else {// Se todos os campos estiverem preenchidos cria o objeto usuario e seta os valores e manda cadastrar
-						Cliente cliente = new Cliente(nomeText.getText(), cepText.getText(), bairroText.getText(),
-								ruaText.getText(), cidadeText.getText(), nText.getText(), ufText.getText(), cpfText.getText(),
-								telFixoText.getText(), telCelularText.getText(), emailText.getText());
-						if (metodos.cadastrar(cliente)) {
-							limpar(); // Se der sucesso no cadastro limpa os campos
-							listarTabela(); //lista a tabela de clientes
-						}
+				if (nomeText.getText().replaceAll(" ", "").equals("")
+						|| cepText.getText().replaceAll(" ", "").equals("")
+						|| bairroText.getText().replaceAll(" ", "").equals("")
+						|| ruaText.getText().replaceAll(" ", "").equals("")
+						|| cidadeText.getText().replaceAll(" ", "").equals("")
+						|| nText.getText().replaceAll(" ", "").equals("")
+						|| ufText.getText().replaceAll(" ", "").equals("")
+						|| cpfText.getText().replaceAll(" ", "").equals("")
+						|| telFixoText.getText().replaceAll(" ", "").equals("")
+						|| telCelularText.getText().replaceAll(" ", "").equals("")
+						|| emailText.getText().replaceAll(" ", "").equals("")) {
+					JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos não preenchidos", 2);
+				} else {// Se todos os campos estiverem preenchidos cria o objeto usuario e seta os
+						// valores e manda cadastrar
+					Cliente cliente = new Cliente(nomeText.getText(), cepText.getText(), bairroText.getText(),
+							ruaText.getText(), cidadeText.getText(), nText.getText(), ufText.getText(),
+							cpfText.getText(), telFixoText.getText(), telCelularText.getText(), emailText.getText());
+					if (metodos.cadastrar(cliente)) {
+						limpar(); // Se der sucesso no cadastro limpa os campos
+						listarTabela(); // lista a tabela de clientes
 					}
 				}
-			});
+			}
+		});
 		salvarButton.setFont(CoresFontes.fonteStencil);
 		salvarButton.setForeground(Color.WHITE);
 		salvarButton.setBackground(CoresFontes.corBotão);
-		salvarButton.setBounds(350, 170, 130, 28);
+		salvarButton.setBounds(350, 171, 130, 28);
 		contentPane.add(salvarButton);
 
 		ufSP = new JLabel("UF:");
 		ufSP.setForeground(Color.WHITE);
 		ufSP.setFont(new Font("Stencil", Font.PLAIN, 16));
-		ufSP.setBounds(165, 172, 36, 25);
+		ufSP.setBounds(165, 173, 36, 25);
 		contentPane.add(ufSP);
 
 		ufText = new JTextField();
 		ufText.setEditable(false);
 		ufText.setColumns(10);
-		ufText.setBounds(202, 172, 47, 25);
+		ufText.setBounds(202, 172, 47, 26);
 		contentPane.add(ufText);
 
 		cepLabel = new JLabel("CEP:");
@@ -281,44 +289,53 @@ public class TelaCadastroClientes extends JFrame {
 				buscaCep(cepText.getText());
 			}
 		});
-		pesquisarCepButton.setBounds(217, 61, 32, 23);
+		pesquisarCepButton.setBounds(217, 62, 32, 23);
 		contentPane.add(pesquisarCepButton);
 
 		cpfLabel = new JLabel("CPF:");
 		cpfLabel.setForeground(Color.WHITE);
 		cpfLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
-		cpfLabel.setBounds(386, 32, 74, 25);
+		cpfLabel.setBounds(386, 33, 74, 25);
 		contentPane.add(cpfLabel);
 
 		cpfText = new JFormattedTextField(model.Mascara.Mascara("###.###.###-##"));
 		cpfText.setColumns(10);
-		cpfText.setBounds(495, 32, 130, 25);
+		cpfText.setBounds(495, 32, 130, 26);
 		contentPane.add(cpfText);
 
 		fundoLabel = new JLabel("");
 		fundoLabel.setIcon(new ImageIcon(TelaCadastroClientes.class.getResource("/assets/fundo com cerveja.jpeg")));
 		fundoLabel.setBounds(0, 0, 633, 360);
 		contentPane.add(fundoLabel);
-		
+
 		atualizarButton = new JButton("Atualizar");
 		atualizarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (nomeText.getText().equals("") || cepText.getText().equals("") || bairroText.getText().equals("") ||
-						ruaText.getText().equals("") || cidadeText.getText().equals("") || nText.getText().equals("") ||
-						ufText.getText().equals("") || cpfText.getText().equals("") || telFixoText.getText().equals("") ||
-						telCelularText.getText().equals("") || emailText.getText().equals("")){
-							JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos não preenchidos", 2);
-						} else {// Se todos os campos estiverem preenchidos cria o objeto usuario e seta os valores e manda cadastrar
-							Cliente cliente = new Cliente(Integer.parseInt(idText.getText()), nomeText.getText(), cepText.getText(),
-									bairroText.getText(),ruaText.getText(), cidadeText.getText(), nText.getText(), ufText.getText(),
-									telFixoText.getText(), telCelularText.getText(), emailText.getText());
-							if (metodos.atualizar(cliente)) {
-								limpar(); // Se der sucesso na atualização limpa os campos
-								listarTabela(); //lista a tabela de clientes
-							}
-						}
+				if (nomeText.getText().replaceAll(" ", "").equals("")
+						|| cepText.getText().replaceAll(" ", "").equals("")
+						|| bairroText.getText().replaceAll(" ", "").equals("")
+						|| ruaText.getText().replaceAll(" ", "").equals("")
+						|| cidadeText.getText().replaceAll(" ", "").equals("")
+						|| nText.getText().replaceAll(" ", "").equals("")
+						|| ufText.getText().replaceAll(" ", "").equals("")
+						|| cpfText.getText().replaceAll(" ", "").equals("")
+						|| telFixoText.getText().replaceAll(" ", "").equals("")
+						|| telCelularText.getText().replaceAll(" ", "").equals("")
+						|| emailText.getText().replaceAll(" ", "").equals("")) {
+					JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos não preenchidos", 2);
+				} else {// Se todos os campos estiverem preenchidos cria o objeto usuario e seta os
+						// valores e manda cadastrar
+					Cliente cliente = new Cliente(Integer.parseInt(idText.getText()), nomeText.getText(),
+							cepText.getText(), bairroText.getText(), ruaText.getText(), cidadeText.getText(),
+							nText.getText(), ufText.getText(), telFixoText.getText(), telCelularText.getText(),
+							emailText.getText());
+					if (metodos.atualizar(cliente)) {
+						limpar(); // Se der sucesso na atualização limpa os campos
+						listarTabela(); // lista a tabela de clientes
 					}
-				});
+				}
+			}
+		});
 		atualizarButton.setVisible(false);
 		atualizarButton.setVerticalAlignment(SwingConstants.TOP);
 		atualizarButton.setForeground(Color.WHITE);
@@ -326,9 +343,9 @@ public class TelaCadastroClientes extends JFrame {
 		atualizarButton.setBackground(new Color(50, 0, 0));
 		atualizarButton.setBounds(350, 170, 130, 28);
 		contentPane.add(atualizarButton);
-		
-		listarTabela(); //lista a tabela de clientes
-		
+
+		listarTabela(); // lista a tabela de clientes
+
 	}
 
 	public void buscaCep(String cep) {
@@ -336,8 +353,9 @@ public class TelaCadastroClientes extends JFrame {
 		// Faz a busca para o cep 58043-280
 		WebServiceCep WSC = WebServiceCep.searchCep(cep);
 		/*
-		 * A ferramenta de busca ignora qualquer caracter que não seja número.
-		 * Caso a busca ocorra bem, imprime os resultados.
+		 * A ferramenta de busca ignora qualquer caracter que não seja número. Caso a
+		 * busca ocorra bem, imprime os resultados. Se não tiver correspondencias,
+		 * libera os campos para edição manual.
 		 */
 		if (WSC.wasSuccessful()) {
 			ruaText.setText(WSC.getLogradouroFull());
@@ -347,14 +365,19 @@ public class TelaCadastroClientes extends JFrame {
 			// caso haja problemas imprime as exce??es.
 		} else {
 			JOptionPane.showMessageDialog(null, "Erro numero: " + WSC.getResulCode());
-
 			JOptionPane.showMessageDialog(null, "Descrição do erro: " + WSC.getResultText());
+			bairroText.setEditable(true);
+			ruaText.setEditable(true);
+			cidadeText.setEditable(true);
+			ufText.setEditable(true);
+			JOptionPane.showMessageDialog(null,
+					"Devido a falha na validação do CEP, preencha os campos de endereço manualmente!");
 		}
 	}
-	
+
 	/*
-	 * Método que alterna entre o botão de cadastro e atualizar
-	 * Quando a tabela recebe um clique de seleção, ele é ativado
+	 * Método que alterna entre o botão de cadastro e atualizar Quando a tabela
+	 * recebe um clique de seleção, ele é ativado
 	 */
 	public void ativarBotao(JButton botao) {
 		if (botao.getModel().equals(atualizarButton.getModel())) {
@@ -370,7 +393,7 @@ public class TelaCadastroClientes extends JFrame {
 			cpfText.setEditable(true);
 		}
 	}
-	
+
 	/*
 	 * Limpa todos os campos do cadastro
 	 */
@@ -387,8 +410,9 @@ public class TelaCadastroClientes extends JFrame {
 		telFixoText.setText("");
 		telCelularText.setText("");
 		emailText.setText("");
+		cpfText.setText("");
 	}
-	
+
 	public void listarTabela() {
 
 		Vector<String> cabecalhoPersonalizado = new Vector<>();
@@ -405,28 +429,18 @@ public class TelaCadastroClientes extends JFrame {
 		cabecalhoPersonalizado.addElement("Rua");
 		cabecalhoPersonalizado.addElement("Número");
 
-		String sql = "select idcliente ID,\r\n" + 
-				"	   nome,\r\n" + 
-				"       cpf,\r\n" + 
-				"       telefoneFixo,\r\n" + 
-				"       telefoneCelular,\r\n" + 
-				"       email,\r\n" + 
-				"       cep,\r\n" + 
-				"       uf,\r\n" + 
-				"       cidade,\r\n" + 
-				"       bairro,\r\n" + 
-				"       rua,\r\n" + 
-				"       numero\r\n" + 
-				"FROM cliente\r\n" + 
-				"ORDER BY nome;";
-		
-		if(clientesTable != null) {
+		String sql = "select idcliente ID,\r\n" + "	   nome,\r\n" + "       cpf,\r\n" + "       telefoneFixo,\r\n"
+				+ "       telefoneCelular,\r\n" + "       email,\r\n" + "       cep,\r\n" + "       uf,\r\n"
+				+ "       cidade,\r\n" + "       bairro,\r\n" + "       rua,\r\n" + "       numero\r\n"
+				+ "FROM cliente\r\n" + "ORDER BY nome;";
+
+		if (clientesTable != null) {
 			clientesTable.setVisible(false);
 			clientesTable = null;
-			clientesSP.setVisible(false);		
+			clientesSP.setVisible(false);
 			clientesSP = null;
 		}
-		
+
 		clientesTable = metodos.criarTabela(sql, cabecalhoPersonalizado);
 		clientesTable.addMouseListener(new MouseAdapter() {
 			public void mouseReleased(MouseEvent a) {
@@ -442,17 +456,17 @@ public class TelaCadastroClientes extends JFrame {
 				bairroText.setText(clientesTable.getValueAt(clientesTable.getSelectedRow(), 9).toString());
 				ruaText.setText(clientesTable.getValueAt(clientesTable.getSelectedRow(), 10).toString());
 				nText.setText(clientesTable.getValueAt(clientesTable.getSelectedRow(), 11).toString());
-				
+
 				ativarBotao(atualizarButton);
 			}
 		});
 		clientesSP = new JScrollPane(clientesTable);
 		clientesSP.setBounds(0, 206, 633, 154);
-		
+
 		contentPane.remove(fundoLabel);
 		contentPane.add(clientesSP);
 		contentPane.add(fundoLabel);
-		contentPane.updateUI();	
-	
+		contentPane.updateUI();
+
 	}
 }

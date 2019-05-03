@@ -32,7 +32,8 @@ import java.awt.event.KeyEvent;
  * @author MATIAS
  *
  *         Nesta tela é feito o login no sistema, caso o login for bem sucedido
- *         e aberta a TelaPrincipal, caso não seja o usuario recebe mensagem de login incorreto
+ *         e aberta a TelaPrincipal, caso não seja o usuario recebe mensagem de
+ *         login incorreto
  *
  */
 
@@ -51,7 +52,9 @@ public class TelaLogin extends JFrame {
 	LoginDAO metodo = new LoginDAO();
 
 	/**
-	 * Construtor da classe, definindo o Look and Feel que ser usado e executando a classe 
+	 * Construtor da classe, definindo o Look and Feel que ser usado e executando a
+	 * classe
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {

@@ -33,7 +33,7 @@ import javax.swing.SwingConstants;
 
 /**
  * 
- * @author MATIAS 
+ * @author MATIAS
  * 
  *         Nesta tela é feito o cadastro e alteração de usuarios do sistema
  *
@@ -70,7 +70,7 @@ public class TelaCadastroUsuario extends JFrame {
 	private JRadioButton ativoRB;
 	private JLabel ativoLabel;
 	private ButtonGroup estado;
-	
+
 	UsuarioDAO metodos = new UsuarioDAO();
 
 	/**
@@ -188,23 +188,23 @@ public class TelaCadastroUsuario extends JFrame {
 		salvarButton = new JButton("Salvar");
 		salvarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {// Veri
-				if (nomeText.getText().equals("") || loginText.getText().equals("")
+				if (nomeText.getText().replaceAll(" ", "").equals("")
+						|| loginText.getText().replaceAll(" ", "").equals("")
 						|| String.valueOf(senhaText.getPassword()).equals("")
 						|| String.valueOf(confirmarText.getPassword()).equals("")) {
 					JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos não preenchidos", 2);
 				} else {// se todos os campos estiverem preenchidos cria o objeto usuario e seta os
 						// valores e manda cadastrar
-					
+
 					int func = (funcao.getSelection().equals(admRB.getModel())) ? 1 : 0;
 					int stat = (estado.getSelection().equals(ativoRB.getModel())) ? 1 : 0;
 					Usuario usuario = new Usuario(loginText.getText(), String.valueOf(senhaText.getPassword()),
 							nomeText.getText(), stat, func);
-					
 
 					if (metodos.cadastrar(usuario))
 						limpar(); // Se der sucesso no cadastro limpa os campos
-						listarTabela();
-					
+					listarTabela();
+
 				}
 			}
 		});
@@ -238,7 +238,8 @@ public class TelaCadastroUsuario extends JFrame {
 				Usuario usuario = null;
 
 				if (String.valueOf(senhaText.getPassword()).equals("")) {
-					if (nomeText.getText().equals("") || loginText.getText().equals("")) {
+					if (nomeText.getText().replaceAll(" ", "").equals("")
+							|| loginText.getText().replaceAll(" ", "").equals("")) {
 						JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos não preenchidos", 2);
 					} else {
 						int func = (funcao.getSelection().equals(admRB.getModel())) ? 1 : 0;
@@ -249,12 +250,13 @@ public class TelaCadastroUsuario extends JFrame {
 						if (metodos.atualizar(usuario)) {
 							limpar();
 							listarTabela();
-						
+
 						}
 					}
 
 				} else {
-					if (nomeText.getText().equals("") || loginText.getText().equals("")
+					if (nomeText.getText().replaceAll(" ", "").equals("")
+							|| loginText.getText().replaceAll(" ", "").equals("")
 							|| String.valueOf(senhaText.getPassword()).equals("")
 							|| String.valueOf(confirmarText.getPassword()).equals("")) {
 						JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos não preenchidos", 2);
@@ -267,7 +269,7 @@ public class TelaCadastroUsuario extends JFrame {
 						if (metodos.atualizar(usuario)) {
 							limpar();
 							listarTabela();
-					
+
 						}
 					}
 
@@ -281,26 +283,26 @@ public class TelaCadastroUsuario extends JFrame {
 		atualizarButton.setBackground(new Color(50, 0, 0));
 		atualizarButton.setBounds(10, 220, 134, 23);
 		contentPane.add(atualizarButton);
-		
+
 		ativoRB = new JRadioButton("Ativo");
 		ativoRB.setForeground(Color.WHITE);
 		ativoRB.setFont(new Font("Stencil", Font.PLAIN, 16));
 		ativoRB.setBackground(new Color(255, 255, 255, 0));
 		ativoRB.setBounds(10, 196, 166, 23);
 		contentPane.add(ativoRB);
-		
+
 		blockRB = new JRadioButton("Bloqueado");
 		blockRB.setForeground(Color.WHITE);
 		blockRB.setFont(new Font("Stencil", Font.PLAIN, 16));
 		blockRB.setBackground(new Color(255, 255, 255, 0));
 		blockRB.setBounds(186, 196, 134, 23);
 		contentPane.add(blockRB);
-		
+
 		estado = new ButtonGroup();
-		estado.add(ativoRB); 
+		estado.add(ativoRB);
 		estado.add(blockRB);
 		estado.setSelected(ativoRB.getModel(), true);
-	
+
 		ativoLabel = new JLabel("Ativo");
 		ativoLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		ativoLabel.setForeground(Color.WHITE);
@@ -312,7 +314,7 @@ public class TelaCadastroUsuario extends JFrame {
 		fundoLabel.setIcon(new ImageIcon(TelaCadastroUsuario.class.getResource("/assets/fundo com cerveja.jpeg")));
 		fundoLabel.setBounds(0, 0, 633, 360);
 		contentPane.add(fundoLabel);
-		
+
 		listarTabela();
 	}
 
@@ -335,26 +337,18 @@ public class TelaCadastroUsuario extends JFrame {
 		cabecalhoPersonalizado.addElement("Função");
 		cabecalhoPersonalizado.addElement("Estado");
 
-		String sql = "SELECT id_usuario, login, nome, " 
-		+ "CASE (funcao)"
-		+ "WHEN 1 THEN 'Administrador' "
-		+ "WHEN 0 THEN 'Atendente'" 
-		+ "ELSE 'Campo vazio'" 
-		+ "END AS Funcao, "
-		+ "CASE (ativo)"
-		+ "WHEN 1 THEN 'Ativo' "
-		+ "WHEN 0 THEN 'Bloqueado' " 
-		+ "ELSE 'Campo vazio'" 
-		+ "END AS Estado \r\n " 
-		+ "FROM usuario";
-		
-		if(userTable != null) {
+		String sql = "SELECT id_usuario, login, nome, " + "CASE (funcao)" + "WHEN 1 THEN 'Administrador' "
+				+ "WHEN 0 THEN 'Atendente'" + "ELSE 'Campo vazio'" + "END AS Funcao, " + "CASE (ativo)"
+				+ "WHEN 1 THEN 'Ativo' " + "WHEN 0 THEN 'Bloqueado' " + "ELSE 'Campo vazio'" + "END AS Estado \r\n "
+				+ "FROM usuario";
+
+		if (userTable != null) {
 			userTable.setVisible(false);
 			userTable = null;
-			usersSP.setVisible(false);		
+			usersSP.setVisible(false);
 			usersSP = null;
 		}
-		
+
 		userTable = metodos.criarTabela(sql, cabecalhoPersonalizado);
 		userTable.addMouseListener(new MouseAdapter() {
 			public void mouseReleased(MouseEvent a) {
@@ -367,7 +361,7 @@ public class TelaCadastroUsuario extends JFrame {
 				} else {
 					funcao.setSelected(userRB.getModel(), true);
 				}
-				
+
 				if (userTable.getValueAt(userTable.getSelectedRow(), 4).toString().equals("Ativo")) {
 					estado.setSelected(ativoRB.getModel(), true);
 				} else {

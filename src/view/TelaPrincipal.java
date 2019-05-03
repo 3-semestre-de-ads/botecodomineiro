@@ -15,11 +15,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
+
 /**
  * 
  * @author MATIAS
  *
- * Nesta tela, temos o acesso a todas outras telas a partir das opções no menu superior, sendo tudo controlado pela clase Controle do pacote controller
+ *         Nesta tela, temos o acesso a todas outras telas a partir das opções
+ *         no menu superior, sendo tudo controlado pela clase Controle do pacote
+ *         controller
  *
  */
 public class TelaPrincipal extends JFrame {
@@ -66,9 +69,9 @@ public class TelaPrincipal extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-				controller.Controle.principal = false;//Passa um false para a variavel boolean referente a tela
-				controller.Controle.abrirTela("TelaLogin");//Abre a tela login
-				dispose();//fecha  tela atual
+				controller.Controle.principal = false;// Passa um false para a variavel boolean referente a tela
+				controller.Controle.abrirTela("TelaLogin");// Abre a tela login
+				dispose();// fecha tela atual
 			}
 		});
 		setSize(1280, 720);
@@ -79,32 +82,32 @@ public class TelaPrincipal extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		fundoLabel = new JLabel("");
 		fundoLabel.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/assets/fundo com cerveja Full HD.jpeg")));
 		fundoLabel.setBounds(0, 0, 1280, 669);
 		fundoLabel.setBackground(Color.RED);
 		contentPane.add(fundoLabel);
-		
+
 		principalMenu = new JMenuBar();
 		setJMenuBar(principalMenu);
-		
+
 		arquivoMenu = new JMenu("Arquivo");
 		principalMenu.add(arquivoMenu);
-		
+
 		sairMenuItem = new JMenuItem("Sair");
 		sairMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.Controle.principal = false;//Passa um false para a variavel boolean referente a tela
-				controller.Controle.abrirTela("TelaLogin");//Abre a tela login
-				dispose();//fecha  tela atual
+				controller.Controle.principal = false;// Passa um false para a variavel boolean referente a tela
+				controller.Controle.abrirTela("TelaLogin");// Abre a tela login
+				dispose();// fecha tela atual
 			}
 		});
 		arquivoMenu.add(sairMenuItem);
-		
+
 		produtosMenu = new JMenu("Produtos");
 		principalMenu.add(produtosMenu);
-		
+
 		cadastroMenuItem = new JMenuItem("Cadastro");
 		cadastroMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -112,7 +115,7 @@ public class TelaPrincipal extends JFrame {
 			}
 		});
 		produtosMenu.add(cadastroMenuItem);
-		
+
 		estoqueMenuItem = new JMenuItem("Estoque");
 		estoqueMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -120,10 +123,10 @@ public class TelaPrincipal extends JFrame {
 			}
 		});
 		produtosMenu.add(estoqueMenuItem);
-		
+
 		pedidosMenu = new JMenu("Pedidos");
 		principalMenu.add(pedidosMenu);
-		
+
 		fazerPedidoMenuItem = new JMenuItem("Fazer pedido");
 		fazerPedidoMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -131,10 +134,10 @@ public class TelaPrincipal extends JFrame {
 			}
 		});
 		pedidosMenu.add(fazerPedidoMenuItem);
-		
+
 		administracaoMenu = new JMenu("Administra\u00E7\u00E3o");
 		principalMenu.add(administracaoMenu);
-		
+
 		usuariosMenuItem = new JMenuItem("Usuarios");
 		usuariosMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -142,7 +145,7 @@ public class TelaPrincipal extends JFrame {
 			}
 		});
 		administracaoMenu.add(usuariosMenuItem);
-		
+
 		clientesMenuItem = new JMenuItem("Clientes");
 		clientesMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -150,7 +153,7 @@ public class TelaPrincipal extends JFrame {
 			}
 		});
 		administracaoMenu.add(clientesMenuItem);
-		
+
 		fornecedoresMenuItem = new JMenuItem("Fornecedores");
 		fornecedoresMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -158,6 +161,6 @@ public class TelaPrincipal extends JFrame {
 			}
 		});
 		administracaoMenu.add(fornecedoresMenuItem);
-		
+
 	}
 }

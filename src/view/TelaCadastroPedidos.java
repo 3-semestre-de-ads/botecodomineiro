@@ -193,7 +193,7 @@ public class TelaCadastroPedidos extends JFrame {
 		comandasLabel.setFont(CoresFontes.fonteStencil);
 		comandasLabel.setBounds(147, 442, 189, 14);
 		contentPane.add(comandasLabel);
-		
+
 		fazerEAtualizarPedidoButton = new JButton("Fazer Pedido");
 		fazerEAtualizarPedidoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -203,9 +203,9 @@ public class TelaCadastroPedidos extends JFrame {
 					Pedido pedido = new Pedido(tipoCombo.getSelectedItem().toString(),
 							mesaCombo.getSelectedItem().toString(), statusCombo.getSelectedItem().toString(),
 							clienteCombo.getSelectedItem().toString());
-					
-					if(metodos.cadastrar(pedido)) {
-						
+
+					if (metodos.cadastrar(pedido)) {
+
 						listarTabelaProdutos();
 					}
 				} else {
@@ -304,11 +304,8 @@ public class TelaCadastroPedidos extends JFrame {
 		cabecalhoPersonalizado.addElement("Usuario");
 
 		String sql = "SELECT pedido.idpedido, pedido.tipopedido, pedido.mesa, pedido.status, cliente.nome, usuario.nome \r\n"
-				+ "FROM pedido \r\n"
-				+ "INNER JOIN cliente \r\n"
-				+ "ON pedido.idcliente = cliente.idcliente \r\n"
-				+ "INNER JOIN usuario \r\n"
-				+ "ON pedido.idusuario = usuario.id_usuario \r\n"
+				+ "FROM pedido \r\n" + "INNER JOIN cliente \r\n" + "ON pedido.idcliente = cliente.idcliente \r\n"
+				+ "INNER JOIN usuario \r\n" + "ON pedido.idusuario = usuario.id_usuario \r\n"
 				+ "WHERE pedido.status = 'Aberta'";
 
 		if (comandaTabela != null) {
@@ -326,16 +323,16 @@ public class TelaCadastroPedidos extends JFrame {
 		contentPane.add(comandasSP);
 		contentPane.add(fundoLabel);
 		contentPane.updateUI();
-		
+
 	}
-	
+
 	public void listarTabelaProdutosNaComanda() {
 		Vector<String> cabecalhoPersonalizado = new Vector<>();
 		cabecalhoPersonalizado.addElement("Produto");
 		cabecalhoPersonalizado.addElement("Unidade");
 		cabecalhoPersonalizado.addElement("Preco");
 		cabecalhoPersonalizado.addElement("Quantidade");
-		
+
 		String sql = "";
 
 		if (produtosComandaTabela != null) {
@@ -354,12 +351,12 @@ public class TelaCadastroPedidos extends JFrame {
 		contentPane.add(fundoLabel);
 		contentPane.updateUI();
 	}
-	
+
 	public void preencherComboClientes() {
 		ResultSet clientes = metodos.buscarClientes();
 		clienteCombo.addItem("Clientes");
 		try {
-			while(clientes.next()) {
+			while (clientes.next()) {
 				clienteCombo.addItem(clientes.getString("nome"));
 			}
 		} catch (SQLException e) {
