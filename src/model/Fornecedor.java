@@ -1,5 +1,13 @@
 package model;
 
+/**
+ * 
+ * @author MATIAS e Heitor
+ * 
+ * Classe que representa o objeto fornecedor
+ *
+ */
+
 public class Fornecedor {
 	private int idfornecedor;
 	private String pais;
