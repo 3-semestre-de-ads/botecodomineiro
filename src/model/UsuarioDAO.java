@@ -14,9 +14,21 @@ import model.TableGrade;
 
 import banco.BD;
 
+/**
+ * 
+ * @author MATIAS e Heitor
+ *
+ *	Nesta classe contém os metodos para tratamento de usuarios
+ */
 public class UsuarioDAO {
 
 	private JTable tabela;
+	
+	/**
+	 * Neste metodo cadastrar, é feita a inserção do usuario no banco de dados
+	 * @param usuario como parametro recebe um objeto da classe Usuario contendo as informações referente ao usuario a ser cadastrado
+	 * @return retorna TRUE caso a inserção no banco seja bem sucedida ou false caso ocorra uma falha
+	 */
 
 	public boolean cadastrar(Usuario usuario) {
 		boolean retorno = false;
@@ -48,6 +60,12 @@ public class UsuarioDAO {
 		return retorno;
 	}
 
+	/**
+	 * Neste metodo atualizar, é feita a atualização do usuario no banco de dados
+	 * @param usuario como parametro recebe um objeto da classe Usuario contendo as informações referente ao usuario a ser atualizado
+	 * @return retorna TRUE caso a atualização no banco seja bem sucedida ou false caso ocorra uma falha
+	 */
+	
 	public boolean atualizar(Usuario usuario) {
 		boolean retorno = false;
 		if (BD.conexao) {
@@ -100,6 +118,13 @@ public class UsuarioDAO {
 		return retorno;
 	}
 
+	/**
+	 * Neste metodo criar tabela, é feito a chamada da classe TableGrade para a criação da tabela
+	 * @param sql este parametro tras a consulta a ser feita no banco para a criação da tabela
+	 * @param cabecalhoPersonalizado este parametro contém o Vector com o cabeçalho da tabela
+	 * @return
+	 */
+	
 	public JTable criarTabela(String sql, Vector<String> cabecalhoPersonalizado) {
 		tabela = null;
 
@@ -132,11 +157,17 @@ public class UsuarioDAO {
 
 	}
 
+	/**
+	 * Neste metodo é feito a criptografia da senha
+	 * @param senha este parametro é a senha a ser criptografada
+	 * @return retorna a senha criptografada
+	 */
+	
 	public String criptografarSenha(String senha) {
 		MessageDigest md = null;
 
 		try {
-			md = MessageDigest.getInstance("SHA");// Definindo SHA como metodo de criptografia
+			md = MessageDigest.getInstance("SHA");
 		} catch (NoSuchAlgorithmException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -148,6 +179,12 @@ public class UsuarioDAO {
 		return hash.toString(16);// senha criptografada
 	}
 
+	/**
+	 * Neste metodo é feito a verificação do login, consultando no banco se o login a ser cadastrado ou atualizado já existe
+	 * @param usuario este parametro tras um objeto da classe Usuario, onde contem o login a ser verificado
+	 * @return retorna true caso não exista este login no banco e false caso exista o login no banco
+	 */
+	
 	public boolean verificarLogin(Usuario usuario) {
 		boolean retorno = true;
 
@@ -162,7 +199,7 @@ public class UsuarioDAO {
 					retorno = false;
 				}
 			} catch (SQLException erro) {
-				JOptionPane.showMessageDialog(null, erro.toString(), "Erro ao verifica existencia do usuario", 0);
+				JOptionPane.showMessageDialog(null, erro.toString(), "Erro ao verificar existencia do usuario", 0);
 			}
 
 		}

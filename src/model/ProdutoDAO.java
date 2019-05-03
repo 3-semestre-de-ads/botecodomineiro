@@ -10,10 +10,23 @@ import javax.swing.JTable;
 
 import banco.BD;
 
+/**
+ * 
+ * @author MATIAS e Heitor
+ *
+ *	Nesta classe contém os metodos para tratamento de produto
+ */
+
 public class ProdutoDAO {
 
 	private JTable tabela;
 
+	/**
+	 * Neste metodo cadastrar, é feita a inserção de produtos no banco de dados
+	 * @param produto como parametro recebe um objeto da classe Produto contendo as informações referente ao produto a ser cadastrado
+	 * @return retorna TRUE caso a inserção no banco seja bem sucedida ou false caso ocorra uma falha
+	 */
+	
 	public boolean cadastrar(Produto produto) {
 		boolean retorno = false;
 		if (BD.conexao()) {// Verificando se a conexão está estabelecida
@@ -39,6 +52,12 @@ public class ProdutoDAO {
 		return retorno;
 	}
 
+	/**
+	 * Neste metodo atualizar, é feita a atualização do produto no banco de dados
+	 * @param produto como parametro recebe um objeto da classe Produto contendo as informações referente ao produto a ser atualizado
+	 * @return retorna TRUE caso a atualização no banco seja bem sucedida ou false caso ocorra uma falha
+	 */
+	
 	public boolean atualizar(Produto produto) {
 		boolean retorno = false;
 		if (BD.conexao()) {// Verificando se a conexão está estabelecida
@@ -65,6 +84,11 @@ public class ProdutoDAO {
 		return retorno;
 	}
 
+	/**
+	 * neste metodo ConsultarForn, é feito uma consulta no banco de dados na tabela fornecedor para ser usado esses dados para alimentar a combobox de fornecedor
+	 * @return retornar o ResultSet com os fornecedores cadastrados no banco
+	 */
+	
 	public static ResultSet consultarForn() {
 		ResultSet resultado = null;
 		String sql = "SELECT nomefantasia FROM fornecedor ORDER BY nomefantasia";
@@ -80,6 +104,13 @@ public class ProdutoDAO {
 		return resultado;
 	}
 
+	/**
+	 * Neste metodo criar tabela, é feito a chamada da classe TableGrade para a criação da tabela
+	 * @param sql este parametro tras a consulta a ser feita no banco para a criação da tabela
+	 * @param cabecalhoPersonalizado este parametro contém o Vector com o cabeçalho da tabela
+	 * @return
+	 */
+	
 	public JTable criarTabela(String sql, Vector<String> cabecalhoPersonalizado) {
 		tabela = null;
 
