@@ -1,5 +1,13 @@
 package model;
 
+/**
+ * 
+ * @author MATIAS e Heitor
+ * 
+ * Classe que representa o objeto produto
+ *
+ */
+
 public class Produto {
 	private int idproduto;
 	private String nome;
