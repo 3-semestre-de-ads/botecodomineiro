@@ -53,6 +53,13 @@ public class PedidoDAO {
 					tabela = null;
 
 					tabela = TableGrade.getTable(sql, cabecalhoPersonalizado);
+				
+					tabela.getColumnModel().getColumn(0).setPreferredWidth(50);
+					tabela.getColumnModel().getColumn(1).setPreferredWidth(150);
+					tabela.getColumnModel().getColumn(2).setPreferredWidth(120);
+					tabela.getColumnModel().getColumn(3).setPreferredWidth(70);
+					tabela.getColumnModel().getColumn(4).setPreferredWidth(315);
+					tabela.getColumnModel().getColumn(5).setPreferredWidth(150);
 
 					tabela.setEditingRow(0);
 					tabela.setEditingColumn(0);

@@ -173,11 +173,12 @@ public class TelaCadastroClientes extends JFrame {
 			public void keyTyped(KeyEvent arg0) {
 				String caracteres = "0987654321";
 
+				/*
+				 * Se o caractere digitado for um contido na String caracteres o caractere é
+				 * removido através do método consume
+				 */
 				if (!caracteres.contains(arg0.getKeyChar() + "")) {
-
-					// se o caractere digitado for um contido na String caracteres
-
-					arg0.consume(); // o caractere é removido através do método consume
+					arg0.consume();
 
 				}
 			}
@@ -260,9 +261,10 @@ public class TelaCadastroClientes extends JFrame {
 					JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos não preenchidos", 2);
 				} else {// Se todos os campos estiverem preenchidos cria o objeto usuario e seta os
 						// valores e manda cadastrar
-					Cliente cliente = new Cliente(nomeText.getText(), cepText.getText(), bairroText.getText(),
-							ruaText.getText(), cidadeText.getText(), nText.getText(), ufText.getText(),
-							cpfText.getText(), telFixoText.getText(), telCelularText.getText(), emailText.getText());
+					Cliente cliente = new Cliente(nomeText.getText().trim(), cepText.getText().trim(),
+							bairroText.getText().trim(), ruaText.getText().trim(), cidadeText.getText().trim(),
+							nText.getText().trim(), ufText.getText().trim(), cpfText.getText().trim(),
+							telFixoText.getText().trim(), telCelularText.getText().trim(), emailText.getText().trim());
 					if (metodos.cadastrar(cliente)) {
 						limpar(); // Se der sucesso no cadastro limpa os campos
 						listarTabela(); // lista a tabela de clientes
@@ -341,10 +343,10 @@ public class TelaCadastroClientes extends JFrame {
 					JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos não preenchidos", 2);
 				} else {// Se todos os campos estiverem preenchidos cria o objeto usuario e seta os
 						// valores e manda cadastrar
-					Cliente cliente = new Cliente(Integer.parseInt(idText.getText()), nomeText.getText(),
-							cepText.getText(), bairroText.getText(), ruaText.getText(), cidadeText.getText(),
-							nText.getText(), ufText.getText(), telFixoText.getText(), telCelularText.getText(),
-							emailText.getText());
+					Cliente cliente = new Cliente(Integer.parseInt(idText.getText().trim()), nomeText.getText().trim(),
+							cepText.getText().trim(), bairroText.getText().trim(), ruaText.getText().trim(),
+							cidadeText.getText().trim(), nText.getText().trim(), ufText.getText().trim(),
+							telFixoText.getText().trim(), telCelularText.getText().trim(), emailText.getText().trim());
 					if (metodos.atualizar(cliente)) {
 						limpar(); // Se der sucesso na atualização limpa os campos
 						listarTabela(); // lista a tabela de clientes

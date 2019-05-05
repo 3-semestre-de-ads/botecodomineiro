@@ -128,9 +128,9 @@ public class TelaCadastroProduto extends JFrame {
 					JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos não preenchidos", 2);
 				} else {// Se todos os campos estiverem preenchidos cria o objeto usuario e seta os
 						// valores e manda cadastrar
-					Produto produto = new Produto(produtoText.getText(), String.valueOf(unidadeCombo.getSelectedItem()),
-							descTextArea.getText(), Double.parseDouble(precoText.getText()),
-							String.valueOf(tipoCombo.getSelectedItem()),
+					Produto produto = new Produto(produtoText.getText().trim(),
+							String.valueOf(unidadeCombo.getSelectedItem()), descTextArea.getText().trim(),
+							Double.parseDouble(precoText.getText().trim()), String.valueOf(tipoCombo.getSelectedItem()),
 							String.valueOf(fornecedorCombo.getSelectedItem()));
 					if (metodos.cadastrar(produto)) {
 						limpar(); // Se der sucesso no cadastro limpa os campos
@@ -159,9 +159,9 @@ public class TelaCadastroProduto extends JFrame {
 					JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos não preenchidos", 2);
 				} else {// Se todos os campos estiverem preenchidos cria o objeto usuario e seta os
 						// valores e manda cadastrar
-					Produto produto = new Produto(Integer.parseInt(idText.getText()), produtoText.getText(),
-							String.valueOf(unidadeCombo.getSelectedItem()), descTextArea.getText(),
-							Double.parseDouble(precoText.getText()), String.valueOf(tipoCombo.getSelectedItem()),
+					Produto produto = new Produto(Integer.parseInt(idText.getText()), produtoText.getText().trim(),
+							String.valueOf(unidadeCombo.getSelectedItem()), descTextArea.getText().trim(),
+							Double.parseDouble(precoText.getText().trim()), String.valueOf(tipoCombo.getSelectedItem()),
 							String.valueOf(fornecedorCombo.getSelectedItem()));
 					if (metodos.atualizar(produto)) {
 						limpar(); // Se der sucesso no cadastro limpa os campos
@@ -240,13 +240,14 @@ public class TelaCadastroProduto extends JFrame {
 		precoText.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent arg0) {
-				String caracteres = "0987654321";
+				String caracteres = ".0987654321";
 
+				/*
+				 * Se o caractere digitado for um contido na String caracteres o caractere é
+				 * removido através do método consume
+				 */
 				if (!caracteres.contains(arg0.getKeyChar() + "")) {
-
-					// se o caractere digitado for um contido na String caracteres
-
-					arg0.consume(); // o caractere é removido através do método consume
+					arg0.consume();
 
 				}
 			}

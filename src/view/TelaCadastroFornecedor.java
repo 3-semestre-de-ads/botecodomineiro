@@ -191,11 +191,12 @@ public class TelaCadastroFornecedor extends JFrame {
 			public void keyTyped(KeyEvent arg0) {
 				String caracteres = "./-0987654321";
 
+				/*
+				 * Se o caractere digitado for um contido na String caracteres o caractere é
+				 * removido através do método consume
+				 */
 				if (!caracteres.contains(arg0.getKeyChar() + "")) {
-
-					// se o caractere digitado for um contido na String caracteres
-
-					arg0.consume(); // o caractere é removido através do método consume
+					arg0.consume();
 
 				}
 			}
@@ -367,10 +368,11 @@ public class TelaCadastroFornecedor extends JFrame {
 					JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos não preenchidos", 2);
 				} else {// Se todos os campos estiverem preenchidos cria o objeto fornecedor e seta os
 						// valores e manda cadastrar
-					Fornecedor fornecedor = new Fornecedor(paisText.getText(), cidadeText.getText(),
-							razaoText.getText(), nomeText.getText(), inscText.getText(), cnpjText.getText(),
-							ufText.getText(), ruaText.getText(), telText.getText(), numText.getText(),
-							bairroText.getText(), emailText.getText(), cepText.getText(), celularText.getText());
+					Fornecedor fornecedor = new Fornecedor(paisText.getText().trim(), cidadeText.getText().trim(),
+							razaoText.getText().trim(), nomeText.getText().trim(), inscText.getText().trim(),
+							cnpjText.getText().trim(), ufText.getText().trim(), ruaText.getText().trim(),
+							telText.getText().trim(), numText.getText().trim(), bairroText.getText().trim(),
+							emailText.getText().trim(), cepText.getText().trim(), celularText.getText().trim());
 					if (metodos.cadastrar(fornecedor)) {
 						limpar(); // Se der sucesso no cadastro limpa os campos
 						listarTabela(); // lista a tabela de fornecedor
@@ -419,11 +421,12 @@ public class TelaCadastroFornecedor extends JFrame {
 					JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos não preenchidos", 2);
 				} else {// Se todos os campos estiverem preenchidos cria o objeto fornecedor e seta os
 						// valores e manda atualizar
-					Fornecedor fornecedor = new Fornecedor(Integer.parseInt(idText.getText()), paisText.getText(),
-							cidadeText.getText(), razaoText.getText(), nomeText.getText(), inscText.getText(),
-							cnpjText.getText(), ufText.getText(), ruaText.getText(), telText.getText(),
-							numText.getText(), bairroText.getText(), emailText.getText(), cepText.getText(),
-							celularText.getText());
+					Fornecedor fornecedor = new Fornecedor(Integer.parseInt(idText.getText().trim()),
+							paisText.getText().trim(), cidadeText.getText().trim(), razaoText.getText().trim(),
+							nomeText.getText().trim(), inscText.getText().trim(), cnpjText.getText().trim(),
+							ufText.getText().trim(), ruaText.getText().trim(), telText.getText().trim(),
+							numText.getText().trim(), bairroText.getText().trim(), emailText.getText().trim(),
+							cepText.getText().trim(), celularText.getText().trim());
 					if (metodos.atualizar(fornecedor)) {
 						limpar(); // Se der sucesso na atualização limpa os campos
 						listarTabela(); // lista a tabela de fornecedor

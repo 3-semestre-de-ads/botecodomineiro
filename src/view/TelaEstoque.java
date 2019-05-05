@@ -304,7 +304,7 @@ public class TelaEstoque extends JFrame {
 		cabecalhoPersonalizado.addElement("Descricao");
 		cabecalhoPersonalizado.addElement("Preco");
 		cabecalhoPersonalizado.addElement("Tipo");
-		cabecalhoPersonalizado.addElement("Quantiadade");
+		cabecalhoPersonalizado.addElement("Quantidade");
 		cabecalhoPersonalizado.addElement("Minimo");
 		cabecalhoPersonalizado.addElement("Maximo");
 
