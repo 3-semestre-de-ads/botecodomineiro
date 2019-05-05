@@ -14,6 +14,7 @@ import model.TextPrompt;
 import javax.swing.JLabel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -83,6 +84,11 @@ public class TelaEstoque extends JFrame {
 	private JLabel tipoUniLabel;
 
 	EstoqueDAO metodos = new EstoqueDAO();
+	private JTextField qtdMinText;
+	private JLabel qtdEstoqueLabel;
+	private JTextField qtdEstoqueText;
+	private JLabel qtdMximaLabel;
+	private JTextField qtdMaximoText;
 
 	/**
 	 * Launch the application.
@@ -181,6 +187,7 @@ public class TelaEstoque extends JFrame {
 		pesquisaFornLabel.setBounds(365, 215, 133, 14);
 		contentPane.add(pesquisaFornLabel);
 
+
 		pesquisaFornecedor = new JComboBox<String>();
 		pesquisaFornecedor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -246,13 +253,13 @@ public class TelaEstoque extends JFrame {
 		precoText = new JTextField();
 		precoText.setEditable(false);
 		precoText.setColumns(10);
-		precoText.setBounds(290, 11, 135, 25);
+		precoText.setBounds(226, 11, 135, 25);
 		contentPane.add(precoText);
 
 		tipoLabel = new JLabel("Tipo:");
 		tipoLabel.setForeground(Color.WHITE);
 		tipoLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
-		tipoLabel.setBounds(435, 16, 56, 14);
+		tipoLabel.setBounds(371, 16, 56, 14);
 		contentPane.add(tipoLabel);
 
 		fornecedorLabel = new JLabel("Fornecedor:");
@@ -260,11 +267,47 @@ public class TelaEstoque extends JFrame {
 		fornecedorLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
 		fornecedorLabel.setBounds(248, 63, 110, 14);
 		contentPane.add(fornecedorLabel);
+		
+		JLabel qtdMinLabel = new JLabel("Qtd. M\u00EDnima:");
+		qtdMinLabel.setForeground(Color.WHITE);
+		qtdMinLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
+		qtdMinLabel.setBounds(340, 129, 115, 25);
+		contentPane.add(qtdMinLabel);
+		
+		qtdMinText = new JTextField();
+		qtdMinText.setEditable(false);
+		qtdMinText.setColumns(10);
+		qtdMinText.setBounds(460, 129, 155, 25);
+		contentPane.add(qtdMinText);
+		
+		qtdEstoqueLabel = new JLabel("Qtd. Estoque:");
+		qtdEstoqueLabel.setForeground(Color.WHITE);
+		qtdEstoqueLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
+		qtdEstoqueLabel.setBounds(340, 101, 115, 25);
+		contentPane.add(qtdEstoqueLabel);
+		
+		qtdEstoqueText = new JTextField();
+		qtdEstoqueText.setEditable(false);
+		qtdEstoqueText.setColumns(10);
+		qtdEstoqueText.setBounds(460, 101, 155, 25);
+		contentPane.add(qtdEstoqueText);
+		
+		qtdMximaLabel = new JLabel("Qtd. M\u00E1xima:");
+		qtdMximaLabel.setForeground(Color.WHITE);
+		qtdMximaLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
+		qtdMximaLabel.setBounds(340, 156, 115, 25);
+		contentPane.add(qtdMximaLabel);
+		
+		qtdMaximoText = new JTextField();
+		qtdMaximoText.setEditable(false);
+		qtdMaximoText.setColumns(10);
+		qtdMaximoText.setBounds(460, 156, 155, 25);
+		contentPane.add(qtdMaximoText);
 
 		precoLabel = new JLabel("Pre\u00E7o:");
 		precoLabel.setForeground(Color.WHITE);
 		precoLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
-		precoLabel.setBounds(224, 16, 56, 14);
+		precoLabel.setBounds(160, 16, 56, 14);
 		contentPane.add(precoLabel);
 
 		fornecedorText = new JTextField();
@@ -282,7 +325,7 @@ public class TelaEstoque extends JFrame {
 		tipoText = new JTextField();
 		tipoText.setEditable(false);
 		tipoText.setColumns(10);
-		tipoText.setBounds(482, 11, 133, 25);
+		tipoText.setBounds(418, 11, 197, 25);
 		contentPane.add(tipoText);
 
 		fundo = new JLabel("");
@@ -367,5 +410,4 @@ public class TelaEstoque extends JFrame {
 
 		}
 	}
-
 }
