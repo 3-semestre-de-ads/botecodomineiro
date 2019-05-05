@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -53,6 +55,7 @@ public class TelaCadastroFornecedor extends JFrame {
 	private JFormattedTextField cnpjText;
 	private JTextField inscText;
 	private JFormattedTextField cepText;
+	private JButton pesquisarCepButton;
 	private JTextField ufText;
 	private JTextField paisText;
 	private JTextField cidadeText;
@@ -183,6 +186,20 @@ public class TelaCadastroFornecedor extends JFrame {
 		contentPane.add(cnpjLabel);
 
 		inscText = new JTextField();
+		inscText.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				String caracteres = "./-0987654321";
+
+				if (!caracteres.contains(arg0.getKeyChar() + "")) {
+
+					// se o caractere digitado for um contido na String caracteres
+
+					arg0.consume(); // o caractere é removido através do método consume
+
+				}
+			}
+		});
 		inscText.setColumns(10);
 		inscText.setBounds(446, 5, 177, 26);
 		contentPane.add(inscText);
@@ -203,8 +220,17 @@ public class TelaCadastroFornecedor extends JFrame {
 
 		cepText = new JFormattedTextField(model.Mascara.Mascara("#####-###"));
 		cepText.setColumns(10);
-		cepText.setBounds(54, 75, 100, 26);
+		cepText.setBounds(54, 75, 72, 26);
 		contentPane.add(cepText);
+
+		pesquisarCepButton = new JButton("New button");
+		pesquisarCepButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				buscaCep(cepText.getText());
+			}
+		});
+		pesquisarCepButton.setBounds(130, 77, 32, 23);
+		contentPane.add(pesquisarCepButton);
 
 		ufText = new JTextField();
 		ufText.setColumns(10);
@@ -274,6 +300,20 @@ public class TelaCadastroFornecedor extends JFrame {
 		contentPane.add(numLabel);
 
 		numText = new JTextField();
+		numText.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				String caracteres = "0987654321";
+
+				/*
+				 * Se o caractere digitado for um contido na String caracteres o caractere é
+				 * removido através do método consume
+				 */
+				if (!caracteres.contains(arg0.getKeyChar() + "")) {
+					arg0.consume();
+				}
+			}
+		});
 		numText.setColumns(10);
 		numText.setBounds(538, 110, 85, 26);
 		contentPane.add(numText);

@@ -20,7 +20,7 @@ public class PedidoDAO {
 
 		if (BD.conexao) {
 
-			String sql = "INSERT INTO pedido (tipopedio, mesa, status, idcliente, idusuario) \r\n" + "VALUES ('"
+			String sql = "INSERT INTO pedido (tipopedido, mesa, status, idcliente, idusuario) \r\n" + "VALUES ('"
 					+ pedido.getTipo() + "', '" + pedido.getMesa() + "', '" + pedido.getStatus() + "', "
 					+ buscarIdCliente(pedido.getCliente()) + ", " + sessao.getId() + ")";
 

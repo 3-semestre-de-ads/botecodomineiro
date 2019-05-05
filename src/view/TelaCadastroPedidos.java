@@ -110,41 +110,41 @@ public class TelaCadastroPedidos extends JFrame {
 		idLabel = new JLabel("ID:");
 		idLabel.setForeground(Color.WHITE);
 		idLabel.setFont(CoresFontes.fonteStencil);
-		idLabel.setBounds(10, 13, 65, 14);
+		idLabel.setBounds(10, 8, 65, 25);
 		contentPane.add(idLabel);
 
 		clienteLabel = new JLabel("Cliente:");
 		clienteLabel.setForeground(Color.WHITE);
 		clienteLabel.setFont(CoresFontes.fonteStencil);
-		clienteLabel.setBounds(10, 43, 83, 14);
+		clienteLabel.setBounds(10, 38, 83, 25);
 		contentPane.add(clienteLabel);
 
 		mesaLabel = new JLabel("Mesa:");
 		mesaLabel.setForeground(Color.WHITE);
 		mesaLabel.setFont(CoresFontes.fonteStencil);
-		mesaLabel.setBounds(10, 73, 65, 14);
+		mesaLabel.setBounds(10, 68, 65, 25);
 		contentPane.add(mesaLabel);
 
 		tipoLabel = new JLabel("Tipo:");
 		tipoLabel.setForeground(Color.WHITE);
 		tipoLabel.setFont(CoresFontes.fonteStencil);
-		tipoLabel.setBounds(10, 103, 65, 14);
+		tipoLabel.setBounds(355, 68, 65, 25);
 		contentPane.add(tipoLabel);
 
 		statusLabel = new JLabel("Status:");
 		statusLabel.setForeground(Color.WHITE);
 		statusLabel.setFont(CoresFontes.fonteStencil);
-		statusLabel.setBounds(201, 43, 75, 14);
+		statusLabel.setBounds(355, 38, 75, 25);
 		contentPane.add(statusLabel);
 
 		idText = new JTextField();
 		idText.setEditable(false);
-		idText.setBounds(81, 8, 56, 25);
+		idText.setBounds(90, 8, 56, 25);
 		contentPane.add(idText);
 		idText.setColumns(10);
 
 		clienteCombo = new JComboBox<String>();
-		clienteCombo.setBounds(81, 38, 110, 25);
+		clienteCombo.setBounds(90, 38, 200, 25);
 		contentPane.add(clienteCombo);
 
 		mesaCombo = new JComboBox<String>();
@@ -155,43 +155,43 @@ public class TelaCadastroPedidos extends JFrame {
 		mesaCombo.addItem("Mesa 4");
 		mesaCombo.addItem("Mesa 5");
 		mesaCombo.addItem("Mesa 6");
-		mesaCombo.setBounds(81, 68, 110, 25);
+		mesaCombo.setBounds(90, 68, 200, 25);
 		contentPane.add(mesaCombo);
 
 		tipoCombo = new JComboBox<String>();
 		tipoCombo.addItem("Tipo da comanda");
 		tipoCombo.addItem("Comum");
 		tipoCombo.addItem("Happy Hour");
-		tipoCombo.setBounds(81, 98, 110, 25);
+		tipoCombo.setBounds(430, 68, 200, 25);
 		contentPane.add(tipoCombo);
 
 		statusCombo = new JComboBox<String>();
 		statusCombo.addItem("Status da comanda");
 		statusCombo.addItem("Aberta");
 		statusCombo.addItem("Paga");
-		statusCombo.setBounds(269, 38, 110, 25);
+		statusCombo.setBounds(430, 38, 200, 25);
 		contentPane.add(statusCombo);
 
 		produtosLabel = new JLabel("Produtos");
 		produtosLabel.setForeground(Color.WHITE);
 		produtosLabel.setFont(CoresFontes.fonteStencil);
-		produtosLabel.setBounds(908, 14, 95, 14);
+		produtosLabel.setBounds(908, 13, 95, 14);
 		contentPane.add(produtosLabel);
 
 		produtosComandaLabel = new JLabel("Produtos na comanda");
 		produtosComandaLabel.setForeground(Color.WHITE);
 		produtosComandaLabel.setFont(CoresFontes.fonteStencil);
-		produtosComandaLabel.setBounds(147, 134, 189, 14);
+		produtosComandaLabel.setBounds(226, 104, 189, 25);
 		contentPane.add(produtosComandaLabel);
 
 		produtosComandaSP = new JScrollPane();
-		produtosComandaSP.setBounds(10, 153, 463, 215);
+		produtosComandaSP.setBounds(10, 129, 620, 240);
 		contentPane.add(produtosComandaSP);
 
 		comandasLabel = new JLabel("Comandas em aberto");
 		comandasLabel.setForeground(Color.WHITE);
 		comandasLabel.setFont(CoresFontes.fonteStencil);
-		comandasLabel.setBounds(147, 442, 189, 14);
+		comandasLabel.setBounds(226, 415, 189, 25);
 		contentPane.add(comandasLabel);
 
 		fazerEAtualizarPedidoButton = new JButton("Fazer Pedido");
@@ -216,7 +216,7 @@ public class TelaCadastroPedidos extends JFrame {
 		fazerEAtualizarPedidoButton.setVerticalAlignment(SwingConstants.TOP);
 		fazerEAtualizarPedidoButton.setForeground(Color.WHITE);
 		fazerEAtualizarPedidoButton.setFont(CoresFontes.fonteStencil);
-		fazerEAtualizarPedidoButton.setBounds(644, 379, 146, 25);
+		fazerEAtualizarPedidoButton.setBounds(644, 469, 146, 25);
 		fazerEAtualizarPedidoButton.setBackground(CoresFontes.corBot„o);
 		contentPane.add(fazerEAtualizarPedidoButton);
 
@@ -235,19 +235,19 @@ public class TelaCadastroPedidos extends JFrame {
 		});
 		limparButton.setForeground(Color.WHITE);
 		limparButton.setFont(CoresFontes.fonteStencil);
-		limparButton.setBounds(833, 379, 146, 25);
+		limparButton.setBounds(833, 469, 146, 25);
 		limparButton.setBackground(CoresFontes.corBot„o);
 		contentPane.add(limparButton);
 
 		precoTotalLabel = new JLabel("PRE\u00C7O TOTAL:");
 		precoTotalLabel.setForeground(Color.WHITE);
 		precoTotalLabel.setFont(CoresFontes.fonteStencil);
-		precoTotalLabel.setBounds(10, 381, 181, 16);
+		precoTotalLabel.setBounds(364, 380, 116, 30);
 		contentPane.add(precoTotalLabel);
 
 		precoText = new JTextField();
 		precoText.setEditable(false);
-		precoText.setBounds(351, 375, 122, 28);
+		precoText.setBounds(480, 380, 150, 30);
 		contentPane.add(precoText);
 		precoText.setColumns(10);
 
@@ -286,7 +286,7 @@ public class TelaCadastroPedidos extends JFrame {
 		produtosTabela = metodos.criaTabelaProduto(sql, cabecalhoPersonalizado);
 
 		produtosSP = new JScrollPane(produtosTabela);
-		produtosSP.setBounds(644, 42, 624, 326);
+		produtosSP.setBounds(644, 38, 620, 420);
 		contentPane.remove(fundoLabel);
 		contentPane.add(produtosSP);
 		contentPane.add(fundoLabel);
@@ -301,7 +301,7 @@ public class TelaCadastroPedidos extends JFrame {
 		cabecalhoPersonalizado.addElement("Mesa");
 		cabecalhoPersonalizado.addElement("Status");
 		cabecalhoPersonalizado.addElement("Cliente");
-		cabecalhoPersonalizado.addElement("Usuario");
+		cabecalhoPersonalizado.addElement("Usu¡rio");
 
 		String sql = "SELECT pedido.idpedido, pedido.tipopedido, pedido.mesa, pedido.status, cliente.nome, usuario.nome \r\n"
 				+ "FROM pedido \r\n" + "INNER JOIN cliente \r\n" + "ON pedido.idcliente = cliente.idcliente \r\n"
@@ -318,7 +318,7 @@ public class TelaCadastroPedidos extends JFrame {
 		comandaTabela = metodos.criaTabelaProduto(sql, cabecalhoPersonalizado);
 
 		comandasSP = new JScrollPane(comandaTabela);
-		comandasSP.setBounds(10, 468, 463, 217);
+		comandasSP.setBounds(10, 440, 620, 240);
 		contentPane.remove(fundoLabel);
 		contentPane.add(comandasSP);
 		contentPane.add(fundoLabel);

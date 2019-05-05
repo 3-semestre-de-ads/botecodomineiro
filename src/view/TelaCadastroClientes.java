@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -166,6 +168,20 @@ public class TelaCadastroClientes extends JFrame {
 		contentPane.add(ruaText);
 
 		nText = new JTextField();
+		nText.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				String caracteres = "0987654321";
+
+				if (!caracteres.contains(arg0.getKeyChar() + "")) {
+
+					// se o caractere digitado for um contido na String caracteres
+
+					arg0.consume(); // o caractere é removido através do método consume
+
+				}
+			}
+		});
 		nText.setColumns(10);
 		nText.setBounds(85, 172, 47, 26);
 		contentPane.add(nText);

@@ -258,7 +258,7 @@ public class TelaEstoque extends JFrame {
 		fornecedorLabel = new JLabel("Fornecedor:");
 		fornecedorLabel.setForeground(Color.WHITE);
 		fornecedorLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
-		fornecedorLabel.setBounds(248, 61, 110, 14);
+		fornecedorLabel.setBounds(248, 63, 110, 14);
 		contentPane.add(fornecedorLabel);
 
 		precoLabel = new JLabel("Pre\u00E7o:");
