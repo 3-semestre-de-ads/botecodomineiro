@@ -22,7 +22,7 @@ public abstract class BD {
 
 	// CONEXÃO PARA O SERVIDOR AWS
 	private static final String DRIVER = "com.mysql.jdbc.Driver";
-	private static final String URL = "jdbc:mysql://butecomineiro.c8egphw0jq8h.sa-east-1.rds.amazonaws.com/buteco_mineiro";
+	private static final String URL = "jdbc:mysql://butecomineiro.c8egphw0jq8h.sa-east-1.rds.amazonaws.com/buteco_mineiro?allowMultiQueries=true";
 	private static final String LOGIN = "Matias";
 	private static final String SENHA = "Matias2201";
 

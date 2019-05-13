@@ -3,6 +3,9 @@ package model;
 import java.awt.Cursor;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Vector;
 
 import javax.swing.JOptionPane;
@@ -11,7 +14,7 @@ import javax.swing.JTable;
 import banco.BD;
 
 public class EstoqueDAO {
-	
+
 	private JTable tabela;
 
 	public JTable criarTabela(String sql, Vector<String> cabecalhoPersonalizado) {
@@ -49,7 +52,7 @@ public class EstoqueDAO {
 		return tabela;
 
 	}
-	
+
 	public ResultSet consultarForn() {
 		ResultSet resultado = null;
 		String sql = "SELECT nomefantasia FROM fornecedor ORDER BY nomefantasia";
@@ -64,4 +67,62 @@ public class EstoqueDAO {
 		}
 		return resultado;
 	}
+
+	public boolean adicionarEstoque(Estoque estoque) {
+		boolean retorno = false;
+
+		if (BD.conexao()) {
+			String sql = "UPDATE produto SET quantidade = quantidade + " + estoque.getQtd() + "\r\n"
+					+ "WHERE idproduto = '" + estoque.getIdProduto() + "';"
+
+					+ "INSERT INTO registro_estoque (descricao, quantidade, data, id_produto) " + "VALUES ('"
+					+ estoque.getDescricao() + "', " + estoque.getQtd() + ", '" + convDataBanco() + "', "
+					+ estoque.getIdProduto() + ")";
+			try {
+				BD.st = BD.con.prepareStatement(sql);
+				BD.st.executeUpdate();
+
+				retorno = true;
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, e.toString(), this.getClass().getName(), 0);
+			}
+
+		}
+
+		return retorno;
+	}
+
+	public boolean removerEstoque(Estoque estoque) {
+		boolean retorno = false;
+
+		if (BD.conexao()) {
+			String sql = "UPDATE produto SET quantidade = quantidade - " + estoque.getQtd() + "\r\n"
+					+ "WHERE idproduto = '" + estoque.getIdProduto() + "';"
+
+					+ "INSERT INTO registro_estoque (descricao, quantidade, data, id_produto) " + "VALUES ('"
+					+ estoque.getDescricao() + "', -" + estoque.getQtd() + ", '" + convDataBanco() + "', "
+					+ estoque.getIdProduto() + ")";
+			try {
+				BD.st = BD.con.prepareStatement(sql);
+				BD.st.executeUpdate();
+
+				retorno = true;
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, e.toString(), this.getClass().getName(), 0);
+			}
+
+		}
+
+		return retorno;
+	}
+
+	public String convDataBanco() {
+
+		Date date = new Date();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		return dateFormat.format(date);
+
+	}
+
 }

@@ -1,46 +1,45 @@
 package view;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-
-import controller.Controle;
-import model.CoresFontes;
-import model.EstoqueDAO;
-import model.TextPrompt;
-
-import javax.swing.JLabel;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-
-import java.awt.Font;
-import java.util.Vector;
 import java.awt.Color;
-import javax.swing.JTextField;
-import javax.swing.RowFilter;
-import javax.swing.JTextArea;
-
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import javax.swing.JComboBox;
-import javax.swing.SwingConstants;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+
+import controller.Controle;
+import model.CoresFontes;
+import model.Estoque;
+import model.EstoqueDAO;
+import model.TextPrompt;
+import java.awt.TextArea;
+import javax.swing.JButton;
 
 /**
  * 
@@ -82,13 +81,20 @@ public class TelaEstoque extends JFrame {
 	private JLabel pesquisaUniLabel;
 	private JComboBox<String> pesquisaTipo;
 	private JLabel tipoUniLabel;
-
-	EstoqueDAO metodos = new EstoqueDAO();
 	private JTextField qtdMinText;
 	private JLabel qtdEstoqueLabel;
 	private JTextField qtdEstoqueText;
 	private JLabel qtdMximaLabel;
 	private JTextField qtdMaximoText;
+	private JTextField qtdText;
+	private JLabel descriLabel;
+	private TextArea descTextArea;
+	private JLabel qtdLabel;
+	private JButton adicionarButton;
+	private JButton removerButton;
+
+	EstoqueDAO metodos = new EstoqueDAO();
+	private JLabel qtdMinLabel;
 
 	/**
 	 * Launch the application.
@@ -140,7 +146,7 @@ public class TelaEstoque extends JFrame {
 		pesquisaUniLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		pesquisaUniLabel.setForeground(Color.WHITE);
 		pesquisaUniLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
-		pesquisaUniLabel.setBounds(508, 215, 133, 14);
+		pesquisaUniLabel.setBounds(335, 214, 133, 14);
 		contentPane.add(pesquisaUniLabel);
 
 		pesquisaUnidade = new JComboBox<String>();
@@ -155,7 +161,7 @@ public class TelaEstoque extends JFrame {
 		});
 		pesquisaUnidade.setModel(new DefaultComboBoxModel<String>(new String[] { "Selecione", "Litro", "Saco",
 				"Prato P", "Prato M", "Prato G", "Por\u00E7\u00E3o P", "Por\u00E7\u00E3o M", "Por\u00E7\u00E3o G" }));
-		pesquisaUnidade.setBounds(508, 241, 133, 25);
+		pesquisaUnidade.setBounds(335, 240, 133, 25);
 		contentPane.add(pesquisaUnidade);
 
 		pesquisaTipo = new JComboBox<String>();
@@ -170,23 +176,22 @@ public class TelaEstoque extends JFrame {
 		});
 		pesquisaTipo.setModel(new DefaultComboBoxModel<String>(
 				new String[] { "Selecione", "Alimentos", "Bebidas Alcolicas", "Bebidas N\u00E3o Alcolicas" }));
-		pesquisaTipo.setBounds(651, 241, 133, 25);
+		pesquisaTipo.setBounds(478, 240, 133, 25);
 		contentPane.add(pesquisaTipo);
 
 		tipoUniLabel = new JLabel("TIPO");
 		tipoUniLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		tipoUniLabel.setForeground(Color.WHITE);
 		tipoUniLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
-		tipoUniLabel.setBounds(651, 215, 133, 14);
+		tipoUniLabel.setBounds(478, 214, 133, 14);
 		contentPane.add(tipoUniLabel);
 
 		pesquisaFornLabel = new JLabel("Fornecedor");
 		pesquisaFornLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		pesquisaFornLabel.setFont(CoresFontes.fonteStencil);
 		pesquisaFornLabel.setForeground(Color.WHITE);
-		pesquisaFornLabel.setBounds(365, 215, 133, 14);
+		pesquisaFornLabel.setBounds(192, 214, 133, 14);
 		contentPane.add(pesquisaFornLabel);
-
 
 		pesquisaFornecedor = new JComboBox<String>();
 		pesquisaFornecedor.addActionListener(new ActionListener() {
@@ -199,11 +204,11 @@ public class TelaEstoque extends JFrame {
 			}
 		});
 		pesquisaFornecedor.setModel(new DefaultComboBoxModel<String>(new String[] { "Selecione" }));
-		pesquisaFornecedor.setBounds(365, 241, 133, 25);
+		pesquisaFornecedor.setBounds(192, 240, 133, 25);
 		contentPane.add(pesquisaFornecedor);
 
 		pesquisarText.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(0, 0, 0)));
-		pesquisarText.setBounds(10, 240, 229, 25);
+		pesquisarText.setBounds(10, 240, 170, 25);
 		pesquisarText.setBackground(CoresFontes.fundoTransparente);
 		pesquisarText.setFont(CoresFontes.fonteStencil);
 		pesquisarText.setForeground(Color.WHITE);
@@ -267,37 +272,37 @@ public class TelaEstoque extends JFrame {
 		fornecedorLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
 		fornecedorLabel.setBounds(248, 63, 110, 14);
 		contentPane.add(fornecedorLabel);
-		
-		JLabel qtdMinLabel = new JLabel("Qtd. M\u00EDnima:");
+
+		qtdMinLabel = new JLabel("Qtd. M\u00EDnima:");
 		qtdMinLabel.setForeground(Color.WHITE);
 		qtdMinLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
 		qtdMinLabel.setBounds(340, 129, 115, 25);
 		contentPane.add(qtdMinLabel);
-		
+
 		qtdMinText = new JTextField();
 		qtdMinText.setEditable(false);
 		qtdMinText.setColumns(10);
 		qtdMinText.setBounds(460, 129, 155, 25);
 		contentPane.add(qtdMinText);
-		
+
 		qtdEstoqueLabel = new JLabel("Qtd. Estoque:");
 		qtdEstoqueLabel.setForeground(Color.WHITE);
 		qtdEstoqueLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
 		qtdEstoqueLabel.setBounds(340, 101, 115, 25);
 		contentPane.add(qtdEstoqueLabel);
-		
+
 		qtdEstoqueText = new JTextField();
 		qtdEstoqueText.setEditable(false);
 		qtdEstoqueText.setColumns(10);
 		qtdEstoqueText.setBounds(460, 101, 155, 25);
 		contentPane.add(qtdEstoqueText);
-		
+
 		qtdMximaLabel = new JLabel("Qtd. M\u00E1xima:");
 		qtdMximaLabel.setForeground(Color.WHITE);
 		qtdMximaLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
 		qtdMximaLabel.setBounds(340, 156, 115, 25);
 		contentPane.add(qtdMximaLabel);
-		
+
 		qtdMaximoText = new JTextField();
 		qtdMaximoText.setEditable(false);
 		qtdMaximoText.setColumns(10);
@@ -327,11 +332,6 @@ public class TelaEstoque extends JFrame {
 		tipoText.setColumns(10);
 		tipoText.setBounds(418, 11, 197, 25);
 		contentPane.add(tipoText);
-
-		fundo = new JLabel("");
-		fundo.setIcon(new ImageIcon(TelaEstoque.class.getResource("/assets/fundo com cerveja Full HD.jpeg")));
-		fundo.setBounds(0, 0, 1264, 681);
-		contentPane.add(fundo);
 
 		listarTabela();
 		preencherComboFornecedor();
@@ -380,9 +380,87 @@ public class TelaEstoque extends JFrame {
 
 		produtosSP = new JScrollPane(produtosTable);
 		produtosSP.setBounds(0, 276, 1264, 405);
+		contentPane.add(produtosSP);
+
+		descTextArea = new TextArea();
+		descTextArea.setBounds(898, 142, 356, 123);
+		contentPane.add(descTextArea);
+
+		qtdText = new JTextField();
+		qtdText.setBounds(898, 38, 122, 28);
+		contentPane.add(qtdText);
+		qtdText.setColumns(10);
+
+		removerButton = new JButton("Remover");
+		removerButton.setForeground(Color.WHITE);
+		removerButton.setFont(CoresFontes.fonteStencil);
+		removerButton.setBackground(CoresFontes.corBotão);
+		removerButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (verificarCampos()) {
+					if (JOptionPane.showConfirmDialog(null,
+							"Deseja realmente remover " + qtdText.getText() + " " + produtoText.getText()
+									+ " do estoque",
+							"Estoque", JOptionPane.YES_NO_OPTION,
+							JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+
+						Estoque estoque = new Estoque(Integer.parseInt(idText.getText()),
+								Integer.parseInt(qtdText.getText()), descTextArea.getText());
+						if (metodos.removerEstoque(estoque)) {
+							JOptionPane.showMessageDialog(null, "Estoque removido com sucesso", "Sucesso", 1);
+						}
+					}
+				}
+			}
+		});
+		removerButton.setBounds(1134, 39, 120, 28);
+		contentPane.add(removerButton);
+
+		adicionarButton = new JButton("Adicionar");
+		adicionarButton.setForeground(Color.WHITE);
+		adicionarButton.setBackground(CoresFontes.corBotão);
+		adicionarButton.setFont(CoresFontes.fonteStencil);
+		adicionarButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (verificarCampos()) {
+					if (JOptionPane.showConfirmDialog(null,
+							"Deseja realmente acrescentar " + qtdText.getText() + " " + produtoText.getText()
+									+ " ao estoque",
+							"Estoque", JOptionPane.YES_NO_OPTION,
+							JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+
+						Estoque estoque = new Estoque(Integer.parseInt(idText.getText()),
+								Integer.parseInt(qtdText.getText()), descTextArea.getText());
+						if (metodos.adicionarEstoque(estoque)) {
+							JOptionPane.showMessageDialog(null, "Estoque adicionado com sucesso", "Sucesso", 1);
+						}
+					}
+				}
+			}
+		});
+		adicionarButton.setBounds(1134, 9, 120, 28);
+		contentPane.add(adicionarButton);
+
+		descriLabel = new JLabel("dESCRI\u00C7\u00C3O");
+		descriLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		descriLabel.setForeground(Color.WHITE);
+		descriLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
+		descriLabel.setBounds(898, 117, 366, 20);
+		contentPane.add(descriLabel);
+
+		qtdLabel = new JLabel("Quantidade");
+		qtdLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		qtdLabel.setForeground(Color.WHITE);
+		qtdLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
+		qtdLabel.setBounds(898, 14, 122, 20);
+		contentPane.add(qtdLabel);
+
+		fundo = new JLabel("");
+		fundo.setIcon(new ImageIcon(TelaEstoque.class.getResource("/assets/fundo com cerveja Full HD.jpeg")));
+		fundo.setBounds(0, 0, 1264, 681);
+		contentPane.add(fundo);
 
 		contentPane.remove(fundo);
-		contentPane.add(produtosSP);
 		contentPane.add(fundo);
 		contentPane.updateUI();
 
@@ -409,5 +487,23 @@ public class TelaEstoque extends JFrame {
 			sorter.setRowFilter(RowFilter.regexFilter(filtro, coluna));
 
 		}
+	}
+
+	public boolean verificarCampos() {
+		boolean retorno = false;
+
+		if (idText.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "Por favor selecione um produto", "Selecione produto", 2);
+		} else if (qtdText.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "Por favor insira a qunatidade", "Insisra quantidade", 2);
+			qtdText.requestFocus();
+		} else if (descTextArea.getText().equals("")) {
+			JOptionPane.showMessageDialog(null, "Por favor insira um descrição", "Insira descrição", 2);
+			descTextArea.requestFocus();
+		} else {
+			retorno = true;
+		}
+
+		return retorno;
 	}
 }
