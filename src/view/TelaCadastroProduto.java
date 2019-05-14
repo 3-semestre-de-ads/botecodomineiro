@@ -69,9 +69,16 @@ public class TelaCadastroProduto extends JFrame {
 	private JButton cancelarButton;
 	private JTable produtosTable;
 	private JLabel fornecedorLabel;
+	private JButton atualizarButton;
+	private JTextField qtdMinText;
+	private JTextField qtdMaxText;
+	private JLabel qtdMinLabel;
+	private JLabel qtdMaxLabel;
+	
 
 	ProdutoDAO metodos = new ProdutoDAO();
-	private JButton atualizarButton;
+	private JTextField qtdReposicaoText;
+	private JLabel reposicaoLabel;
 
 	/**
 	 * Launch the application.
@@ -92,6 +99,7 @@ public class TelaCadastroProduto extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public TelaCadastroProduto() {
 		setTitle("Cadastro de produto");
 		addWindowListener(new WindowAdapter() {
@@ -116,7 +124,7 @@ public class TelaCadastroProduto extends JFrame {
 		salvarButton.setForeground(Color.WHITE);
 		salvarButton.setFont(CoresFontes.fonteStencil);
 		salvarButton.setBackground(CoresFontes.corBotão);
-		salvarButton.setBounds(416, 110, 130, 25);
+		salvarButton.setBounds(340, 155, 130, 25);
 		salvarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (produtoText.getText().replaceAll(" ", "").equals("") || unidadeCombo.getSelectedItem().equals(null)
@@ -131,7 +139,7 @@ public class TelaCadastroProduto extends JFrame {
 					Produto produto = new Produto(produtoText.getText().trim(),
 							String.valueOf(unidadeCombo.getSelectedItem()), descTextArea.getText().trim(),
 							Double.parseDouble(precoText.getText().trim()), String.valueOf(tipoCombo.getSelectedItem()),
-							String.valueOf(fornecedorCombo.getSelectedItem()));
+							String.valueOf(fornecedorCombo.getSelectedItem()), qtdMinText.getText(), qtdMaxText.getText(), qtdReposicaoText.getText());
 					if (metodos.cadastrar(produto)) {
 						limpar(); // Se der sucesso no cadastro limpa os campos
 						listarTabela(); // lista a tabela de produtos
@@ -139,6 +147,42 @@ public class TelaCadastroProduto extends JFrame {
 				}
 			}
 		});
+		
+		reposicaoLabel = new JLabel("Quantidade reposi\u00E7\u00E3o:");
+		reposicaoLabel.setForeground(Color.WHITE);
+		reposicaoLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
+		reposicaoLabel.setBounds(340, 73, 203, 20);
+		contentPane.add(reposicaoLabel);
+		
+		qtdReposicaoText = new JTextField();
+		qtdReposicaoText.setText("1");
+		qtdReposicaoText.setColumns(10);
+		qtdReposicaoText.setBounds(553, 68, 70, 25);
+		contentPane.add(qtdReposicaoText);
+		
+		qtdMinLabel = new JLabel("Quantidade m\u00EDnima:");
+		qtdMinLabel.setForeground(Color.WHITE);
+		qtdMinLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
+		qtdMinLabel.setBounds(340, 103, 184, 19);
+		contentPane.add(qtdMinLabel);
+		
+		qtdMaxText = new JTextField();
+		qtdMaxText.setText("99");
+		qtdMaxText.setColumns(10);
+		qtdMaxText.setBounds(553, 128, 70, 25);
+		contentPane.add(qtdMaxText);
+		
+		qtdMaxLabel = new JLabel("Quantiade m\u00E1xima:");
+		qtdMaxLabel.setForeground(Color.WHITE);
+		qtdMaxLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
+		qtdMaxLabel.setBounds(340, 133, 203, 20);
+		contentPane.add(qtdMaxLabel);
+		
+		qtdMinText = new JTextField();
+		qtdMinText.setText("1");
+		qtdMinText.setColumns(10);
+		qtdMinText.setBounds(553, 98, 70, 25);
+		contentPane.add(qtdMinText);
 		contentPane.add(salvarButton);
 
 		atualizarButton = new JButton("Atualizar");
@@ -147,7 +191,7 @@ public class TelaCadastroProduto extends JFrame {
 		atualizarButton.setForeground(Color.WHITE);
 		atualizarButton.setFont(new Font("Stencil", Font.PLAIN, 16));
 		atualizarButton.setBackground(new Color(50, 0, 0));
-		atualizarButton.setBounds(416, 110, 130, 25);
+		atualizarButton.setBounds(340, 155, 130, 25);
 		atualizarButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (produtoText.getText().replaceAll(" ", "").equals("") || unidadeCombo.getSelectedItem().equals(null)
@@ -162,7 +206,7 @@ public class TelaCadastroProduto extends JFrame {
 					Produto produto = new Produto(Integer.parseInt(idText.getText()), produtoText.getText().trim(),
 							String.valueOf(unidadeCombo.getSelectedItem()), descTextArea.getText().trim(),
 							Double.parseDouble(precoText.getText().trim()), String.valueOf(tipoCombo.getSelectedItem()),
-							String.valueOf(fornecedorCombo.getSelectedItem()));
+							String.valueOf(fornecedorCombo.getSelectedItem()), qtdMinText.getText(), qtdMaxText.getText(), qtdReposicaoText.getText());
 					if (metodos.atualizar(produto)) {
 						limpar(); // Se der sucesso no cadastro limpa os campos
 						listarTabela(); // lista a tabela de produtos
@@ -175,7 +219,7 @@ public class TelaCadastroProduto extends JFrame {
 		fornecedorLabel = new JLabel("Fornecedor:");
 		fornecedorLabel.setForeground(Color.WHITE);
 		fornecedorLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
-		fornecedorLabel.setBounds(248, 60, 110, 14);
+		fornecedorLabel.setBounds(248, 45, 110, 14);
 		contentPane.add(fornecedorLabel);
 
 		fornecedorCombo = new JComboBox<String>();
@@ -188,7 +232,7 @@ public class TelaCadastroProduto extends JFrame {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-		fornecedorCombo.setBounds(361, 55, 264, 25);
+		fornecedorCombo.setBounds(361, 40, 264, 25);
 		contentPane.add(fornecedorCombo);
 
 		idText = new JTextField();
@@ -285,7 +329,7 @@ public class TelaCadastroProduto extends JFrame {
 		cancelarButton.setForeground(Color.WHITE);
 		cancelarButton.setFont(CoresFontes.fonteStencil);
 		cancelarButton.setBackground(CoresFontes.corBotão);
-		cancelarButton.setBounds(416, 145, 130, 25);
+		cancelarButton.setBounds(495, 155, 130, 25);
 		contentPane.add(cancelarButton);
 
 		fundoLabel = new JLabel("");
@@ -316,10 +360,23 @@ public class TelaCadastroProduto extends JFrame {
 		cabecalhoPersonalizado.addElement("Descricao");
 		cabecalhoPersonalizado.addElement("Preco");
 		cabecalhoPersonalizado.addElement("Tipo");
+		cabecalhoPersonalizado.addElement("Mínimo");
+		cabecalhoPersonalizado.addElement("Máximo");
+		cabecalhoPersonalizado.addElement("Reposição");
 
-		String sql = "SELECT p.idproduto,\r\n" + "	   f.nomefantasia fornecedor,\r\n" + "       p.nome,\r\n"
-				+ "       p.unidade,\r\n" + "       p.descricao,\r\n" + "       p.preco,\r\n" + "       p.tipo\r\n"
-				+ "FROM produto p \r\n " + "INNER JOIN fornecedor f \r\n" + "ON p.idfornecedor = f.idfornecedor\r\n"
+		String sql = "SELECT p.idproduto,\r\n" 
+		+ "	   f.nomefantasia fornecedor,\r\n" 
+				+ "p.nome,\r\n"
+				+ "p.unidade,\r\n" 
+				+ "p.descricao,\r\n" 
+				+ "p.preco,\r\n" 
+				+ "p.tipo,\r\n"
+				+ "p.qtdmin,\r\n"
+				+ "p.qtdmax,\r\n"
+				+ "p.qtdreposicao \r\n"
+				+ "FROM produto p \r\n " 
+				+ "INNER JOIN fornecedor f \r\n" 
+				+ "ON p.idfornecedor = f.idfornecedor\r\n"
 				+ "ORDER BY idproduto;";
 
 		if (produtosTable != null) {
@@ -339,6 +396,9 @@ public class TelaCadastroProduto extends JFrame {
 				descTextArea.setText(produtosTable.getValueAt(produtosTable.getSelectedRow(), 4).toString());
 				precoText.setText(produtosTable.getValueAt(produtosTable.getSelectedRow(), 5).toString());
 				tipoCombo.setSelectedItem(produtosTable.getValueAt(produtosTable.getSelectedRow(), 6).toString());
+				qtdMinText.setText(produtosTable.getValueAt(produtosTable.getSelectedRow(), 7).toString());
+				qtdMaxText.setText(produtosTable.getValueAt(produtosTable.getSelectedRow(), 8).toString());
+				qtdReposicaoText.setText(produtosTable.getValueAt(produtosTable.getSelectedRow(), 9).toString());
 
 				ativarBotao(atualizarButton);
 			}
@@ -361,6 +421,9 @@ public class TelaCadastroProduto extends JFrame {
 		precoText.setText("");
 		tipoCombo.setSelectedIndex(0);
 		fornecedorCombo.setSelectedIndex(0);
+		qtdMinText.setText("");
+		qtdMaxText.setText("");
+		qtdReposicaoText.setText("");
 
 		ativarBotao(salvarButton);
 	}

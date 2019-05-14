@@ -15,6 +15,8 @@ import banco.BD;
 
 public class EstoqueDAO {
 
+	Sessao sessao = Sessao.getInstance();
+
 	private JTable tabela;
 
 	public JTable criarTabela(String sql, Vector<String> cabecalhoPersonalizado) {
@@ -71,22 +73,24 @@ public class EstoqueDAO {
 	public boolean adicionarEstoque(Estoque estoque) {
 		boolean retorno = false;
 
-		if (BD.conexao()) {
-			String sql = "UPDATE produto SET quantidade = quantidade + " + estoque.getQtd() + "\r\n"
-					+ "WHERE idproduto = '" + estoque.getIdProduto() + "';"
+		if (verificarEstoque(estoque, "adicionar")) {
+			if (BD.conexao()) {
+				String sql = "UPDATE produto SET quantidade = quantidade + " + estoque.getQtd() + "\r\n"
+						+ "WHERE idproduto = '" + estoque.getIdProduto() + "';"
 
-					+ "INSERT INTO registro_estoque (descricao, quantidade, data, id_produto) " + "VALUES ('"
-					+ estoque.getDescricao() + "', " + estoque.getQtd() + ", '" + convDataBanco() + "', "
-					+ estoque.getIdProduto() + ")";
-			try {
-				BD.st = BD.con.prepareStatement(sql);
-				BD.st.executeUpdate();
+						+ "INSERT INTO registro_estoque (descricao, quantidade, data, id_produto, id_usuario) "
+						+ "VALUES ('" + estoque.getDescricao() + "', " + estoque.getQtd() + ", '" + convDataBanco()
+						+ "', " + estoque.getIdProduto() + ", " + sessao.getId() + " )";
+				try {
+					BD.st = BD.con.prepareStatement(sql);
+					BD.st.executeUpdate();
 
-				retorno = true;
-			} catch (SQLException e) {
-				JOptionPane.showMessageDialog(null, e.toString(), this.getClass().getName(), 0);
+					retorno = true;
+				} catch (SQLException e) {
+					JOptionPane.showMessageDialog(null, e.toString(), this.getClass().getName(), 0);
+				}
+
 			}
-
 		}
 
 		return retorno;
@@ -95,20 +99,71 @@ public class EstoqueDAO {
 	public boolean removerEstoque(Estoque estoque) {
 		boolean retorno = false;
 
-		if (BD.conexao()) {
-			String sql = "UPDATE produto SET quantidade = quantidade - " + estoque.getQtd() + "\r\n"
-					+ "WHERE idproduto = '" + estoque.getIdProduto() + "';"
+		if (verificarEstoque(estoque, "remover")) {
+			if (BD.conexao()) {
+				String sql = "UPDATE produto SET quantidade = quantidade - " + estoque.getQtd() + "\r\n"
+						+ "WHERE idproduto = '" + estoque.getIdProduto() + "';"
 
-					+ "INSERT INTO registro_estoque (descricao, quantidade, data, id_produto) " + "VALUES ('"
-					+ estoque.getDescricao() + "', -" + estoque.getQtd() + ", '" + convDataBanco() + "', "
-					+ estoque.getIdProduto() + ")";
+						+ "INSERT INTO registro_estoque (descricao, quantidade, data, id_produto, id_usuario) "
+						+ "VALUES ('" + estoque.getDescricao() + "', -" + estoque.getQtd() + ", '" + convDataBanco()
+						+ "', " + estoque.getIdProduto() + ", " + sessao.getId() + ")";
+				try {
+					BD.st = BD.con.prepareStatement(sql);
+					BD.st.executeUpdate();
+
+					retorno = true;
+				} catch (SQLException e) {
+					JOptionPane.showMessageDialog(null, e.toString(), this.getClass().getName(), 0);
+				}
+
+			}
+		}
+
+		return retorno;
+	}
+
+	public boolean verificarEstoque(Estoque estoque, String acao) {
+		boolean retorno = true;
+
+		if (BD.conexao()) {
+			String sql = "SELECT * FROM produto WHERE idproduto = '" + estoque.getIdProduto() + "'";
+
 			try {
 				BD.st = BD.con.prepareStatement(sql);
-				BD.st.executeUpdate();
+				BD.rs = BD.st.executeQuery();
+				BD.rs.next();
 
-				retorno = true;
+				if (acao == "adicionar") {
+					int quantidade = BD.rs.getInt("quantidade") + estoque.getQtd();
+
+					if (quantidade > BD.rs.getInt("qtdmax")) {
+						JOptionPane.showMessageDialog(null,
+								"O estoque deste produto não pode ser maior que " + BD.rs.getString("qtdmax"),
+								"Estoque máximo", 2);
+						retorno = false;
+					}
+				}
+
+				if (acao == "remover") {
+					int quantidade = BD.rs.getInt("quantidade") - estoque.getQtd();
+
+					if (quantidade < BD.rs.getInt("qtdmin")) {
+						JOptionPane.showMessageDialog(null,
+								"O estoque deste produto não pode ser menor que " + BD.rs.getString("qtdmin"),
+								"Estoque minímo", 2);
+						retorno = false;
+					} else if (quantidade == BD.rs.getInt("qtdreposicao")) {
+						JOptionPane.showMessageDialog(null,
+								"Atenção para este produto ele chegou na quantidade que necessita reposição", "Atenção",
+								2);
+					} else if (quantidade == BD.rs.getInt("qtdmin")) {
+						JOptionPane.showMessageDialog(null, "Atenção para este produto ele chegou no minimo em estoque",
+								"Atenção", 2);
+					}
+				}
+
 			} catch (SQLException e) {
-				JOptionPane.showMessageDialog(null, e.toString(), this.getClass().getName(), 0);
+				JOptionPane.showMessageDialog(null, e.toString(), "Erro ao verificar estoque", 0);
 			}
 
 		}

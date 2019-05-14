@@ -332,6 +332,85 @@ public class TelaEstoque extends JFrame {
 		tipoText.setColumns(10);
 		tipoText.setBounds(418, 11, 197, 25);
 		contentPane.add(tipoText);
+		
+		descTextArea = new TextArea();
+		descTextArea.setBounds(898, 142, 356, 123);
+		contentPane.add(descTextArea);
+
+		qtdText = new JTextField();
+		qtdText.setBounds(898, 38, 122, 28);
+		contentPane.add(qtdText);
+
+		removerButton = new JButton("Remover");
+		removerButton.setForeground(Color.WHITE);
+		removerButton.setFont(CoresFontes.fonteStencil);
+		removerButton.setBackground(CoresFontes.corBotão);
+		removerButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (verificarCampos()) {
+					if (JOptionPane.showConfirmDialog(null,
+							"Deseja realmente remover " + qtdText.getText() + " " + produtoText.getText()
+									+ " do estoque",
+							"Estoque", JOptionPane.YES_NO_OPTION,
+							JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+
+						Estoque estoque = new Estoque(Integer.parseInt(idText.getText()),
+								Integer.parseInt(qtdText.getText()), descTextArea.getText());
+						if (metodos.removerEstoque(estoque)) {
+							listarTabela();
+							JOptionPane.showMessageDialog(null, "Estoque removido com sucesso", "Sucesso", 1);
+						}
+					}
+				}
+			}
+		});
+		removerButton.setBounds(1134, 39, 120, 28);
+		contentPane.add(removerButton);
+
+		adicionarButton = new JButton("Adicionar");
+		adicionarButton.setForeground(Color.WHITE);
+		adicionarButton.setBackground(CoresFontes.corBotão);
+		adicionarButton.setFont(CoresFontes.fonteStencil);
+		adicionarButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (verificarCampos()) {
+					if (JOptionPane.showConfirmDialog(null,
+							"Deseja realmente acrescentar " + qtdText.getText() + " " + produtoText.getText()
+									+ " ao estoque",
+							"Estoque", JOptionPane.YES_NO_OPTION,
+							JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+
+						Estoque estoque = new Estoque(Integer.parseInt(idText.getText()),
+								Integer.parseInt(qtdText.getText()), descTextArea.getText());
+						if (metodos.adicionarEstoque(estoque)) {
+							listarTabela();
+							JOptionPane.showMessageDialog(null, "Estoque adicionado com sucesso", "Sucesso", 1);
+						}
+					}
+				}
+			}
+		});
+		adicionarButton.setBounds(1134, 9, 120, 28);
+		contentPane.add(adicionarButton);
+
+		descriLabel = new JLabel("dESCRI\u00C7\u00C3O");
+		descriLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		descriLabel.setForeground(Color.WHITE);
+		descriLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
+		descriLabel.setBounds(898, 117, 366, 20);
+		contentPane.add(descriLabel);
+
+		qtdLabel = new JLabel("Quantidade");
+		qtdLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		qtdLabel.setForeground(Color.WHITE);
+		qtdLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
+		qtdLabel.setBounds(898, 14, 122, 20);
+		contentPane.add(qtdLabel);
+		
+		fundo = new JLabel("");
+		fundo.setIcon(new ImageIcon(TelaEstoque.class.getResource("/assets/fundo com cerveja Full HD.jpeg")));
+		fundo.setBounds(0, 0, 1264, 681);
+		contentPane.add(fundo);
 
 		listarTabela();
 		preencherComboFornecedor();
@@ -374,6 +453,9 @@ public class TelaEstoque extends JFrame {
 				descText.setText(produtosTable.getValueAt(produtosTable.getSelectedRow(), 4).toString());
 				precoText.setText(produtosTable.getValueAt(produtosTable.getSelectedRow(), 5).toString());
 				tipoText.setText(produtosTable.getValueAt(produtosTable.getSelectedRow(), 6).toString());
+				qtdEstoqueText.setText(produtosTable.getValueAt(produtosTable.getSelectedRow(), 7).toString());
+				qtdMinText.setText(produtosTable.getValueAt(produtosTable.getSelectedRow(), 8).toString());
+				qtdMaximoText.setText(produtosTable.getValueAt(produtosTable.getSelectedRow(), 9).toString());
 
 			}
 		});
@@ -381,84 +463,6 @@ public class TelaEstoque extends JFrame {
 		produtosSP = new JScrollPane(produtosTable);
 		produtosSP.setBounds(0, 276, 1264, 405);
 		contentPane.add(produtosSP);
-
-		descTextArea = new TextArea();
-		descTextArea.setBounds(898, 142, 356, 123);
-		contentPane.add(descTextArea);
-
-		qtdText = new JTextField();
-		qtdText.setBounds(898, 38, 122, 28);
-		contentPane.add(qtdText);
-		qtdText.setColumns(10);
-
-		removerButton = new JButton("Remover");
-		removerButton.setForeground(Color.WHITE);
-		removerButton.setFont(CoresFontes.fonteStencil);
-		removerButton.setBackground(CoresFontes.corBotão);
-		removerButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if (verificarCampos()) {
-					if (JOptionPane.showConfirmDialog(null,
-							"Deseja realmente remover " + qtdText.getText() + " " + produtoText.getText()
-									+ " do estoque",
-							"Estoque", JOptionPane.YES_NO_OPTION,
-							JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-
-						Estoque estoque = new Estoque(Integer.parseInt(idText.getText()),
-								Integer.parseInt(qtdText.getText()), descTextArea.getText());
-						if (metodos.removerEstoque(estoque)) {
-							JOptionPane.showMessageDialog(null, "Estoque removido com sucesso", "Sucesso", 1);
-						}
-					}
-				}
-			}
-		});
-		removerButton.setBounds(1134, 39, 120, 28);
-		contentPane.add(removerButton);
-
-		adicionarButton = new JButton("Adicionar");
-		adicionarButton.setForeground(Color.WHITE);
-		adicionarButton.setBackground(CoresFontes.corBotão);
-		adicionarButton.setFont(CoresFontes.fonteStencil);
-		adicionarButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if (verificarCampos()) {
-					if (JOptionPane.showConfirmDialog(null,
-							"Deseja realmente acrescentar " + qtdText.getText() + " " + produtoText.getText()
-									+ " ao estoque",
-							"Estoque", JOptionPane.YES_NO_OPTION,
-							JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-
-						Estoque estoque = new Estoque(Integer.parseInt(idText.getText()),
-								Integer.parseInt(qtdText.getText()), descTextArea.getText());
-						if (metodos.adicionarEstoque(estoque)) {
-							JOptionPane.showMessageDialog(null, "Estoque adicionado com sucesso", "Sucesso", 1);
-						}
-					}
-				}
-			}
-		});
-		adicionarButton.setBounds(1134, 9, 120, 28);
-		contentPane.add(adicionarButton);
-
-		descriLabel = new JLabel("dESCRI\u00C7\u00C3O");
-		descriLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		descriLabel.setForeground(Color.WHITE);
-		descriLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
-		descriLabel.setBounds(898, 117, 366, 20);
-		contentPane.add(descriLabel);
-
-		qtdLabel = new JLabel("Quantidade");
-		qtdLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		qtdLabel.setForeground(Color.WHITE);
-		qtdLabel.setFont(new Font("Stencil", Font.PLAIN, 16));
-		qtdLabel.setBounds(898, 14, 122, 20);
-		contentPane.add(qtdLabel);
-
-		fundo = new JLabel("");
-		fundo.setIcon(new ImageIcon(TelaEstoque.class.getResource("/assets/fundo com cerveja Full HD.jpeg")));
-		fundo.setBounds(0, 0, 1264, 681);
-		contentPane.add(fundo);
 
 		contentPane.remove(fundo);
 		contentPane.add(fundo);

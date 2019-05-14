@@ -16,10 +16,13 @@ public class Produto {
 	private double preco;
 	private String tipo;
 	private String fornecedor;
+	private String qtdmin;
+	private String qtdmax;
+	private String qtdreposicao;
 	
 	//Construtor para atualização
 	public Produto(int idproduto, String nome, String unidade, String descricao, double preco, String tipo,
-			String fornecedor) {
+			String fornecedor, String qtdmin, String qtdmax, String qtdreposicao) {
 		super();
 		this.idproduto = idproduto;
 		this.nome = nome;
@@ -28,15 +31,27 @@ public class Produto {
 		this.preco = preco;
 		this.tipo = tipo;
 		this.fornecedor = fornecedor;
+		this.qtdmin = qtdmin;
+		this.qtdmax = qtdmax;
+		this.qtdreposicao = qtdreposicao;
 	}
 	//Construtor para cadastro
-	public Produto(String nome, String unidade, String descricao, double preco, String tipo, String fornecedor) {
+	public Produto(String nome, String unidade, String descricao, double preco, String tipo, String fornecedor, String qtdmin, String qtdmax, String qtdreposicao) {
 		this.nome = nome;
 		this.unidade = unidade;
 		this.descricao = descricao;
 		this.preco = preco;
 		this.tipo = tipo;
 		this.fornecedor = fornecedor;
+		this.qtdmin = qtdmin;
+		this.qtdmax = qtdmax;
+		this.qtdreposicao = qtdreposicao;
+	}
+	public int getIdproduto() {
+		return idproduto;
+	}
+	public void setIdproduto(int idproduto) {
+		this.idproduto = idproduto;
 	}
 	public String getNome() {
 		return nome;
@@ -74,7 +89,22 @@ public class Produto {
 	public void setFornecedor(String fornecedor) {
 		this.fornecedor = fornecedor;
 	}
-	public int getIdproduto() {
-		return idproduto;
+	public String getQtdmin() {
+		return qtdmin;
+	}
+	public void setQtdmin(String qtdmin) {
+		this.qtdmin = qtdmin;
+	}
+	public String getQtdmax() {
+		return qtdmax;
+	}
+	public void setQtdmax(String qtdmax) {
+		this.qtdmax = qtdmax;
+	}
+	public String getQtdreposicao() {
+		return qtdreposicao;
+	}
+	public void setQtdreposicao(String qtdreposicao) {
+		this.qtdreposicao = qtdreposicao;
 	}
 }

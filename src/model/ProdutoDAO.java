@@ -30,10 +30,11 @@ public class ProdutoDAO {
 	public boolean cadastrar(Produto produto) {
 		boolean retorno = false;
 		if (BD.conexao()) {// Verificando se a conexão está estabelecida
-			String sql = "INSERT INTO produto(nome, unidade, descricao, preco, tipo, idfornecedor)" + "VALUES ('"
+			String sql = "INSERT INTO produto(nome, unidade, descricao, preco, tipo, idfornecedor, qtdmin, qtdmax, qtdreposicao)" + "VALUES ('"
 					+ produto.getNome() + "','" + produto.getUnidade() + "','" + produto.getDescricao() + "','"
 					+ produto.getPreco() + "','" + produto.getTipo() + "',"
-					+ "(SELECT idfornecedor FROM fornecedor where nomefantasia = '" + produto.getFornecedor() + "'))";
+					+ "(SELECT idfornecedor FROM fornecedor where nomefantasia = '" + produto.getFornecedor() + "'),"
+							+ "'" + produto.getQtdmin() + "', '" + produto.getQtdmax() + "', '" + produto.getQtdreposicao() + "')";
 
 			try {
 				BD.st = BD.con.prepareStatement(sql);
@@ -61,12 +62,17 @@ public class ProdutoDAO {
 	public boolean atualizar(Produto produto) {
 		boolean retorno = false;
 		if (BD.conexao()) {// Verificando se a conexão está estabelecida
-			String sql = "UPDATE produto SET\r\n" + " idfornecedor = "
-					+ "(SELECT idfornecedor FROM fornecedor where nomefantasia = '" + produto.getFornecedor()
-					+ "'),\r\n" + "nome = '" + produto.getNome() + "',\r\n" + "unidade = '" + produto.getUnidade()
-					+ "',\r\n" + "descricao = '" + produto.getDescricao() + "',\r\n" + "preco = '" + produto.getPreco()
-					+ "',\r\n" + "tipo = '" + produto.getTipo() + "' \r\n" + "WHERE idproduto = "
-					+ produto.getIdproduto();
+			String sql = "UPDATE produto SET\r\n" 
+		+ " idfornecedor = (SELECT idfornecedor FROM fornecedor where nomefantasia = '" + produto.getFornecedor()+ "'),\r\n" 
+		+ "nome = '" + produto.getNome() + "',\r\n" 
+		+ "unidade = '" + produto.getUnidade()+ "',\r\n" 
+		+ "descricao = '" + produto.getDescricao() + "',\r\n" 
+		+ "preco = '" + produto.getPreco() + "',\r\n" 
+		+ "tipo = '" + produto.getTipo() + "',\r\n" 
+		+ "qtdmin = '" + produto.getQtdmin() + "',\r\n"
+		+ "qtdmax = '" + produto.getQtdmax() + "',\r\n"
+		+ "qtdreposicao = '" + produto.getQtdreposicao() + "'\r\n"
+		+ "WHERE idproduto = "+ produto.getIdproduto();
 
 			try {
 				BD.st = BD.con.prepareStatement(sql);
