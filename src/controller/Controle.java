@@ -10,13 +10,14 @@ import view.TelaCadastroProduto;
 import view.TelaCadastroUsuario;
 import view.TelaEstoque;
 import view.TelaLogin;
+import view.TelaParametrosReportUsuario;
 import view.TelaPrincipal;
 
 /**
  * 
  * @author MATIAS
  *
- *        Classe usada para controle de acesso as telas
+ *         Classe usada para controle de acesso as telas
  *
  */
 
@@ -38,12 +39,18 @@ public class Controle {
 	public static boolean cadastrofornecedor = false;
 	public static TelaEstoque telaestoque;
 	public static boolean estoquetela = false;
+	public static TelaParametrosReportUsuario telaParametrosReportUsuario;
+	public static boolean parametrosReportUsuario = false;
 
 	/**
-	 * Neste metodo abrirTela, e recebido como parametro o nome da tela a qual deseja ser aberta,  feito um  swtich case para verificar qual foi a tela solicitada a ser aberta
-	 * quando encontrado, primeiro verifica a variavel booleana referente a tela,
-	 * caso esta variavel esteja com true apresenta mensagem de que esta tela ja esta aberta e executa um metodo ToFront na tela, a colocando a frente,
-	 * caso a variavel esteja com false, instanciamos a tela e usamos o metodo setVisible para que ela se torne visivel, e alimentamos a variavel booleana referente a esta tela com true;
+	 * Neste metodo abrirTela, e recebido como parametro o nome da tela a qual
+	 * deseja ser aberta, feito um swtich case para verificar qual foi a tela
+	 * solicitada a ser aberta quando encontrado, primeiro verifica a variavel
+	 * booleana referente a tela, caso esta variavel esteja com true apresenta
+	 * mensagem de que esta tela ja esta aberta e executa um metodo ToFront na tela,
+	 * a colocando a frente, caso a variavel esteja com false, instanciamos a tela e
+	 * usamos o metodo setVisible para que ela se torne visivel, e alimentamos a
+	 * variavel booleana referente a esta tela com true;
 	 * 
 	 * @param parametro a qual e recebido o nome da tela, que deve ser executada
 	 */
@@ -164,7 +171,7 @@ public class Controle {
 			if (estoquetela == false) {// Verifica a variavel boolean referente a tela
 				if (sessao.getFuncao() == 1) {// Verifica e controla o nivel de permissão do usuário
 					telaestoque = new TelaEstoque();// Instancia a tela caso a variavel esteja com
-																			// false
+													// false
 					telaestoque.setVisible(true);// Torna a tela visivel
 					estoquetela = true;// E passa true para a variavel boolean
 				} else {
@@ -174,6 +181,23 @@ public class Controle {
 			} else {
 				JOptionPane.showMessageDialog(null, "Esta tela já esta aberta");
 				telaestoque.toFront();// Joga a tela já aberta para frente
+			}
+
+			break;
+		case "TelaParametrosReportUsuario":
+
+			if (parametrosReportUsuario == false) {// Verifica a variavel boolean referente a tela
+				if (sessao.getFuncao() == 1) {// Verifica e controla o nivel de permissão do usuário
+					telaParametrosReportUsuario = new TelaParametrosReportUsuario();// Instancia a tela caso a variavel esteja com false
+					telaParametrosReportUsuario.setVisible(true);// Torna a tela visivel
+					parametrosReportUsuario = true;// E passa true para a variavel boolean
+				} else {
+					JOptionPane.showMessageDialog(null, "Você não tem permissões para acessar esta tela.",
+							"Falha de permissão", 0);
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, "Esta tela já esta aberta");
+				telaParametrosReportUsuario.toFront();// Joga a tela já aberta para frente
 			}
 
 			break;
