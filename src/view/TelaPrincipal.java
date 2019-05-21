@@ -1,20 +1,20 @@
 package view;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import java.awt.Color;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JMenu;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
+
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 /**
  * 
@@ -161,6 +161,17 @@ public class TelaPrincipal extends JFrame {
 			}
 		});
 		administracaoMenu.add(fornecedoresMenuItem);
+
+		JMenu relatoriosMenu = new JMenu("Relat\u00F3rios");
+		principalMenu.add(relatoriosMenu);
+
+		JMenuItem reportUsuariosMenuItem = new JMenuItem("Funcion\u00E1rios/Usu\u00E1rios");
+		reportUsuariosMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.Controle.abrirTela("TelaParametrosReportUsuario");
+			}
+		});
+		relatoriosMenu.add(reportUsuariosMenuItem);
 
 	}
 }
