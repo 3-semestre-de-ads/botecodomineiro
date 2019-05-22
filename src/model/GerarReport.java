@@ -2,7 +2,7 @@ package model;
 
 import java.util.Map;
 
-import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 
 import banco.BD;
 import net.sf.jasperreports.engine.JRException;
@@ -16,14 +16,13 @@ public class GerarReport {
 		boolean retorno = false;
 
 		if (BD.conexao()) {// Verificando se a conexão está estabelecida
-			try {
-				JasperPrint print = JasperFillManager
-						.fillReport(GerarReport.class.getResourceAsStream("reports/" + arquivo), parametros, BD.con);
-				JasperViewer jrviewer = new JasperViewer(print, false);
-				jrviewer.setVisible(true);
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, e.toString());
-			}
+
+			JasperPrint print = JasperFillManager
+					.fillReport(GerarReport.class.getResourceAsStream("/reports/" + arquivo), parametros, BD.con);
+			JasperViewer jrviewer = new JasperViewer(print, false);
+			jrviewer.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+			jrviewer.setTitle("Funcionários");
+			jrviewer.setVisible(true);
 		}
 		return retorno;
 	}

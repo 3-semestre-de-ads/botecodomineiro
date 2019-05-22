@@ -263,7 +263,6 @@ public class TelaCadastroPedidos extends JFrame {
 		listarTabelaProdutos();
 		listarTabelaComandas();
 		preencherComboClientes();
-		adicionarLinhaTabelaProdutosNaComanda();
 	}
 
 	public void listarTabelaProdutos() {
@@ -378,13 +377,5 @@ public class TelaCadastroPedidos extends JFrame {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public void adicionarLinhaTabelaProdutosNaComanda() {
-		TableModel modelo =  produtosComandaTabela.getModel();
-		
-		Object[] linha = {"Coca", "12.55", "KG", "1"};
-		
-		((DefaultTableModel) modelo).addRow(linha);
 	}
 }

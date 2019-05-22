@@ -10,7 +10,7 @@ import view.TelaCadastroProduto;
 import view.TelaCadastroUsuario;
 import view.TelaEstoque;
 import view.TelaLogin;
-import view.TelaParametrosReportUsuario;
+import view.TelaReports;
 import view.TelaPrincipal;
 
 /**
@@ -39,7 +39,7 @@ public class Controle {
 	public static boolean cadastrofornecedor = false;
 	public static TelaEstoque telaestoque;
 	public static boolean estoquetela = false;
-	public static TelaParametrosReportUsuario telaParametrosReportUsuario;
+	public static TelaReports telaParametrosReportUsuario;
 	public static boolean parametrosReportUsuario = false;
 
 	/**
@@ -188,7 +188,7 @@ public class Controle {
 
 			if (parametrosReportUsuario == false) {// Verifica a variavel boolean referente a tela
 				if (sessao.getFuncao() == 1) {// Verifica e controla o nivel de permissão do usuário
-					telaParametrosReportUsuario = new TelaParametrosReportUsuario();// Instancia a tela caso a variavel esteja com false
+					telaParametrosReportUsuario = new TelaReports();// Instancia a tela caso a variavel esteja com false
 					telaParametrosReportUsuario.setVisible(true);// Torna a tela visivel
 					parametrosReportUsuario = true;// E passa true para a variavel boolean
 				} else {
