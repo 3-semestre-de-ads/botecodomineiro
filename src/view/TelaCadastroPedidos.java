@@ -11,6 +11,8 @@ import javax.swing.table.TableModel;
 import model.CoresFontes;
 import model.Pedido;
 import model.PedidoDAO;
+import model.ProdutoNaComanda;
+import model.ProdutosNaComandaModel;
 import model.TableGrade;
 
 import javax.swing.JLabel;
@@ -75,6 +77,7 @@ public class TelaCadastroPedidos extends JFrame {
 	private JLabel precoTotalLabel;
 
 	PedidoDAO metodos = new PedidoDAO();
+	ProdutosNaComandaModel ModeloDeTabela = new ProdutosNaComandaModel();
 
 	/**
 	 * Launch the application.
@@ -189,10 +192,6 @@ public class TelaCadastroPedidos extends JFrame {
 		produtosComandaLabel.setBounds(226, 104, 189, 25);
 		contentPane.add(produtosComandaLabel);
 
-		produtosComandaSP = new JScrollPane();
-		produtosComandaSP.setBounds(10, 129, 620, 240);
-		contentPane.add(produtosComandaSP);
-
 		comandasLabel = new JLabel("Comandas em aberto");
 		comandasLabel.setForeground(Color.WHITE);
 		comandasLabel.setFont(CoresFontes.fonteStencil);
@@ -254,14 +253,16 @@ public class TelaCadastroPedidos extends JFrame {
 		precoText.setBounds(480, 380, 150, 30);
 		contentPane.add(precoText);
 		precoText.setColumns(10);
-		
+
 		fundoLabel = new JLabel("");
-		fundoLabel.setIcon(new ImageIcon(TelaCadastroPedidos.class.getResource("/assets/fundo com cerveja Full HD.jpeg")));
+		fundoLabel.setIcon(
+				new ImageIcon(TelaCadastroPedidos.class.getResource("/assets/fundo com cerveja Full HD.jpeg")));
 		fundoLabel.setBounds(0, 0, 1274, 691);
 		contentPane.add(fundoLabel);
 
 		listarTabelaProdutos();
 		listarTabelaComandas();
+		listarTabelaProdutosNaComanda();
 		preencherComboClientes();
 	}
 
@@ -287,17 +288,31 @@ public class TelaCadastroPedidos extends JFrame {
 		}
 
 		produtosTabela = metodos.criaTabelaProduto(sql, cabecalhoPersonalizado);
-
-		produtosSP = new JScrollPane(produtosTabela);
-		produtosSP.addMouseListener(new MouseAdapter() {
+		produtosTabela.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if (arg0.getClickCount() == 2) {
+					String qtd = JOptionPane.showInputDialog(null, "Informe a quantidade desejada: ");
+					if (qtd != null) {
+						ProdutoNaComanda produto = new ProdutoNaComanda();
+						produto.setID(Integer
+								.parseInt(produtosTabela.getValueAt(produtosTabela.getSelectedRow(), 0).toString()));
+						produto.setProduto(produtosTabela.getValueAt(produtosTabela.getSelectedRow(), 1).toString());
+						produto.setUnidade(produtosTabela.getValueAt(produtosTabela.getSelectedRow(), 2).toString());
+						produto.setPreco(Double
+								.parseDouble(produtosTabela.getValueAt(produtosTabela.getSelectedRow(), 3).toString()));
+						produto.setQuantidade(Integer.parseInt(qtd));
+
+						ModeloDeTabela.addRow(produto);
+					}
 
 				}
 			}
 		});
+
+		produtosSP = new JScrollPane(produtosTabela);
 		produtosSP.setBounds(644, 38, 620, 420);
+
 		contentPane.remove(fundoLabel);
 		contentPane.add(produtosSP);
 		contentPane.add(fundoLabel);
@@ -339,30 +354,38 @@ public class TelaCadastroPedidos extends JFrame {
 	}
 
 	public void listarTabelaProdutosNaComanda() {
-		Vector<String> cabecalhoPersonalizado = new Vector<>();
-		cabecalhoPersonalizado.addElement("Produto");
-		cabecalhoPersonalizado.addElement("Unidade");
-		cabecalhoPersonalizado.addElement("Preco");
-		cabecalhoPersonalizado.addElement("Quantidade");
-		
-		Vector<String> linha = new Vector<>();
 
-	
+		produtosComandaTabela = new JTable();
+		produtosComandaTabela.setModel(ModeloDeTabela);
+		produtosComandaTabela.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if (arg0.getClickCount() == 2) {
+					String qtd = JOptionPane.showInputDialog(null, "Informe a quantidade que deseja remover: ");
+					if (qtd != null) {
+						ProdutoNaComanda produto = new ProdutoNaComanda();
+						produto.setID(Integer.parseInt(produtosComandaTabela
+								.getValueAt(produtosComandaTabela.getSelectedRow(), 0).toString()));
+						produto.setProduto(
+								produtosComandaTabela.getValueAt(produtosComandaTabela.getSelectedRow(), 1).toString());
+						produto.setUnidade(
+								produtosComandaTabela.getValueAt(produtosComandaTabela.getSelectedRow(), 2).toString());
+						produto.setPreco(Double.parseDouble(produtosComandaTabela
+								.getValueAt(produtosComandaTabela.getSelectedRow(), 3).toString()));
+						produto.setQuantidade(Integer.parseInt(qtd));
 
-		if (produtosComandaTabela != null) {
-			produtosComandaTabela.setVisible(false);
-			produtosTabela = null;
-			produtosSP.setVisible(false);
-			produtosSP = null;
-		}
-		
-		produtosComandaTabela = new JTable(cabecalhoPersonalizado, linha);
-		produtosComandaTabela.setModel(new DefaultTableModel());
+						ModeloDeTabela.removeRow(produtosComandaTabela.getSelectedRow(), produto);
+					}
+				}
+			}
+		});
 
-		produtosSP = new JScrollPane(produtosTabela);
-		produtosSP.setBounds(644, 42, 624, 326);
+		produtosComandaSP = new JScrollPane(produtosComandaTabela);
+		produtosComandaSP.setBounds(10, 129, 620, 240);
+		produtosComandaSP.setVisible(true);
+
 		contentPane.remove(fundoLabel);
-		contentPane.add(produtosSP);
+		contentPane.add(produtosComandaSP);
 		contentPane.add(fundoLabel);
 		contentPane.updateUI();
 	}
