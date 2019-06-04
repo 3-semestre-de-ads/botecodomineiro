@@ -234,6 +234,7 @@ public class TelaCadastroPedidos extends JFrame {
 				tipoCombo.setSelectedIndex(0);
 				statusCombo.setSelectedIndex(0);
 				precoText.setText("");
+				ModeloDeTabela.removeAll();
 			}
 		});
 		limparButton.setForeground(Color.WHITE);
@@ -303,7 +304,7 @@ public class TelaCadastroPedidos extends JFrame {
 								.parseDouble(produtosTabela.getValueAt(produtosTabela.getSelectedRow(), 3).toString()));
 						produto.setQuantidade(Integer.parseInt(qtd));
 
-						ModeloDeTabela.addRow(produto);
+						precoText.setText("R$: " + ModeloDeTabela.addRow(produto));
 					}
 
 				}
@@ -374,7 +375,8 @@ public class TelaCadastroPedidos extends JFrame {
 								.getValueAt(produtosComandaTabela.getSelectedRow(), 3).toString()));
 						produto.setQuantidade(Integer.parseInt(qtd));
 
-						ModeloDeTabela.removeRow(produtosComandaTabela.getSelectedRow(), produto);
+						precoText.setText(
+								"R$: " + ModeloDeTabela.removeRow(produtosComandaTabela.getSelectedRow(), produto));
 					}
 				}
 			}

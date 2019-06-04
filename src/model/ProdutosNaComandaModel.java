@@ -18,6 +18,7 @@ public class ProdutosNaComandaModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	private List<ProdutoNaComanda> dados = new ArrayList<>();// Linhas
 	private String[] colunas = { "ID", "Produto", "Unidade", "Preço", "Quantidade" };// Cabeçalho
+	private double precoTotal;
 
 	@Override
 	public String getColumnName(int column) {
@@ -54,7 +55,7 @@ public class ProdutosNaComandaModel extends AbstractTableModel {
 	}
 
 	// Adiciona Linha na tabela
-	public void addRow(ProdutoNaComanda p) {
+	public double addRow(ProdutoNaComanda p) {
 		boolean linhaExistente = false;
 		int linha = 0;
 		for (int x = 0; x < this.getRowCount(); x++) {
@@ -66,29 +67,44 @@ public class ProdutosNaComandaModel extends AbstractTableModel {
 
 		if (linhaExistente) {
 			this.updateRow(linha, p);
+			precoTotal = precoTotal + p.getQuantidade() * p.getPreco();
 		} else {
 			this.dados.add(p);
 			this.fireTableDataChanged();
 			JOptionPane.showMessageDialog(null, "Produto acrescentado");
+			precoTotal = precoTotal + p.getQuantidade() * p.getPreco();
 		}
+
+		return precoTotal;
 	}
 
 	// Remove linha da tabela
-	public void removeRow(int linha, ProdutoNaComanda p) {
+	public double removeRow(int linha, ProdutoNaComanda p) {
 		if (p.getQuantidade() == this.dados.get(linha).getQuantidade()) {
 			this.dados.remove(linha);
 			this.fireTableRowsDeleted(linha, linha);
-			
+
 			JOptionPane.showMessageDialog(null, "Produto removido");
+			precoTotal = precoTotal - p.getQuantidade() * p.getPreco();
 		} else {
 			int qtd = this.dados.get(linha).getQuantidade();
 			this.dados.get(linha).setQuantidade(qtd - p.getQuantidade());
 			this.fireTableDataChanged();
-			
+
 			JOptionPane.showMessageDialog(null, "Quantidade removida");
+			precoTotal = precoTotal - p.getQuantidade() * p.getPreco();
 		}
+
+		return precoTotal;
 	}
 
+	// Remove todas linhas da tabela
+	public void removeAll() {
+		this.dados.removeAll(dados);
+		this.fireTableRowsDeleted(0, getRowCount());
+	}
+
+	// Atualiza linha da tabela
 	public void updateRow(int linha, ProdutoNaComanda p) {
 		int qtd = this.dados.get(linha).getQuantidade();
 
