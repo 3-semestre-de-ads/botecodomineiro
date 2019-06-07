@@ -34,6 +34,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Font;
 
 /**
  * 
@@ -71,13 +72,14 @@ public class TelaCadastroPedidos extends JFrame {
 	private JScrollPane produtosComandaSP;
 	private JLabel comandasLabel;
 	private JScrollPane comandasSP;
-	private JButton fazerEAtualizarPedidoButton;
+	private JButton fazerPedidoButton;
 	private JButton limparButton;
 	private JTextField precoText;
 	private JLabel precoTotalLabel;
 
 	PedidoDAO metodos = new PedidoDAO();
 	ProdutosNaComandaModel ModeloDeTabela = new ProdutosNaComandaModel();
+	private JButton atualizarPedidoButton;
 
 	/**
 	 * Launch the application.
@@ -157,12 +159,12 @@ public class TelaCadastroPedidos extends JFrame {
 
 		mesaCombo = new JComboBox<String>();
 		mesaCombo.addItem("Mesa da comanda");
-		mesaCombo.addItem("Mesa 1");
-		mesaCombo.addItem("Mesa 2");
-		mesaCombo.addItem("Mesa 3");
-		mesaCombo.addItem("Mesa 4");
-		mesaCombo.addItem("Mesa 5");
-		mesaCombo.addItem("Mesa 6");
+		mesaCombo.addItem("1");
+		mesaCombo.addItem("2");
+		mesaCombo.addItem("3");
+		mesaCombo.addItem("4");
+		mesaCombo.addItem("5");
+		mesaCombo.addItem("6");
 		mesaCombo.setBounds(90, 68, 200, 25);
 		contentPane.add(mesaCombo);
 
@@ -198,8 +200,8 @@ public class TelaCadastroPedidos extends JFrame {
 		comandasLabel.setBounds(226, 415, 189, 25);
 		contentPane.add(comandasLabel);
 
-		fazerEAtualizarPedidoButton = new JButton("Fazer Pedido");
-		fazerEAtualizarPedidoButton.addActionListener(new ActionListener() {
+		fazerPedidoButton = new JButton("Fazer Pedido");
+		fazerPedidoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (clienteCombo.getSelectedIndex() != 0 && tipoCombo.getSelectedIndex() != 0
 						&& mesaCombo.getSelectedIndex() != 0 && statusCombo.getSelectedIndex() != 0) {
@@ -210,18 +212,21 @@ public class TelaCadastroPedidos extends JFrame {
 
 					if (metodos.cadastrar(pedido)) {
 						listarTabelaProdutos();
+						atualizarPedidoButton.setVisible(true);
+						fazerPedidoButton.setVisible(false);
+						idText.setText(String.valueOf(pedido.getIdPedido()));
 					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos vazios", 2);
 				}
 			}
 		});
-		fazerEAtualizarPedidoButton.setVerticalAlignment(SwingConstants.TOP);
-		fazerEAtualizarPedidoButton.setForeground(Color.WHITE);
-		fazerEAtualizarPedidoButton.setFont(CoresFontes.fonteStencil);
-		fazerEAtualizarPedidoButton.setBounds(644, 469, 146, 25);
-		fazerEAtualizarPedidoButton.setBackground(CoresFontes.corBotão);
-		contentPane.add(fazerEAtualizarPedidoButton);
+		fazerPedidoButton.setVerticalAlignment(SwingConstants.TOP);
+		fazerPedidoButton.setForeground(Color.WHITE);
+		fazerPedidoButton.setFont(CoresFontes.fonteStencil);
+		fazerPedidoButton.setBounds(644, 469, 146, 25);
+		fazerPedidoButton.setBackground(CoresFontes.corBotão);
+		contentPane.add(fazerPedidoButton);
 
 		limparButton = new JButton("Limpar");
 		limparButton.setVerticalTextPosition(SwingConstants.TOP);
@@ -235,8 +240,20 @@ public class TelaCadastroPedidos extends JFrame {
 				statusCombo.setSelectedIndex(0);
 				precoText.setText("");
 				ModeloDeTabela.removeAll();
+				atualizarPedidoButton.setVisible(false);
+				fazerPedidoButton.setVisible(true);
 			}
 		});
+
+		atualizarPedidoButton = new JButton("Atualizar pedido");
+		atualizarPedidoButton.setActionCommand("");
+		atualizarPedidoButton.setVisible(false);
+		atualizarPedidoButton.setVerticalAlignment(SwingConstants.TOP);
+		atualizarPedidoButton.setForeground(Color.WHITE);
+		atualizarPedidoButton.setFont(new Font("Stencil", Font.PLAIN, 16));
+		atualizarPedidoButton.setBackground(new Color(50, 0, 0));
+		atualizarPedidoButton.setBounds(644, 469, 146, 25);
+		contentPane.add(atualizarPedidoButton);
 		limparButton.setForeground(Color.WHITE);
 		limparButton.setFont(CoresFontes.fonteStencil);
 		limparButton.setBounds(833, 469, 146, 25);
@@ -293,20 +310,28 @@ public class TelaCadastroPedidos extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if (arg0.getClickCount() == 2) {
-					String qtd = JOptionPane.showInputDialog(null, "Informe a quantidade desejada: ");
-					if (qtd != null) {
-						ProdutoNaComanda produto = new ProdutoNaComanda();
-						produto.setID(Integer
-								.parseInt(produtosTabela.getValueAt(produtosTabela.getSelectedRow(), 0).toString()));
-						produto.setProduto(produtosTabela.getValueAt(produtosTabela.getSelectedRow(), 1).toString());
-						produto.setUnidade(produtosTabela.getValueAt(produtosTabela.getSelectedRow(), 2).toString());
-						produto.setPreco(Double
-								.parseDouble(produtosTabela.getValueAt(produtosTabela.getSelectedRow(), 3).toString()));
-						produto.setQuantidade(Integer.parseInt(qtd));
 
-						precoText.setText("R$: " + ModeloDeTabela.addRow(produto));
+					if (idText.getText().equals("")) {
+						JOptionPane.showMessageDialog(null,
+								"Faça um novo pedido ou selecione um na lista para alterar/inserir os produtos");
+
+					} else {
+						String qtd = JOptionPane.showInputDialog(null, "Informe a quantidade desejada: ");
+						if (qtd != null) {
+							ProdutoNaComanda produto = new ProdutoNaComanda();
+							produto.setID(Integer.parseInt(
+									produtosTabela.getValueAt(produtosTabela.getSelectedRow(), 0).toString()));
+							produto.setProduto(
+									produtosTabela.getValueAt(produtosTabela.getSelectedRow(), 1).toString());
+							produto.setUnidade(
+									produtosTabela.getValueAt(produtosTabela.getSelectedRow(), 2).toString());
+							produto.setPreco(Double.parseDouble(
+									produtosTabela.getValueAt(produtosTabela.getSelectedRow(), 3).toString()));
+							produto.setQuantidade(Integer.parseInt(qtd));
+
+							precoText.setText("R$: " + ModeloDeTabela.addRow(produto));
+						}
 					}
-
 				}
 			}
 		});
@@ -343,6 +368,19 @@ public class TelaCadastroPedidos extends JFrame {
 		}
 
 		comandaTabela = metodos.criaTabelaProduto(sql, cabecalhoPersonalizado);
+		comandaTabela.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				idText.setText(comandaTabela.getValueAt(comandaTabela.getSelectedRow(), 0).toString());
+				tipoCombo.setSelectedItem(comandaTabela.getValueAt(comandaTabela.getSelectedRow(), 1).toString());
+				mesaCombo.setSelectedItem(comandaTabela.getValueAt(comandaTabela.getSelectedRow(), 2).toString());
+				statusCombo.setSelectedItem(comandaTabela.getValueAt(comandaTabela.getSelectedRow(), 3).toString());
+				clienteCombo.setSelectedItem(comandaTabela.getValueAt(comandaTabela.getSelectedRow(), 4).toString());
+
+				atualizarPedidoButton.setVisible(true);
+				fazerPedidoButton.setVisible(false);
+			}
+		});
 
 		comandasSP = new JScrollPane(comandaTabela);
 		comandasSP.setBounds(10, 440, 620, 240);

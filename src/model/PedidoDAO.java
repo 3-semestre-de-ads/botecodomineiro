@@ -3,6 +3,7 @@ package model;
 import java.awt.Cursor;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Vector;
 
 import javax.swing.JOptionPane;
@@ -16,7 +17,6 @@ public class PedidoDAO {
 	Sessao sessao = Sessao.getInstance();
 
 	public boolean cadastrar(Pedido pedido) {
-		boolean retorno = false;
 
 		if (BD.conexao) {
 
@@ -25,21 +25,48 @@ public class PedidoDAO {
 					+ buscarIdCliente(pedido.getCliente()) + ", " + sessao.getId() + ")";
 
 			try {
-				BD.st = BD.con.prepareStatement(sql);
+				BD.st = BD.con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 				if (BD.st.executeUpdate() == 1) {
-					JOptionPane.showMessageDialog(null, "Pedido cadastrado com sucesso", "Sucesso no cadastro", 1);
-					retorno = true;
+					JOptionPane.showMessageDialog(null, "Comanda aberta com sucesso", "Comanda aberta", 1);
+					BD.rs = BD.st.getGeneratedKeys();
+					BD.rs.next();
+					pedido.setIdPedido(BD.rs.getInt(1));
+					return true;
 				} else {
-					JOptionPane.showMessageDialog(null, "Falha no cadastro do pedido", "Falha no cadastro", 0);
+					JOptionPane.showMessageDialog(null, "Falha na abertura da comanda", "Falha", 0);
+					return false;
 				}
 
 			} catch (SQLException erro) {
-				JOptionPane.showMessageDialog(null, erro.toString(), "Falha na inserção do pedido no banco", 0);
+				erro.printStackTrace();
+				return false;
 			}
 
+		} else {
+			return false;
 		}
+	}
 
-		return retorno;
+	public boolean inserirProdutoNaComanda(String idproduto, String idpedido) {
+		if (BD.conexao()) {
+			String sql = "INSERT INTO (statusitem, idproduto, idpedido)" + "VALUES ('A fazer', " + idproduto + ", "
+					+ idpedido + ")";
+
+			try {
+				BD.st = BD.con.prepareStatement(sql);
+
+				if (BD.st.executeUpdate() == 1) {
+					return true;
+				} else {
+					return false;
+				}
+			} catch (SQLException erro) {
+				erro.printStackTrace();
+				return false;
+			}
+		} else {
+			return false;
+		}
 	}
 
 	public JTable criaTabelaProduto(String sql, Vector<String> cabecalhoPersonalizado) {
@@ -53,7 +80,7 @@ public class PedidoDAO {
 					tabela = null;
 
 					tabela = TableGrade.getTable(sql, cabecalhoPersonalizado);
-				
+
 					tabela.getColumnModel().getColumn(0).setPreferredWidth(50);
 					tabela.getColumnModel().getColumn(1).setPreferredWidth(150);
 					tabela.getColumnModel().getColumn(2).setPreferredWidth(120);
@@ -103,27 +130,27 @@ public class PedidoDAO {
 
 		return tabela;
 	}
-	
+
 	public int buscarIdCliente(String cliente) {
 		int retorno = 0;
-		
-		if(BD.conexao) {
-			String sql = "SELECT idcliente FROM cliente WHERE nome = '"+cliente+"'";
-			
+
+		if (BD.conexao) {
+			String sql = "SELECT idcliente FROM cliente WHERE nome = '" + cliente + "'";
+
 			try {
 				BD.st = BD.con.prepareStatement(sql);
-				
+
 				BD.rs = BD.st.executeQuery();
-				
-				if(BD.rs.next()) {
+
+				if (BD.rs.next()) {
 					retorno = BD.rs.getInt("idcliente");
 				}
-			} catch ( SQLException erro) {
+			} catch (SQLException erro) {
 				JOptionPane.showMessageDialog(null, "Falha na busca do id do cliente", "Falha na busca", 0);
 			}
-			
+
 		}
-		
+
 		return retorno;
 	}
 
