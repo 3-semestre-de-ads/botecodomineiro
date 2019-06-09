@@ -8,6 +8,7 @@ import java.util.Vector;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import banco.BD;
 
@@ -47,10 +48,10 @@ public class PedidoDAO {
 		}
 	}
 
-	public boolean inserirProdutoNaComanda(String idproduto, String idpedido) {
+	public boolean inserirProdutoNaComanda(String idproduto, String idpedido, String qtd) {
 		if (BD.conexao()) {
-			String sql = "INSERT INTO (statusitem, idproduto, idpedido)" + "VALUES ('A fazer', " + idproduto + ", "
-					+ idpedido + ")";
+			String sql = "INSERT INTO itens_pedido (statusitem, idproduto, idpedido, qtd) \r\n" + "VALUES ('Registrado', "
+					+ idproduto + ", " + idpedido + ", " + qtd + ")";
 
 			try {
 				BD.st = BD.con.prepareStatement(sql);
@@ -105,7 +106,7 @@ public class PedidoDAO {
 	}
 
 	public JTable criaTabelaComandas(String sql, Vector<String> cabecalhoPersonalizado) {
-		tabela = null;
+		tabela = new JTable();
 
 		if (BD.conexao) {
 			try {
@@ -115,6 +116,13 @@ public class PedidoDAO {
 					tabela = null;
 
 					tabela = TableGrade.getTable(sql, cabecalhoPersonalizado);
+
+					tabela.getColumnModel().getColumn(0).setPreferredWidth(64);
+					tabela.getColumnModel().getColumn(1).setPreferredWidth(90);
+					tabela.getColumnModel().getColumn(2).setPreferredWidth(70);
+					tabela.getColumnModel().getColumn(3).setPreferredWidth(70);
+					tabela.getColumnModel().getColumn(4).setPreferredWidth(160);
+					tabela.getColumnModel().getColumn(5).setPreferredWidth(160);
 
 					tabela.setEditingRow(0);
 					tabela.setEditingColumn(0);
@@ -171,5 +179,41 @@ public class PedidoDAO {
 		}
 
 		return retorno;
+	}
+
+	public ProdutosNaComandaModel buscarProdutoNaComanda(int idPedido) {
+		ProdutosNaComandaModel modelo = new ProdutosNaComandaModel();
+
+		String sql = "SELECT produto.idproduto, produto.nome, produto.unidade, produto.preco, itens_pedido.qtd, itens_pedido.statusitem \r\n" + 
+				"FROM itens_pedido \r\n" + 
+				"INNER JOIN produto\r\n" + 
+				"ON itens_pedido.idproduto = produto.idproduto\r\n" + 
+				"WHERE itens_pedido.idpedido = " + idPedido;
+
+		if (BD.conexao()) {
+			try {
+				BD.st = BD.con.prepareStatement(sql);
+
+				BD.rs = BD.st.executeQuery();
+
+				while (BD.rs.next()) {
+					ProdutoNaComanda p = new ProdutoNaComanda();
+					
+					p.setID(BD.rs.getInt(1));
+					p.setProduto(BD.rs.getString(2));
+					p.setUnidade(BD.rs.getString(3));
+					p.setPreco(BD.rs.getDouble(4));
+					p.setQuantidade(BD.rs.getInt(5));
+					p.setStatus(BD.rs.getString(6));
+					
+					modelo.addRow(p);
+					
+				}
+			} catch (SQLException erro) {
+
+			}
+		}
+
+		return modelo;
 	}
 }

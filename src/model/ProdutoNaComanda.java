@@ -7,6 +7,7 @@ public class ProdutoNaComanda {
 	private String Unidade;
 	private Double Preco;
 	private int Quantidade;
+	private String status;
 	
 	public String getProduto() {
 		return Produto;
@@ -37,6 +38,12 @@ public class ProdutoNaComanda {
 	}
 	public void setID(int iD) {
 		ID = iD;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }

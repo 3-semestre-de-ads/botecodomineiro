@@ -17,7 +17,7 @@ public class ProdutosNaComandaModel extends AbstractTableModel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private List<ProdutoNaComanda> dados = new ArrayList<>();// Linhas
-	private String[] colunas = { "ID", "Produto", "Unidade", "Preço", "Quantidade" };// Cabeçalho
+	private String[] colunas = { "ID", "Produto", "Unidade", "Preço", "Quantidade", "Status" };// Cabeçalho
 	private double precoTotal;
 
 	@Override
@@ -49,6 +49,8 @@ public class ProdutosNaComandaModel extends AbstractTableModel {
 			return dados.get(linha).getPreco();
 		case 4:
 			return dados.get(linha).getQuantidade();
+		case 5:
+			return dados.get(linha).getStatus();
 		}
 
 		return null;
@@ -71,7 +73,6 @@ public class ProdutosNaComandaModel extends AbstractTableModel {
 		} else {
 			this.dados.add(p);
 			this.fireTableDataChanged();
-			JOptionPane.showMessageDialog(null, "Produto acrescentado");
 			precoTotal = precoTotal + p.getQuantidade() * p.getPreco();
 		}
 
@@ -104,7 +105,7 @@ public class ProdutosNaComandaModel extends AbstractTableModel {
 		this.fireTableRowsDeleted(0, getRowCount());
 	}
 
-	// Atualiza linha da tabela
+	// Atualiza qdt da linha na tabela
 	public void updateRow(int linha, ProdutoNaComanda p) {
 		int qtd = this.dados.get(linha).getQuantidade();
 
@@ -113,5 +114,13 @@ public class ProdutosNaComandaModel extends AbstractTableModel {
 
 		JOptionPane.showMessageDialog(null, "Quantidade acrescentada");
 	}
+	
+	// Atualiza status do produto na tabela
+	public void updateRow(int linha, String status) {
 
+		this.dados.get(linha).setStatus(status);
+		this.fireTableDataChanged();
+
+	}
+	
 }

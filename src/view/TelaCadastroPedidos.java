@@ -11,8 +11,10 @@ import javax.swing.table.TableModel;
 import model.CoresFontes;
 import model.Pedido;
 import model.PedidoDAO;
+import model.Produto;
 import model.ProdutoNaComanda;
 import model.ProdutosNaComandaModel;
+import model.Sessao;
 import model.TableGrade;
 
 import javax.swing.JLabel;
@@ -211,10 +213,11 @@ public class TelaCadastroPedidos extends JFrame {
 							clienteCombo.getSelectedItem().toString());
 
 					if (metodos.cadastrar(pedido)) {
-						listarTabelaProdutos();
+						listarTabelaComandas();
 						atualizarPedidoButton.setVisible(true);
 						fazerPedidoButton.setVisible(false);
 						idText.setText(String.valueOf(pedido.getIdPedido()));
+
 					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Preencha todos os campos", "Campos vazios", 2);
@@ -245,7 +248,23 @@ public class TelaCadastroPedidos extends JFrame {
 			}
 		});
 
-		atualizarPedidoButton = new JButton("Atualizar pedido");
+		atualizarPedidoButton = new JButton("Atualizar");
+		atualizarPedidoButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int linhas = produtosComandaTabela.getRowCount();
+				String idPedido = idText.getText();
+
+				for (int x = 0; x < linhas; x++) {
+					if (produtosComandaTabela.getValueAt(x, 5) == null
+							&& statusCombo.getSelectedItem().toString() == "Aberta") {
+						if (metodos.inserirProdutoNaComanda(produtosComandaTabela.getValueAt(x, 0).toString(), idPedido,
+								produtosComandaTabela.getValueAt(x, 4).toString())) {
+							ModeloDeTabela.updateRow(x, "Registrado");
+						}
+					}
+				}
+			}
+		});
 		atualizarPedidoButton.setActionCommand("");
 		atualizarPedidoButton.setVisible(false);
 		atualizarPedidoButton.setVerticalAlignment(SwingConstants.TOP);
@@ -353,7 +372,7 @@ public class TelaCadastroPedidos extends JFrame {
 		cabecalhoPersonalizado.addElement("Mesa");
 		cabecalhoPersonalizado.addElement("Status");
 		cabecalhoPersonalizado.addElement("Cliente");
-		cabecalhoPersonalizado.addElement("UsuÁrio");
+		cabecalhoPersonalizado.addElement("Usuario");
 
 		String sql = "SELECT pedido.idpedido, pedido.tipopedido, pedido.mesa, pedido.status, cliente.nome, usuario.nome \r\n"
 				+ "FROM pedido \r\n" + "INNER JOIN cliente \r\n" + "ON pedido.idcliente = cliente.idcliente \r\n"
@@ -367,18 +386,25 @@ public class TelaCadastroPedidos extends JFrame {
 			comandasSP = null;
 		}
 
-		comandaTabela = metodos.criaTabelaProduto(sql, cabecalhoPersonalizado);
+		comandaTabela = metodos.criaTabelaComandas(sql, cabecalhoPersonalizado);
+
 		comandaTabela.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				idText.setText(comandaTabela.getValueAt(comandaTabela.getSelectedRow(), 0).toString());
-				tipoCombo.setSelectedItem(comandaTabela.getValueAt(comandaTabela.getSelectedRow(), 1).toString());
-				mesaCombo.setSelectedItem(comandaTabela.getValueAt(comandaTabela.getSelectedRow(), 2).toString());
-				statusCombo.setSelectedItem(comandaTabela.getValueAt(comandaTabela.getSelectedRow(), 3).toString());
-				clienteCombo.setSelectedItem(comandaTabela.getValueAt(comandaTabela.getSelectedRow(), 4).toString());
+				if (arg0.getClickCount() == 2) {
+					idText.setText(comandaTabela.getValueAt(comandaTabela.getSelectedRow(), 0).toString());
+					tipoCombo.setSelectedItem(comandaTabela.getValueAt(comandaTabela.getSelectedRow(), 1).toString());
+					mesaCombo.setSelectedItem(comandaTabela.getValueAt(comandaTabela.getSelectedRow(), 2).toString());
+					statusCombo.setSelectedItem(comandaTabela.getValueAt(comandaTabela.getSelectedRow(), 3).toString());
+					clienteCombo
+							.setSelectedItem(comandaTabela.getValueAt(comandaTabela.getSelectedRow(), 4).toString());
 
-				atualizarPedidoButton.setVisible(true);
-				fazerPedidoButton.setVisible(false);
+					produtosComandaTabela.setModel(metodos.buscarProdutoNaComanda(Integer.parseInt(idText.getText())));
+					ModeloDeTabela = (ProdutosNaComandaModel) produtosComandaTabela.getModel();
+
+					atualizarPedidoButton.setVisible(true);
+					fazerPedidoButton.setVisible(false);
+				}
 			}
 		});
 
@@ -400,21 +426,26 @@ public class TelaCadastroPedidos extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				if (arg0.getClickCount() == 2) {
-					String qtd = JOptionPane.showInputDialog(null, "Informe a quantidade que deseja remover: ");
-					if (qtd != null) {
-						ProdutoNaComanda produto = new ProdutoNaComanda();
-						produto.setID(Integer.parseInt(produtosComandaTabela
-								.getValueAt(produtosComandaTabela.getSelectedRow(), 0).toString()));
-						produto.setProduto(
-								produtosComandaTabela.getValueAt(produtosComandaTabela.getSelectedRow(), 1).toString());
-						produto.setUnidade(
-								produtosComandaTabela.getValueAt(produtosComandaTabela.getSelectedRow(), 2).toString());
-						produto.setPreco(Double.parseDouble(produtosComandaTabela
-								.getValueAt(produtosComandaTabela.getSelectedRow(), 3).toString()));
-						produto.setQuantidade(Integer.parseInt(qtd));
+					Sessao sessao = Sessao.getInstance();
+					if (produtosComandaTabela.getValueAt(produtosComandaTabela.getSelectedRow(), 5) == null || sessao.getFuncao() == 1) {
+						String qtd = JOptionPane.showInputDialog(null, "Informe a quantidade que deseja remover: ");
+						if (qtd != null) {
+							ProdutoNaComanda produto = new ProdutoNaComanda();
+							produto.setID(Integer.parseInt(produtosComandaTabela
+									.getValueAt(produtosComandaTabela.getSelectedRow(), 0).toString()));
+							produto.setProduto(produtosComandaTabela
+									.getValueAt(produtosComandaTabela.getSelectedRow(), 1).toString());
+							produto.setUnidade(produtosComandaTabela
+									.getValueAt(produtosComandaTabela.getSelectedRow(), 2).toString());
+							produto.setPreco(Double.parseDouble(produtosComandaTabela
+									.getValueAt(produtosComandaTabela.getSelectedRow(), 3).toString()));
+							produto.setQuantidade(Integer.parseInt(qtd));
 
-						precoText.setText(
-								"R$: " + ModeloDeTabela.removeRow(produtosComandaTabela.getSelectedRow(), produto));
+							precoText.setText(
+									"R$: " + ModeloDeTabela.removeRow(produtosComandaTabela.getSelectedRow(), produto));
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Apenas administradores podem remover produtos registrados");
 					}
 				}
 			}
