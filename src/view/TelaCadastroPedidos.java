@@ -258,7 +258,7 @@ public class TelaCadastroPedidos extends JFrame {
 					if (produtosComandaTabela.getValueAt(x, 5) == null
 							&& statusCombo.getSelectedItem().toString() == "Aberta") {
 						if (metodos.inserirProdutoNaComanda(produtosComandaTabela.getValueAt(x, 0).toString(), idPedido,
-								produtosComandaTabela.getValueAt(x, 4).toString())) {
+								Integer.parseInt(produtosComandaTabela.getValueAt(x, 4).toString()))) {
 							ModeloDeTabela.updateRow(x, "Registrado");
 						}
 					}
@@ -347,8 +347,10 @@ public class TelaCadastroPedidos extends JFrame {
 							produto.setPreco(Double.parseDouble(
 									produtosTabela.getValueAt(produtosTabela.getSelectedRow(), 3).toString()));
 							produto.setQuantidade(Integer.parseInt(qtd));
-
-							precoText.setText("R$: " + ModeloDeTabela.addRow(produto));
+							
+							if(metodos.inserirProdutoNaComanda(String.valueOf(produto.getID()), idText.getText(), Integer.parseInt(qtd))){
+								precoText.setText("R$: " + ModeloDeTabela.addRow(produto));
+							}
 						}
 					}
 				}
@@ -427,7 +429,8 @@ public class TelaCadastroPedidos extends JFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				if (arg0.getClickCount() == 2) {
 					Sessao sessao = Sessao.getInstance();
-					if (produtosComandaTabela.getValueAt(produtosComandaTabela.getSelectedRow(), 5) == null || sessao.getFuncao() == 1) {
+					if (produtosComandaTabela.getValueAt(produtosComandaTabela.getSelectedRow(), 5) == null
+							|| sessao.getFuncao() == 1) {
 						String qtd = JOptionPane.showInputDialog(null, "Informe a quantidade que deseja remover: ");
 						if (qtd != null) {
 							ProdutoNaComanda produto = new ProdutoNaComanda();
@@ -441,11 +444,15 @@ public class TelaCadastroPedidos extends JFrame {
 									.getValueAt(produtosComandaTabela.getSelectedRow(), 3).toString()));
 							produto.setQuantidade(Integer.parseInt(qtd));
 
-							precoText.setText(
-									"R$: " + ModeloDeTabela.removeRow(produtosComandaTabela.getSelectedRow(), produto));
+							if (metodos.removerProdutoDaComanda(String.valueOf(produto.getID()), idText.getText(), qtd)) {
+								precoText.setText("R$: "
+										+ ModeloDeTabela.removeRow(produtosComandaTabela.getSelectedRow(), produto));
+							}
+
 						}
 					} else {
-						JOptionPane.showMessageDialog(null, "Apenas administradores podem remover produtos registrados");
+						JOptionPane.showMessageDialog(null,
+								"Apenas administradores podem remover produtos registrados");
 					}
 				}
 			}

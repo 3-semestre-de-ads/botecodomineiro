@@ -8,7 +8,6 @@ import java.util.Vector;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 import banco.BD;
 
@@ -48,19 +47,94 @@ public class PedidoDAO {
 		}
 	}
 
-	public boolean inserirProdutoNaComanda(String idproduto, String idpedido, String qtd) {
+	public boolean inserirProdutoNaComanda(String idproduto, String idpedido, int qtd) {
+		if (verificarEstoque(idproduto, qtd) == JOptionPane.YES_OPTION) {
+
+			if (BD.conexao()) {
+				String sql = "SELECT * FROM itens_pedido WHERE idpedido = " + idpedido + " AND idproduto = "
+						+ idproduto;
+
+				try {
+					BD.st = BD.con.prepareStatement(sql);
+					BD.rs = BD.st.executeQuery();
+
+					if (BD.rs.next()) {
+						int idItenPedido = BD.rs.getInt(1);
+						int qtdAtual = BD.rs.getInt(6);
+
+						sql = "UPDATE itens_pedido SET qtd = " + (qtdAtual + qtd) + " WHERE iditenpedido = "
+								+ idItenPedido;
+
+						BD.st = BD.con.prepareStatement(sql);
+
+						if (BD.st.executeUpdate() == 1) {
+							atualizarEstoque(idproduto, qtd);
+							return true;
+						} else {
+							return false;
+
+						}
+
+					} else {
+						sql = "INSERT INTO itens_pedido (statusitem, idproduto, idpedido, qtd) \r\n"
+								+ "VALUES ('Registrado', " + idproduto + ", " + idpedido + ", " + qtd + ")";
+
+						BD.st = BD.con.prepareStatement(sql);
+
+						if (BD.st.executeUpdate() == 1) {
+							atualizarEstoque(idproduto, qtd);
+							return true;
+						} else {
+							return false;
+						}
+					}
+
+				} catch (SQLException erro) {
+					erro.printStackTrace();
+					return false;
+				}
+			} else {
+				return false;
+			}
+
+		} else {
+			return false;
+		}
+	}
+
+	public boolean removerProdutoDaComanda(String idproduto, String idpedido, String qtd) {
 		if (BD.conexao()) {
-			String sql = "INSERT INTO itens_pedido (statusitem, idproduto, idpedido, qtd) \r\n" + "VALUES ('Registrado', "
-					+ idproduto + ", " + idpedido + ", " + qtd + ")";
+			String sql = "SELECT * FROM itens_pedido WHERE idpedido = " + idpedido + " AND idproduto = " + idproduto;
 
 			try {
 				BD.st = BD.con.prepareStatement(sql);
+				BD.rs = BD.st.executeQuery();
+				BD.rs.next();
 
-				if (BD.st.executeUpdate() == 1) {
-					return true;
+				int idItenPedido = BD.rs.getInt(1);
+
+				if (BD.rs.getString(6).equals(qtd)) {
+
+					sql = "DELETE FROM itens_pedido WHERE iditenpedido = " + idItenPedido;
+					BD.st = BD.con.prepareStatement(sql);
+
+					if (BD.st.executeUpdate() == 1) {
+						return true;
+					} else {
+						return false;
+					}
+
 				} else {
-					return false;
+					sql = "UPDATE itens_pedido SET qtd = " + qtd + " WHERE iditenpedido = " + idItenPedido;
+					BD.st = BD.con.prepareStatement(sql);
+
+					if (BD.st.executeUpdate() == 1) {
+						return true;
+					} else {
+						return false;
+					}
 				}
+
 			} catch (SQLException erro) {
 				erro.printStackTrace();
 				return false;
@@ -184,11 +258,9 @@ public class PedidoDAO {
 	public ProdutosNaComandaModel buscarProdutoNaComanda(int idPedido) {
 		ProdutosNaComandaModel modelo = new ProdutosNaComandaModel();
 
-		String sql = "SELECT produto.idproduto, produto.nome, produto.unidade, produto.preco, itens_pedido.qtd, itens_pedido.statusitem \r\n" + 
-				"FROM itens_pedido \r\n" + 
-				"INNER JOIN produto\r\n" + 
-				"ON itens_pedido.idproduto = produto.idproduto\r\n" + 
-				"WHERE itens_pedido.idpedido = " + idPedido;
+		String sql = "SELECT produto.idproduto, produto.nome, produto.unidade, produto.preco, itens_pedido.qtd, itens_pedido.statusitem \r\n"
+				+ "FROM itens_pedido \r\n" + "INNER JOIN produto\r\n"
+				+ "ON itens_pedido.idproduto = produto.idproduto\r\n" + "WHERE itens_pedido.idpedido = " + idPedido;
 
 		if (BD.conexao()) {
 			try {
@@ -198,16 +270,16 @@ public class PedidoDAO {
 
 				while (BD.rs.next()) {
 					ProdutoNaComanda p = new ProdutoNaComanda();
-					
+
 					p.setID(BD.rs.getInt(1));
 					p.setProduto(BD.rs.getString(2));
 					p.setUnidade(BD.rs.getString(3));
 					p.setPreco(BD.rs.getDouble(4));
 					p.setQuantidade(BD.rs.getInt(5));
 					p.setStatus(BD.rs.getString(6));
-					
+
 					modelo.addRow(p);
-					
+
 				}
 			} catch (SQLException erro) {
 
@@ -215,5 +287,66 @@ public class PedidoDAO {
 		}
 
 		return modelo;
+	}
+
+	public int verificarEstoque(String idProduto, int qtd) {
+		if (BD.conexao()) {
+			String sql = "SELECT quantidade, qtdmin, qtdreposicao FROM produto WHERE idproduto = " + idProduto;
+
+			try {
+				BD.st = BD.con.prepareStatement(sql);
+				BD.rs = BD.st.executeQuery();
+				BD.rs.next();
+
+				if ((BD.rs.getInt(1) - qtd) == BD.rs.getInt(3)) {
+					JOptionPane.showMessageDialog(null,
+							"Este produto chegou em seu ponto de reposição no estoque, entre em contato com o administrador");
+					return JOptionPane.YES_OPTION;
+
+				} else if ((BD.rs.getInt(1) - qtd) < BD.rs.getInt(2)) {
+					return JOptionPane.showConfirmDialog(null,
+							"Este produto já está abaixo do seu estoque mínimo \r\n"
+									+ "deseja realmente adicionar a comanda ?",
+							"Selecione uma opção", JOptionPane.YES_NO_OPTION);
+
+				} else if ((BD.rs.getInt(1) - qtd) == BD.rs.getInt(2)) {
+					return JOptionPane.showConfirmDialog(null,
+							"Este produto já está em seu estoque mínimo \r\n"
+									+ "deseja realmente adicionar a comanda ?",
+							"Selecione uma opção", JOptionPane.YES_NO_OPTION);
+				} else {
+					return JOptionPane.YES_OPTION;
+				}
+
+			} catch (SQLException e) {
+				JOptionPane.showMessageDialog(null, e.toString());
+				return JOptionPane.NO_OPTION;
+			}
+
+		} else {
+			return JOptionPane.NO_OPTION;
+		}
+
+	}
+
+	public boolean atualizarEstoque(String idProduto, int qtd) {
+		if (BD.conexao()) {
+			String sql = "UPDATE produto SET quantidade = quantidade - " + qtd + " WHERE idproduto = " + idProduto;
+
+			try {
+				BD.st = BD.con.prepareStatement(sql);
+				if (BD.st.executeUpdate() == 1) {
+					return true;
+				} else {
+					return false;
+				}
+
+			} catch (SQLException erro) {
+				return false;
+			}
+
+		} else {
+			return false;
+		}
 	}
 }
