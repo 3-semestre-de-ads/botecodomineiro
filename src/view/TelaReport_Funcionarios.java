@@ -176,8 +176,8 @@ public class TelaReport_Funcionarios extends JFrame {
 		public void run() {
 			Map<String, Object> parametros = new HashMap();
 			parametros.put("NOME", nomeText.getText());
-			parametros.put("FUNCAO", );
-			parametros.put("ATIVO", );
+			parametros.put("FUNCAO", String.valueOf(funcaoCB.getSelectedIndex()));
+			parametros.put("ATIVO", String.valueOf(ativoCB.getSelectedIndex()));
 			try {
 				GerarReport.geraRelatorio("Funcionarios_Report.jasper", parametros);
 			} catch (JRException ex) {
