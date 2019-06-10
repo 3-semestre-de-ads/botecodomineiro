@@ -10,8 +10,10 @@ import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,7 +21,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import groovy.util.slurpersupport.ReplacementNode;
+import model.AtivoEnum;
 import model.CoresFontes;
+import model.FuncaoEnum;
 import model.GerarReport;
 import model.UsuarioDAO;
 import net.sf.jasperreports.engine.JRException;
@@ -33,7 +38,7 @@ import net.sf.jasperreports.engine.JRException;
  *
  */
 
-public class TelaReports extends JFrame {
+public class TelaReport_Funcionarios extends JFrame {
 
 	/**
 	 * 
@@ -41,14 +46,15 @@ public class TelaReports extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField nomeText;
-	private JTextField funcaoText;
 	private JLabel nomeLabel;
 	private JLabel funcaoLabel;
 	private JButton gerarButton;
 	private JButton limparButton;
 	private JLabel fundoLabel;
+	private JComboBox ativoCB = new JComboBox();
 
 	UsuarioDAO metodos = new UsuarioDAO();
+	private JComboBox funcaoCB;
 
 	/**
 	 * Launch the application.
@@ -57,7 +63,7 @@ public class TelaReports extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaReports frame = new TelaReports();
+					TelaReport_Funcionarios frame = new TelaReport_Funcionarios();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -69,7 +75,7 @@ public class TelaReports extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TelaReports() {
+	public TelaReport_Funcionarios() {
 		setTitle("Relatório de Funcionários");
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -84,6 +90,22 @@ public class TelaReports extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+
+		funcaoCB = new JComboBox();
+		funcaoCB.setModel(new DefaultComboBoxModel(FuncaoEnum.values()));
+		funcaoCB.setBounds(280, 125, 170, 25);
+		contentPane.add(funcaoCB);
+
+		JLabel lblAtivo = new JLabel("Ativo:");
+		lblAtivo.setVerticalAlignment(SwingConstants.BOTTOM);
+		lblAtivo.setForeground(Color.WHITE);
+		lblAtivo.setFont(new Font("Stencil", Font.PLAIN, 16));
+		lblAtivo.setBounds(185, 161, 74, 25);
+		contentPane.add(lblAtivo);
+
+		ativoCB.setModel(new DefaultComboBoxModel(AtivoEnum.values()));
+		ativoCB.setBounds(280, 160, 170, 25);
+		contentPane.add(ativoCB);
 
 		JLabel reportNameLabel = new JLabel("Relat\u00F3rio de Funcion\u00E1rios");
 		reportNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -102,7 +124,7 @@ public class TelaReports extends JFrame {
 		gerarButton.setForeground(Color.WHITE);
 		gerarButton.setFont(CoresFontes.fonteStencil);
 		gerarButton.setBackground(CoresFontes.corBotão);
-		gerarButton.setBounds(185, 156, 120, 23);
+		gerarButton.setBounds(185, 199, 120, 23);
 		contentPane.add(gerarButton);
 
 		limparButton = new JButton("Limpar");
@@ -114,43 +136,39 @@ public class TelaReports extends JFrame {
 		limparButton.setForeground(Color.WHITE);
 		limparButton.setFont(CoresFontes.fonteStencil);
 		limparButton.setBackground(CoresFontes.corBotão);
-		limparButton.setBounds(328, 156, 120, 23);
+		limparButton.setBounds(328, 199, 120, 23);
 		contentPane.add(limparButton);
 
 		funcaoLabel = new JLabel("Fun\u00E7\u00E3o:");
-		funcaoLabel.setBounds(185, 123, 74, 25);
+		funcaoLabel.setBounds(185, 125, 74, 25);
 		contentPane.add(funcaoLabel);
 		funcaoLabel.setVerticalAlignment(SwingConstants.BOTTOM);
 		funcaoLabel.setForeground(Color.WHITE);
 		funcaoLabel.setFont(CoresFontes.fonteStencil);
 
-		funcaoText = new JTextField();
-		funcaoText.setBounds(280, 123, 168, 25);
-		contentPane.add(funcaoText);
-		funcaoText.setColumns(10);
-
 		nomeText = new JTextField();
-		nomeText.setBounds(280, 87, 168, 25);
+		nomeText.setBounds(280, 90, 170, 25);
 		contentPane.add(nomeText);
 		nomeText.setColumns(10);
 
 		nomeLabel = new JLabel("Nome:");
-		nomeLabel.setBounds(185, 87, 74, 25);
+		nomeLabel.setBounds(185, 90, 74, 25);
 		contentPane.add(nomeLabel);
 		nomeLabel.setVerticalAlignment(SwingConstants.BOTTOM);
 		nomeLabel.setForeground(Color.WHITE);
 		nomeLabel.setFont(CoresFontes.fonteStencil);
 
 		fundoLabel = new JLabel("");
-		fundoLabel.setIcon(
-				new ImageIcon(TelaReports.class.getResource("/assets/fundo com cerveja.jpeg")));
+		fundoLabel.setIcon(new ImageIcon(TelaReport_Funcionarios.class.getResource("/assets/fundo com cerveja.jpeg")));
 		fundoLabel.setBounds(0, 0, 633, 360);
 		contentPane.add(fundoLabel);
+
 	}
 
 	public void limpar() {
 		nomeText.setText("");
-		funcaoText.setText("");
+		funcaoCB.setSelectedIndex(0);
+		ativoCB.setSelectedIndex(0);
 	}
 
 	public class thread1 implements Runnable {
@@ -158,8 +176,8 @@ public class TelaReports extends JFrame {
 		public void run() {
 			Map<String, Object> parametros = new HashMap();
 			parametros.put("NOME", nomeText.getText());
-			parametros.put("FUNCAO", funcaoText.getText());
-			parametros.put("ATIVO", "2");
+			parametros.put("FUNCAO", );
+			parametros.put("ATIVO", );
 			try {
 				GerarReport.geraRelatorio("Funcionarios_Report.jasper", parametros);
 			} catch (JRException ex) {
