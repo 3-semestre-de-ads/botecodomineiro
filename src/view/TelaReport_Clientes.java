@@ -170,7 +170,7 @@ public class TelaReport_Clientes extends JFrame {
 	public class thread1 implements Runnable {
 
 		public void run() {
-			Map<String, Object> parametros = new HashMap();
+			Map<String, Object> parametros = new HashMap<String, Object>();
 			parametros.put("NOME", nomeClienteText.getText());
 			parametros.put("CPF", cpfText.getText());
 			parametros.put("CIDADE", cidadeText.getText());

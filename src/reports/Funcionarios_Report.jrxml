@@ -77,7 +77,7 @@ where upper(nome) like concat(upper($P{NOME}), '%')
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression><![CDATA["<b>Nome (Parâmetro): </b>" + ($P{NOME}.equals(null) ? "Todos os usuários." : ($P{NOME} == "" ? "Todos os usuários." : ($P{NOME}.equals("%") ? "Todos os usuários." : $P{NOME})))]]></textFieldExpression>
+				<textFieldExpression><![CDATA["<b>Nome (Parâmetro): </b>" + ($P{NOME}.equals(null) ? "Todos os usuários." : $P{NOME}.equals("") ? "Todos os usuários." : $P{NOME}.equals("%") ? "Todos os usuários." : $P{NOME})]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
 				<reportElement x="465" y="80" width="90" height="20" uuid="d0f20835-4d4c-4113-a4b9-498d25a4da9c"/>

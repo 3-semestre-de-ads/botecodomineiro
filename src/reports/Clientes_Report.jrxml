@@ -60,7 +60,7 @@ WHERE UPPER(nome) LIKE CONCAT(UPPER($P{NOME}), '%')
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="100" splitType="Stretch">
+		<band height="120" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="555" height="60" uuid="9bead7aa-069c-47a6-9558-5d23e1e9f46d">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -96,6 +96,13 @@ WHERE UPPER(nome) LIKE CONCAT(UPPER($P{NOME}), '%')
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle" markup="html"/>
 				<textFieldExpression><![CDATA["<b>CPF (Parâmetro): </b>" +  ($P{CPF}.equals(null) ? "Parâmetro não utilizado." : $P{CPF}.equals("") ? "Parâmetro não utilizado." : $P{CPF}.equals("%") ? "Todos os clientes." : $P{CPF})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="100" width="375" height="20" uuid="64ab2e1d-413c-4148-825c-69daafa247b3">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA["<b>Cidade (Parâmetro): </b>" +  ($P{CIDADE}.equals(null) ? "Todos as cidades." : $P{CIDADE}.equals("") ? "Todos as cidades." : $P{CIDADE}.equals("%") ? "Todos as cidades." : $P{CIDADE})]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

@@ -175,7 +175,7 @@ public class TelaReport_Funcionarios extends JFrame {
 	public class thread1 implements Runnable {
 
 		public void run() {
-			Map<String, Object> parametros = new HashMap();
+			Map<String, Object> parametros = new HashMap<String, Object>();
 			parametros.put("NOME", nomeText.getText());
 			parametros.put("FUNCAO", String.valueOf(funcaoCB.getSelectedIndex()));
 			parametros.put("ATIVO", String.valueOf(ativoCB.getSelectedIndex()));
