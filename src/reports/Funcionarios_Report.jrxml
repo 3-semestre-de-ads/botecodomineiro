@@ -55,6 +55,7 @@ where upper(nome) like concat(upper($P{NOME}), '%')
 	</field>
 	<variable name="SOMA" class="java.lang.Integer" calculation="Count">
 		<variableExpression><![CDATA[$F{id_usuario}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>

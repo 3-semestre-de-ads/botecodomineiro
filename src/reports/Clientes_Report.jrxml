@@ -76,7 +76,7 @@ WHERE UPPER(nome) LIKE CONCAT(UPPER($P{NOME}), '%')
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression><![CDATA["<b>Nome (Parâmetro): </b>" + ($P{NOME}.equals(null) ? "Todos os clientes." : ($P{NOME} == "" ? "Todos os clientes." : ($P{NOME}.equals("%") ? "Todos os clientes." : $P{NOME})))]]></textFieldExpression>
+				<textFieldExpression><![CDATA["<b>Nome (Parâmetro): </b>" + ($P{NOME}.equals(null) ? "Todos os clientes." : $P{NOME}.equals("") ? "Todos os clientes." : $P{NOME}.equals("%") ? "Todos os clientes." : $P{NOME})]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
 				<reportElement x="465" y="70" width="90" height="20" uuid="d0f20835-4d4c-4113-a4b9-498d25a4da9c"/>
@@ -95,7 +95,7 @@ WHERE UPPER(nome) LIKE CONCAT(UPPER($P{NOME}), '%')
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression><![CDATA["<b>CPF (Parâmetro): </b>" +  ($P{CPF}.equals(null) ? "Parâmetro não utilizado." : $P{CPF} == "" ? "Parâmetro não utilizado." : $P{CPF}.equals("%") ? "Todos os clientes." : $P{CPF})]]></textFieldExpression>
+				<textFieldExpression><![CDATA["<b>CPF (Parâmetro): </b>" +  ($P{CPF}.equals(null) ? "Parâmetro não utilizado." : $P{CPF}.equals("") ? "Parâmetro não utilizado." : $P{CPF}.equals("%") ? "Todos os clientes." : $P{CPF})]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

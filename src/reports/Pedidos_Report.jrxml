@@ -100,7 +100,7 @@ ORDER BY p.idpedido , produto]]>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression><![CDATA["<b>Nome Cliente (Parâmetro): </b>" + ($P{NOMECLIENTE}.equals(null) ? "Todos os clientes." : ($P{NOMECLIENTE} == "" ? "Todos os clientes." : ($P{NOMECLIENTE}.equals("%") ? "Todos os clientes." : $P{NOMECLIENTE})))]]></textFieldExpression>
+				<textFieldExpression><![CDATA["<b>Nome Cliente (Parâmetro): </b>" + ($P{NOMECLIENTE}.equals(null) ? "Todos os clientes." : $P{NOMECLIENTE}.equals("") ? "Todos os clientes." : $P{NOMECLIENTE}.equals("%") ? "Todos os clientes." : $P{NOMECLIENTE})]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
 				<reportElement x="712" y="80" width="90" height="20" uuid="d0f20835-4d4c-4113-a4b9-498d25a4da9c"/>
@@ -119,14 +119,14 @@ ORDER BY p.idpedido , produto]]>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression><![CDATA["<b>Nome Funcionário (Parâmetro): </b>" + ($P{NOMEUSUARIO}.equals(null) ? "Todos os funcionários." : ($P{NOMEUSUARIO} == "" ? "Todos os funcionários." : ($P{NOMEUSUARIO}.equals("%") ? "Todos os funcionários." : $P{NOMEUSUARIO})))]]></textFieldExpression>
+				<textFieldExpression><![CDATA["<b>Nome Funcionário (Parâmetro): </b>" + ($P{NOMEUSUARIO}.equals(null) ? "Todos os funcionários." : $P{NOMEUSUARIO}.equals("") ? "Todos os funcionários." : $P{NOMEUSUARIO}.equals("%") ? "Todos os funcionários." : $P{NOMEUSUARIO})]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="0" y="100" width="622" height="20" uuid="3c5cfe0c-32a7-4207-bfe1-928c51c9425c">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression><![CDATA["<b>Nome Produto (Parâmetro): </b>" + ($P{NOMEPRODUTO}.equals(null) ? "Todos os produtos." : ($P{NOMEPRODUTO} == "" ? "Todos os produtos." : ($P{NOMEPRODUTO}.equals("%") ? "Todos os produtos." : $P{NOMEPRODUTO})))]]></textFieldExpression>
+				<textFieldExpression><![CDATA["<b>Nome Produto (Parâmetro): </b>" + ($P{NOMEPRODUTO}.equals(null) ? "Todos os produtos." : $P{NOMEPRODUTO}.equals("") ? "Todos os produtos." : $P{NOMEPRODUTO}.equals("%") ? "Todos os produtos." : $P{NOMEPRODUTO})]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

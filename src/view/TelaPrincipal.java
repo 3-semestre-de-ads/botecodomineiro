@@ -16,6 +16,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import controller.Controle;
+
 /**
  * 
  * @author MATIAS
@@ -45,6 +47,7 @@ public class TelaPrincipal extends JFrame {
 	private JMenuItem usuariosMenuItem;
 	private JMenuItem clientesMenuItem;
 	private JMenuItem fornecedoresMenuItem;
+	private JMenuItem clientesReportMenuItem;
 
 	/**
 	 * Launch the application.
@@ -165,13 +168,29 @@ public class TelaPrincipal extends JFrame {
 		JMenu relatoriosMenu = new JMenu("Relat\u00F3rios");
 		principalMenu.add(relatoriosMenu);
 
-		JMenuItem reportUsuariosMenuItem = new JMenuItem("Funcion\u00E1rios/Usu\u00E1rios");
-		reportUsuariosMenuItem.addActionListener(new ActionListener() {
+		JMenuItem reportFuncionariosMenuItem = new JMenuItem("Funcion\u00E1rios/Usu\u00E1rios");
+		reportFuncionariosMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				controller.Controle.abrirTela("TelaParametrosReportUsuario");
+				controller.Controle.abrirTela("TelaReport_Funcionarios");
 			}
 		});
-		relatoriosMenu.add(reportUsuariosMenuItem);
+
+		clientesReportMenuItem = new JMenuItem("Clientes");
+		clientesReportMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				controller.Controle.abrirTela("TelaReport_Clientes");
+			}
+		});
+		relatoriosMenu.add(clientesReportMenuItem);
+		relatoriosMenu.add(reportFuncionariosMenuItem);
+
+		JMenuItem reportPedidosMenuItem = new JMenuItem("Pedidos");
+		reportPedidosMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				controller.Controle.abrirTela("TelaReport_Pedidos");
+			}
+		});
+		relatoriosMenu.add(reportPedidosMenuItem);
 
 	}
 }

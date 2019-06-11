@@ -10,8 +10,10 @@ import view.TelaCadastroProduto;
 import view.TelaCadastroUsuario;
 import view.TelaEstoque;
 import view.TelaLogin;
-import view.TelaReport_Funcionarios;
 import view.TelaPrincipal;
+import view.TelaReport_Clientes;
+import view.TelaReport_Funcionarios;
+import view.TelaReport_Pedidos;
 
 /**
  * 
@@ -39,8 +41,12 @@ public class Controle {
 	public static boolean cadastrofornecedor = false;
 	public static TelaEstoque telaestoque;
 	public static boolean estoquetela = false;
-	public static TelaReport_Funcionarios telaParametrosReportUsuario;
-	public static boolean parametrosReportUsuario = false;
+	public static TelaReport_Funcionarios telaParametrosReportFuncionario;
+	public static boolean parametrosReportFuncionario = false;
+	public static TelaReport_Pedidos telaParametrosReportPedidos;
+	public static boolean parametrosReportPedidos = false;
+	public static TelaReport_Clientes telaParametrosReportClientes;
+	public static boolean parametrosReportClientes = false;
 
 	/**
 	 * Neste metodo abrirTela, e recebido como parametro o nome da tela a qual
@@ -184,22 +190,57 @@ public class Controle {
 			}
 
 			break;
-		case "TelaParametrosReportUsuario":
+		case "TelaReport_Funcionarios":
 
-			if (parametrosReportUsuario == false) {// Verifica a variavel boolean referente a tela
+			if (parametrosReportFuncionario == false) {// Verifica a variavel boolean referente a tela
 				if (sessao.getFuncao() == 1) {// Verifica e controla o nivel de permissão do usuário
-					telaParametrosReportUsuario = new TelaReport_Funcionarios();// Instancia a tela caso a variavel esteja com false
-					telaParametrosReportUsuario.setVisible(true);// Torna a tela visivel
-					parametrosReportUsuario = true;// E passa true para a variavel boolean
+					telaParametrosReportFuncionario = new TelaReport_Funcionarios();// Instancia a tela caso a variavel
+																					// esteja com false
+					telaParametrosReportFuncionario.setVisible(true);// Torna a tela visivel
+					parametrosReportFuncionario = true;// E passa true para a variavel boolean
 				} else {
 					JOptionPane.showMessageDialog(null, "Você não tem permissões para acessar esta tela.",
 							"Falha de permissão", 0);
 				}
 			} else {
 				JOptionPane.showMessageDialog(null, "Esta tela já esta aberta");
-				telaParametrosReportUsuario.toFront();// Joga a tela já aberta para frente
+				telaParametrosReportFuncionario.toFront();// Joga a tela já aberta para frente
 			}
+			break;
+		case "TelaReport_Pedidos":
 
+			if (parametrosReportPedidos == false) {// Verifica a variavel boolean referente a tela
+				if (sessao.getFuncao() == 1) {// Verifica e controla o nivel de permissão do usuário
+					telaParametrosReportPedidos = new TelaReport_Pedidos();// Instancia a tela caso a variavel
+																			// esteja com false
+					telaParametrosReportPedidos.setVisible(true);// Torna a tela visivel
+					parametrosReportPedidos = true;// E passa true para a variavel boolean
+				} else {
+					JOptionPane.showMessageDialog(null, "Você não tem permissões para acessar esta tela.",
+							"Falha de permissão", 0);
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, "Esta tela já esta aberta");
+				telaParametrosReportPedidos.toFront();// Joga a tela já aberta para frente
+			}
+			break;
+
+		case "TelaReport_Clientes":
+
+			if (parametrosReportClientes == false) {// Verifica a variavel boolean referente a tela
+				if (sessao.getFuncao() == 1) {// Verifica e controla o nivel de permissão do usuário
+					telaParametrosReportClientes = new TelaReport_Clientes();// Instancia a tela caso a variavel
+																				// esteja com false
+					telaParametrosReportClientes.setVisible(true);// Torna a tela visivel
+					parametrosReportClientes = true;// E passa true para a variavel boolean
+				} else {
+					JOptionPane.showMessageDialog(null, "Você não tem permissões para acessar esta tela.",
+							"Falha de permissão", 0);
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, "Esta tela já esta aberta");
+				telaParametrosReportClientes.toFront();// Joga a tela já aberta para frente
+			}
 			break;
 
 		default:
