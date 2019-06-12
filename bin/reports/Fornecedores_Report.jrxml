@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.8.0.final using JasperReports Library version 6.8.0-2ed8dfabb690ff337a5797129f2cd92902b0c87b  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Clientes_Report" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3d722a85-f09b-44a7-a151-5f8bcb0bd33d">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Fornecedores_Report" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3d722a85-f09b-44a7-a151-5f8bcb0bd33d">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="AWS"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Buteco_Do_Mineiro"/>
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="606"/>
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="380"/>
 	<style name="style1">
@@ -12,55 +12,47 @@
 		</conditionalStyle>
 	</style>
 	<parameter name="NOME" class="java.lang.String"/>
-	<parameter name="CPF" class="java.lang.String"/>
-	<parameter name="CIDADE" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT 
-     idcliente id_cliente,
-    nome,
-    cpf,
-    telefoneFixo,
-    telefoneCelular,
-    cidade
+    idfornecedor id_fornecedor,
+    nomefantasia,
+    telefone,
+    celular,
+    cnpj
 FROM
-    cliente
-WHERE UPPER(nome) LIKE CONCAT(UPPER($P{NOME}), '%')
-     AND cpf LIKE (CASE WHEN $P{CPF} = '' THEN '%' ELSE $P{CPF} END)
-     AND UPPER(cidade) like CONCAT(UPPER($P{CIDADE}), '%')]]>
+    fornecedor
+WHERE
+    UPPER(nomefantasia) LIKE CONCAT(UPPER($P{NOME}), '%')]]>
 	</queryString>
-	<field name="id_cliente" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.label" value="id_cliente"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+	<field name="id_fornecedor" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id_fornecedor"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fornecedor"/>
 	</field>
-	<field name="nome" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="nome"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+	<field name="nomefantasia" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nomefantasia"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fornecedor"/>
 	</field>
-	<field name="cpf" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="cpf"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+	<field name="telefone" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="telefone"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fornecedor"/>
 	</field>
-	<field name="telefoneFixo" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="telefoneFixo"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+	<field name="celular" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="celular"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fornecedor"/>
 	</field>
-	<field name="telefoneCelular" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="telefoneCelular"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
-	</field>
-	<field name="cidade" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="cidade"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="cliente"/>
+	<field name="cnpj" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="cnpj"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="fornecedor"/>
 	</field>
 	<variable name="SOMA" class="java.lang.Integer" calculation="Count">
-		<variableExpression><![CDATA[$F{id_cliente}]]></variableExpression>
+		<variableExpression><![CDATA[$F{id_fornecedor}]]></variableExpression>
 		<initialValueExpression><![CDATA[0]]></initialValueExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="120" splitType="Stretch">
+		<band height="80" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="555" height="60" uuid="9bead7aa-069c-47a6-9558-5d23e1e9f46d">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
@@ -69,41 +61,27 @@ WHERE UPPER(nome) LIKE CONCAT(UPPER($P{NOME}), '%')
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
 					<font size="18" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Listagem de Clientes - Boteco do Mineiro]]></text>
+				<text><![CDATA[Listagem de Fornecedores - Boteco do Mineiro]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="0" y="60" width="375" height="20" uuid="eb7bc1c0-6536-4191-877a-9dacd0f8963d">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression><![CDATA["<b>Nome (Parâmetro): </b>" + ($P{NOME}.equals(null) ? "Todos os clientes." : $P{NOME}.equals("") ? "Todos os clientes." : $P{NOME}.equals("%") ? "Todos os clientes." : $P{NOME})]]></textFieldExpression>
+				<textFieldExpression><![CDATA["<b>Nome (Parâmetro): </b>" + ($P{NOME}.equals(null) ? "Todos os fornecedores." : ($P{NOME} == "" ? "Todos os fornecedores." : ($P{NOME}.equals("%") ? "Todos os fornecedores." : $P{NOME})))]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="465" y="70" width="90" height="20" uuid="d0f20835-4d4c-4113-a4b9-498d25a4da9c"/>
+				<reportElement x="465" y="60" width="90" height="20" uuid="d0f20835-4d4c-4113-a4b9-498d25a4da9c"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="375" y="70" width="90" height="20" uuid="dcf87bdc-311a-4bcb-a66e-c0e2123b97ca"/>
+				<reportElement x="375" y="60" width="90" height="20" uuid="dcf87bdc-311a-4bcb-a66e-c0e2123b97ca"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle" markup="html">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Data de Emissão: ]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="0" y="80" width="375" height="20" uuid="7bda1157-9369-4400-8d08-9598548c4785">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Left" verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression><![CDATA["<b>CPF (Parâmetro): </b>" +  ($P{CPF}.equals(null) ? "Parâmetro não utilizado." : $P{CPF}.equals("") ? "Parâmetro não utilizado." : $P{CPF}.equals("%") ? "Todos os clientes." : $P{CPF})]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="0" y="100" width="375" height="20" uuid="64ab2e1d-413c-4148-825c-69daafa247b3">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Left" verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression><![CDATA["<b>Cidade (Parâmetro): </b>" +  ($P{CIDADE}.equals(null) ? "Todos as cidades." : $P{CIDADE}.equals("") ? "Todos as cidades." : $P{CIDADE}.equals("%") ? "Todos as cidades." : $P{CIDADE})]]></textFieldExpression>
-			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -122,29 +100,29 @@ WHERE UPPER(nome) LIKE CONCAT(UPPER($P{NOME}), '%')
 				<text><![CDATA[ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="25" y="0" width="80" height="20" uuid="38734299-071d-4dd3-bc75-62310d17b6c4"/>
+				<reportElement x="25" y="0" width="110" height="20" uuid="38734299-071d-4dd3-bc75-62310d17b6c4"/>
 				<box>
 					<pen lineWidth="0.75"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[CPF]]></text>
+				<text><![CDATA[CNPJ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="105" y="0" width="210" height="20" uuid="62249664-9324-4434-9098-fbb16c9f31be">
+				<reportElement x="135" y="0" width="220" height="20" uuid="62249664-9324-4434-9098-fbb16c9f31be"/>
+				<box>
+					<pen lineWidth="0.75"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome Fantasia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="355" y="0" width="100" height="20" uuid="89718bfc-d3b3-4a99-8e2e-268bf89e8272">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
-				<box>
-					<pen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Nome]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="315" y="0" width="80" height="20" uuid="89718bfc-d3b3-4a99-8e2e-268bf89e8272"/>
 				<box>
 					<pen lineWidth="0.75"/>
 				</box>
@@ -154,17 +132,7 @@ WHERE UPPER(nome) LIKE CONCAT(UPPER($P{NOME}), '%')
 				<text><![CDATA[Tel. Fixo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="395" y="0" width="80" height="20" uuid="d59cc838-5244-4993-b532-6bf0ea64474d"/>
-				<box>
-					<pen lineWidth="0.75"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Tel. Celular]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="475" y="0" width="80" height="20" uuid="0906a402-43aa-4686-907d-9b4858123265">
+				<reportElement x="455" y="0" width="100" height="20" uuid="d59cc838-5244-4993-b532-6bf0ea64474d">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box>
@@ -173,7 +141,7 @@ WHERE UPPER(nome) LIKE CONCAT(UPPER($P{NOME}), '%')
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Cidade]]></text>
+				<text><![CDATA[Tel. Celular]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
@@ -184,49 +152,38 @@ WHERE UPPER(nome) LIKE CONCAT(UPPER($P{NOME}), '%')
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression><![CDATA[$F{id_cliente}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{id_fornecedor}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="style1" stretchType="RelativeToTallestObject" x="25" y="0" width="80" height="20" uuid="74f1138d-bc92-424c-b054-fc216bcf3ded">
+				<reportElement style="style1" stretchType="RelativeToTallestObject" x="25" y="0" width="110" height="20" uuid="74f1138d-bc92-424c-b054-fc216bcf3ded">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-					<property name="com.jaspersoft.studio.unit.tabStopWidth" value="px"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
-					<paragraph tabStopWidth="0"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{cpf}]]></textFieldExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{cnpj}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="style1" stretchType="RelativeToTallestObject" x="105" y="0" width="210" height="20" uuid="a87ba43f-1629-4c14-83bd-d479fcc8da65">
+				<reportElement style="style1" stretchType="RelativeToTallestObject" x="135" y="0" width="220" height="20" uuid="a87ba43f-1629-4c14-83bd-d479fcc8da65">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box leftPadding="5"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nomefantasia}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="style1" stretchType="RelativeToTallestObject" x="315" y="0" width="80" height="20" uuid="b1c75b64-5524-41ce-aa96-cfed67c21dc5">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression><![CDATA[$F{telefoneFixo}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="style1" stretchType="RelativeToTallestObject" x="395" y="0" width="80" height="20" uuid="0f53fd2d-0410-4926-ad94-b87b712866da">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression><![CDATA[$F{telefoneCelular}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement style="style1" stretchType="RelativeToTallestObject" x="475" y="0" width="80" height="20" uuid="0a161e16-157e-4b75-a285-30011cf0849b">
+				<reportElement style="style1" stretchType="RelativeToTallestObject" x="355" y="0" width="100" height="20" uuid="b1c75b64-5524-41ce-aa96-cfed67c21dc5">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression><![CDATA[$F{cidade}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{telefone}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="style1" stretchType="RelativeToTallestObject" x="455" y="0" width="100" height="20" uuid="0f53fd2d-0410-4926-ad94-b87b712866da">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html"/>
+				<textFieldExpression><![CDATA[$F{celular}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -285,7 +242,7 @@ WHERE UPPER(nome) LIKE CONCAT(UPPER($P{NOME}), '%')
 					<topPen lineWidth="0.25"/>
 				</box>
 				<textElement textAlignment="Left" verticalAlignment="Middle" markup="html"/>
-				<textFieldExpression><![CDATA["<b>Total de clientes consultados: </b>" + $V{SOMA}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["<b>Total de fornecedores consultados: </b>" + $V{SOMA}]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>

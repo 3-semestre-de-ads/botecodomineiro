@@ -317,6 +317,7 @@ public class TelaCadastroClientes extends JFrame {
 		contentPane.add(cpfLabel);
 
 		cpfText = new JFormattedTextField(model.Mascara.Mascara("###.###.###-##"));
+		// cpfText = new JTextField();
 		cpfText.setColumns(10);
 		cpfText.setBounds(495, 32, 130, 26);
 		contentPane.add(cpfText);
@@ -346,7 +347,8 @@ public class TelaCadastroClientes extends JFrame {
 					Cliente cliente = new Cliente(Integer.parseInt(idText.getText().trim()), nomeText.getText().trim(),
 							cepText.getText().trim(), bairroText.getText().trim(), ruaText.getText().trim(),
 							cidadeText.getText().trim(), nText.getText().trim(), ufText.getText().trim(),
-							telFixoText.getText().trim(), telCelularText.getText().trim(), emailText.getText().trim());
+							cpfText.getText().trim(), telFixoText.getText().trim(), telCelularText.getText().trim(),
+							emailText.getText().trim());
 					if (metodos.atualizar(cliente)) {
 						limpar(); // Se der sucesso na atualização limpa os campos
 						listarTabela(); // lista a tabela de clientes
@@ -401,14 +403,9 @@ public class TelaCadastroClientes extends JFrame {
 		if (botao.getModel().equals(atualizarButton.getModel())) {
 			salvarButton.setVisible(false);
 			atualizarButton.setVisible(true);
-			/*
-			 * Passa um false na edição do CPF, pois o mesmo é PK no Banco de Dados
-			 */
-			cpfText.setEditable(false);
 		} else {
 			salvarButton.setVisible(true);
 			atualizarButton.setVisible(false);
-			cpfText.setEditable(true);
 		}
 	}
 

@@ -26,6 +26,14 @@ public abstract class BD {
 	private static final String URL = "jdbc:mysql://butecomineiro.c8egphw0jq8h.sa-east-1.rds.amazonaws.com/buteco_mineiro?allowMultiQueries=true";
 	private static final String LOGIN = "Matias";
 	private static final String SENHA = "Matias2201";
+	
+	/*
+	// CONEXÃO LOCAL HEITOR AMARAL
+	private static final String DRIVER = "com.mysql.jdbc.Driver";
+	private static final String URL = "jdbc:mysql://localhost/buteco_mineiro";
+	private static final String LOGIN = "root";
+	private static final String SENHA = "colete47";
+	*/
 
 	/**
 	 * Realiza a conexão com o banco de dados, caso esta conexo obtenha sucesso, a
